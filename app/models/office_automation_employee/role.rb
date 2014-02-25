@@ -2,7 +2,7 @@ module OfficeAutomationEmployee
   class Role
     include Mongoid::Document
  
-    field :name, type: String
+    field :name
 
     validates :name, presence: true
 

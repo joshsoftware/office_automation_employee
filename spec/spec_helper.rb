@@ -5,8 +5,9 @@ require 'database_cleaner'
 ENV["RAILS_ENV"] ||= 'test'
 #require File.expand_path("../../config/environment", __FILE__)
 require_relative 'dummy/config/environment'
-require 'rspec/rails'
 require 'rspec/autorun'
+require 'mongoid-rspec'
+require 'rspec/rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -18,6 +19,15 @@ Dir[File.join(ENGINE_RAILS_ROOT, "spec/support/**/*.rb")].each {|f| require f }
 require 'rspec/rails'
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
+#ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
+
+  #config.before(:suite) do
+  #  DatabaseCleaner.strategy = :truncation
+  #  DatabaseCleaner.orm = "mongoid"
+  #end
+  #config.before(:each) do
+  #  DatabaseCleaner.clean
+  #end
 #ctiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
@@ -37,6 +47,7 @@ RSpec.configure do |config|
   # instead of true.
   #config.use_transactional_fixtures = true
 
+  #config.before(:each) { @routes = UserManager::Engine.routes } 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
   # rspec-rails.
@@ -50,5 +61,5 @@ RSpec.configure do |config|
   RSpec.configure do |configuration|
     configuration.include Mongoid::Matchers
   end
-
 end
+
