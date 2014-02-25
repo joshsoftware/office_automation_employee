@@ -1,0 +1,21 @@
+!!!
+%html
+  %head
+    %title OfficeAutomationEmployee
+    %meta{ name: "viewport", content: "width=divice-width, initial-scale=1" }
+    = stylesheet_link_tag    "office_automation_employee/application", media: "all"
+    = javascript_include_tag "office_automation_employee/application"
+    = csrf_meta_tags
+  %body
+    %nav.navbar.navbar-inverse.navbar-fixed-top
+      .container-fluid
+        %a{ class: "navbar-brand", href: "#"} 
+          %span.glyphicon.glyphicon-home 
+          %strong Office Automation
+
+    .container-fluid
+      = yield
+
+    %nav.navbar.navbar-inverse.navbar-fixed-bottom
+      .container-fluid
+        %p.navbar-text.pull-right= "Currently v" + OfficeAutomationEmployee::VERSION.to_s
