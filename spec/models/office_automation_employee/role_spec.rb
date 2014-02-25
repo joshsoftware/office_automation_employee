@@ -4,7 +4,7 @@ module OfficeAutomationEmployee
   describe Role do
 
     context 'It checks presence of fields' do
-      it { should have_field(:name).of_type(String) }
+      it { should have_field(:name) }
     end
 
     context 'It validates fields' do

@@ -4,9 +4,7 @@ module OfficeAutomationEmployee
   describe Company do
 
     context 'It checks presence of fields' do
-      it { should have_field(:name).of_type(String) }
-      it { should have_field(:logo).of_type(String) }
-      it { should have_field(:company_url).of_type(String) }
+      it { should have_fields(:name, :logo, :company_url) }
       it { should have_field(:registration_date).of_type(Date) }
     end
 
