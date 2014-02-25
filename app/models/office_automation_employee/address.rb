@@ -2,11 +2,11 @@ module OfficeAutomationEmployee
   class Address
     include Mongoid::Document
 
-    field :address, type: String
-    field :city, type: String
+    field :address
+    field :city
     field :pincode, type: Integer
-    field :state, type: String
-    field :country, type: String
+    field :state
+    field :country
     field :phone, type: Integer
 
     validates :address, :city, :pincode, :state, :country, :phone, presence: true

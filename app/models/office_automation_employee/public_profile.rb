@@ -1,13 +1,13 @@
 module OfficeAutomationEmployee
   class PublicProfile
     include Mongoid::Document
-    field :first_name, type: String, default: ''
-    field :middle_name, type: String, default: ''
-    field :last_name, type: String, default: ''
+    field :first_name
+    field :middle_name
+    field :last_name
     field :designation
     field :gender
-    field :mobile_number, type: String
-    field :blood_group, type: String
+    field :mobile_number
+    field :blood_group
     field :date_of_birth, :type => Date
     field :skills
     field :image

@@ -2,10 +2,10 @@ module OfficeAutomationEmployee
   class Company
     include Mongoid::Document
  
-    field :name, type: String
-    field :logo, type: String
+    field :name
+    field :logo
     field :registration_date, type: Date
-    field :company_url, type: String  
+    field :company_url  
 
     validates :name, presence: true
     validates :name, uniqueness: true
