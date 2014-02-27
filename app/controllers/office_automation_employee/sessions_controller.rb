@@ -11,7 +11,7 @@ module OfficeAutomationEmployee
     def create
       self.resource = warden.authenticate!(auth_options)
       sign_in resource_name, resource
-      respond_with resource, location: after_sign_in_path_for('/office_automation_employee')
+      respond_with resource, location: after_sign_in_path_for("/office_automation_employee")
     end
   end
 end
