@@ -1,0 +1,7 @@
+- if flash[:success] != nil
+  .alert.alert-success
+    = flash[:success]
+- elsif flash[:danger] != nil
+  .alert.alert-danger
+    = flash[:danger]
+- flash[:success] = nil and flash[:danger] = nil
