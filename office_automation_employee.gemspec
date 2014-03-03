@@ -8,12 +8,12 @@ Gem::Specification.new do |s|
   s.name        = "office_automation_employee"
   s.version     = OfficeAutomationEmployee::VERSION
   s.authors     = ["yogesh", "pranav", "shweta"]
-  s.email       = ["officeautomation@joshsoftware.com"]
+  s.email       = ["joshofficeautomation@gmail.com"]
   s.homepage    = "https://github.com/joshsoftware/office_automation_employee"
-  s.summary     = "An Mountable engine for Employee management"
-  s.description = "An mountable Engine for Employee management tasks like updating and inviting new employees etc."
+  s.summary     = "A Mountable engine for Employee management"
+  s.description = "A Mountable Engine for Employee management tasks like creating company, adding multiple roles, inviting new employees, monitoring status of invitations etc."
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
 
   s.add_dependency "rails", "~> 4.0.3"
   s.add_dependency "devise"

@@ -1,9 +1,23 @@
-%h2 Resend confirmation instructions
-= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f|
-  = devise_error_messages!
-  %div
-    = f.label :email
-    %br/
-    = f.email_field :email, :autofocus => true
-  %div= f.submit "Resend confirmation instructions"
-= render "office_automation_employee/devise/shared/links"
+.row
+  .col-md-2
+  .col-md-8
+    = render '/office_automation_employee/shared/flash'
+
+    .panel.panel-default
+      .panel.panel-heading
+        %strong Resend confirmation instructions
+
+      .panel.panel-body
+        .container-fluid
+          .col-md-2
+          .col-md-8
+            = simple_form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f|
+
+              .form-group
+                = f.input :email, :autofocus => true, input_html: { class: "form form-control", placeholder: "example@domain.com", required: true, maxlength: 50 }
+
+              .form-group
+                = f.submit "Resend confirmation instructions", class: "btn btn-primary"
+
+              .form-group
+                = render "office_automation_employee/devise/shared/links"

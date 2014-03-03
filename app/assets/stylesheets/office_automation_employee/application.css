@@ -12,3 +12,7 @@
  *= require_self
  *= require_tree .
  */
+
+.help-inline {
+    color: "#A94442" !important;
+}
