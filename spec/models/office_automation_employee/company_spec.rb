@@ -16,8 +16,8 @@ module OfficeAutomationEmployee
     context 'It checks for associations' do
       it { expect embed_one (:registered_address) }
       it { expect embed_one (:current_address) }
+      it { expect have_many (:users) }
       it { expect have_and_belong_to_many (:roles) }
     end
-
   end
 end

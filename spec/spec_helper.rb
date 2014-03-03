@@ -1,34 +1,16 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'rails/mongoid'
-require 'database_cleaner'
 
 ENV["RAILS_ENV"] ||= 'test'
-#require File.expand_path("../../config/environment", __FILE__)
 require_relative 'dummy/config/environment'
 require 'rspec/autorun'
 require 'mongoid-rspec'
 require 'rspec/rails'
-
-# Requires supporting ruby files with custom matchers and macros, etc,
-# in spec/support/ and its subdirectories.
-#Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+require 'database_cleaner'
 
 ENGINE_RAILS_ROOT = File.join(File.dirname(__FILE__), '../')
-Dir[File.join(ENGINE_RAILS_ROOT, "spec/support/**/*.rb")].each {|f| require f }
 
-require 'rspec/rails'
-# Checks for pending migrations before tests are run.
-# If you are not using ActiveRecord, you can remove this line.
-#ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
-
-  #config.before(:suite) do
-  #  DatabaseCleaner.strategy = :truncation
-  #  DatabaseCleaner.orm = "mongoid"
-  #end
-  #config.before(:each) do
-  #  DatabaseCleaner.clean
-  #end
-#ctiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
+Dir[File.join(ENGINE_RAILS_ROOT, "spec/helpers/**/*.rb")].each {|f| require f }
+Dir[File.join(ENGINE_RAILS_ROOT, "spec/factories/**/*.rb")].each {|f| require f }
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -47,6 +29,10 @@ RSpec.configure do |config|
   # instead of true.
   #config.use_transactional_fixtures = true
 
+  config.before(:each) do
+    DatabaseCleaner.clean
+  end
+
   #config.before(:each) { @routes = UserManager::Engine.routes } 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -58,8 +44,12 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
-  RSpec.configure do |configuration|
-    configuration.include Mongoid::Matchers
-  end
-end
 
+  I18n.enforce_available_locales = false
+
+  config.include Mongoid::Matchers
+
+  config.include Devise::TestHelpers, type: :controller
+
+  config.extend ControllerHelper, type: :controller
+end
