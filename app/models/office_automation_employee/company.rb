@@ -12,6 +12,7 @@ module OfficeAutomationEmployee
 
     embeds_one :registered_address, class_name: 'OfficeAutomationEmployee::Address'
     embeds_one :current_address, class_name: 'OfficeAutomationEmployee::Address'
+    has_many :user
     has_and_belongs_to_many :roles, class_name: 'OfficeAutomationEmployee::Role'
 
   end

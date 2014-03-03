@@ -7,27 +7,24 @@
       .panel.panel-heading
         %strong Sign In
       .panel.panel-body
-        .col-md-2
-        .col-md-8
-          = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-            = devise_error_messages!
-            .form-group
-              = f.label "Email Address"
-              = f.input :email, :autofocus => true, label: false, input_html: { class: "form form-control", placeholder: "example@domain.com", maxlength: 50, required: true }, error: false
-              = f.full_error :email
+        .container-fluid
+          .col-md-2
+          .col-md-8
+            = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+              = devise_error_messages!
+              .form-group
+                = f.input :email, autofocus: true, input_html: { class: "form form-control", placeholder: "example@domain.com", maxlength: 50, required: true }
 
-            .form-group
-              = f.label "Enter Password"
-              = f.input :password, label: false, input_html: { class: "form form-control", placeholder: "Enter password", maxlength: 50, required: true }, error: false
-              = f.full_error :password
+              .form-group
+                = f.input :password, input_html: { class: "form form-control", placeholder: "Enter password", maxlength: 100, required: true }
 
-            .form-group
-              - if devise_mapping.rememberable?
-                = f.check_box :remember_me
-                = f.label :remember_me
+              .form-group
+                - if devise_mapping.rememberable?
+                  = f.check_box :remember_me
+                  = f.label :remember_me
 
-            .form-group
-              = f.submit "Sign in", class: "btn btn-primary"
+              .form-group
+                = f.submit "Sign in", class: "btn btn-primary"
 
-            .form-group
-              = render "office_automation_employee/devise/shared/links"
+              .form-group
+                = render "office_automation_employee/devise/shared/links"
