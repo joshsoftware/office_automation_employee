@@ -43,8 +43,11 @@ module OfficeAutomationEmployee
     validates :role, presence: true
 
     # relationships
-    belongs_to :company
+    belongs_to :company, class_name: 'OfficeAutomationEmployee::Company'
     embeds_one :public_profile, class_name: 'OfficeAutomationEmployee::PublicProfile'
     embeds_one :private_profile, class_name: 'OfficeAutomationEmployee::PrivateProfile'
+    belongs_to :company, class_name: 'OfficeAutomationEmployee::Company'
+
+    accepts_nested_attributes_for :company
   end
 end

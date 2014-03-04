@@ -1,0 +1,21 @@
+.row
+  .col-md-6
+    .form-group
+      = address.input :address, label: 'Address', as: :text, required: false,input_html:{class: "form-control", placeholder: "Enter Address"}
+  .col-md-6
+    .form-group
+      = address.input :city, label: 'City',required: false, input_html: {class: "form-control", placeholder: "Enter City"}
+.row
+  .col-md-6
+    .form-group
+      = address.input :pincode, label: 'Pincode',required: false, input_html: {class: "form-control", placeholder: "Enter Pincode"}
+  .col-md-6
+    .form-group
+      = address.input :state, label: 'State',required: false, input_html: {class: "form-control", placeholder: "Enter state"}
+.row
+  .col-md-6
+    .form-group
+      = address.input :country, label: 'Country',priority: ["india"], required: false, input_html: {class: "form-control"}
+  .col-md-6
+    .form-group
+      = address.input :phone, lablel: 'Mobile/Landline No.', as: :tel, required: false, input_html: {class: "form-control", placeholder: "Mobile/Landline No"}
