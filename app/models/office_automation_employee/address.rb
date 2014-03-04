@@ -14,6 +14,5 @@ module OfficeAutomationEmployee
 
     embedded_in :registered_address, class_name: 'OfficeAutomationEmployee::Company'
     embedded_in :current_address, class_name: 'OfficeAutomationEmployee::Company'
-  
   end
 end

@@ -1,7 +1,7 @@
 .form-group
-  = company.input :name, label: 'Company name', input_html: {class: "form-control", maxlength: 30, placeholder: "Enter Company Name", required: true}, error: true
+  = company.input :name, label: 'Company name', input_html: {class: "form-control", maxlength: 30, placeholder: "Enter Company Name"}
 .form-group
-  = company.input :registration_date, label: 'Registration Date', input_html: {class: "form-control", required: false}, error: true
+  = company.input :registration_date, label: 'Registration Date', input_html: {class: "form-control"}
 .form-group
-  = company.input :company_url, label: 'Company URL', as: :url, input_html: {class: "form-control", placeholder: "www.example.com"}, error: true
+  = company.input :company_url, label: 'Company URL', as: :url, input_html: {class: "form-control", placeholder: "www.example.com"}
 

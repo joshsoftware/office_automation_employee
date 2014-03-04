@@ -5,26 +5,20 @@
     .panel.panel-default
       .panel.panel-heading
         %strong Sign Up
+
       .panel.panel.body
         .container-fluid
           .col-md-2
           .col-md-8
             = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), input_html: { role: :form } ) do |f|
-              = devise_error_messages!
-              .form-group
-                = f.label "Email Address"
-                = f.input :email, label: false, autofocus: true, input_html: { class: "form-control", maxlength: 30, placeholder: "example@domain.com", required: true }, error: false
-                = f.full_error :email
 
               .form-group
-                = f.label "Password"
-                = f.input :password, label: false, input_html: { class: "form-control", maxlength: 30, placeholder: "Enter Password", required: true }, error: false
-                = f.full_error :password
+                = f.input :email, autofocus: true, input_html: { class: "form-control", maxlength: 30, placeholder: "example@domain.com", required: true }
+              .form-group
+                = f.input :password, input_html: { class: "form-control", maxlength: 30, placeholder: "Enter Password", required: true }
 
               .form-group
-                = f.label "Password_confirmation"
-                = f.input :password_confirmation, label: false, input_html: { class: "form-control", maxlength: 30, placeholder: "Reconfirm Password", required: true }, error: false
-                = f.full_error :password_confirmation
+                = f.input :password_confirmation, input_html: { class: "form-control", maxlength: 30, placeholder: "Reconfirm Password", required: true }
               .form-group
                 .well
                   %strong Company Details
@@ -33,14 +27,14 @@
                     
                   .form-group
                     %strong Registered Address
-                  = company.simple_fields_for :registered_address do |address|
+                  = company.simple_fields_for :registered_address, @registered_address do |address|
                     .form-group
                       = render partial: "office_automation_employee/shared/address", locals: {address: address}
                   .checkbox
-                    = company.input :same_as_flag, as: :boolean, label: "Current address is same as registered address" ,input_html: {id: "same"}
+                    = company.input :same_as_registered_address, as: :boolean, label: "Current address is same as registered address" ,input_html: {id: "same"}
                   .form-group
                     %strong Current Address
-                  = company.simple_fields_for :current_address do |address|
+                  = company.simple_fields_for :current_address, @current_address do |address|
                     .form-group
                       = render partial: "office_automation_employee/shared/address", locals: {address: address}
               .form-group= f.submit "Sign up",  class: "btn btn-primary"

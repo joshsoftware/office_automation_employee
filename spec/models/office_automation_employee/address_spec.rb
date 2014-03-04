@@ -20,9 +20,7 @@ module OfficeAutomationEmployee
     end
 
     context 'It checks for associations' do
-      it { expect be_embedded_in(:registered_address) }
-      it { expect be_embedded_in(:current_address) }
+      it { expect be_embedded_in(:company) }
     end
-
   end
 end
