@@ -8,7 +8,10 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2935def71a8df310e11f9ae9cb825c805e6aab72
  *= require bootstrap
  *= require_self
  *= require_tree .

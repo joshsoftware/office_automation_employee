@@ -16,4 +16,16 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
 
   s.add_dependency "rails", "~> 4.0.3"
+  s.add_dependency "devise"
+  s.add_dependency "devise_invitable"
+  s.add_dependency "jquery-rails"
+  s.add_dependency "sass-rails", ">= 3.2"
+  s.add_dependency "bootstrap-sass"
+  s.add_dependency "nested_form"
+  s.add_dependency "simple_form"
+  s.add_dependency "country_select"
+  s.add_dependency "mongoid"
+  s.add_dependency "mongoid_slug"
+  s.add_dependency "cancan"
+  s.add_dependency "haml-rails"
 end
