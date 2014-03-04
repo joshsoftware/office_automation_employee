@@ -13,7 +13,6 @@ module OfficeAutomationEmployee
     def create
 
       @user = User.new(user_params)
-      puts Role::ADMIN
       @user.role = [Role::ADMIN]
 
       if @user.valid? && @user.company.valid?
