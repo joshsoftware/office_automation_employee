@@ -1,0 +1,21 @@
+html,body {
+    height: 100%;
+}
+
+#wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -54px;
+    padding: 0 0 60px;
+}
+
+#footer {
+    padding-bottom: 0;
+    height: 54px;
+    border-top: 4px solid #544E4E;
+    background-color: #1C1717;
+    text-align: center;
+    padding: 10px;
+    font-family: sans-serif;
+    color: #999;
+}

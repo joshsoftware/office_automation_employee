@@ -4,14 +4,14 @@ module OfficeAutomationEmployee
       email "admin@gmail.com"
       password "abcdabcd"
       password_confirmation "abcdabcd"
-      role ['admin']
+      role [Role::ADMIN]
     end
 
     factory :user, class: User do
       email "user@gmail.com"
       password "12345678"
       password_confirmation "12345678"
-      role ['software_engineer']
+      role [Role::EMPLOYEE]
     end
   end
 end

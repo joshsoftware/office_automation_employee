@@ -17,10 +17,15 @@ module OfficeAutomationEmployee
       end
     end
 
-    protected
-  
-    def after_confirmation_path_for(resource_name, resource)
-      office_automation_employee.new_user_session_path
+    def show
+      self.resource = resource_class.confirm_by_token(params[:confirmation_token])
+      if resource.errors.empty?
+        resource.update_attributes status: "Active"
+        set_flash_message(:notice, :confirmed) if is_flashing_format?
+        redirect_to office_automation_employee.new_user_session_path
+      else
+        render 'office_automation_employee/devise/confirmations/new'
+      end
     end
   end
 end

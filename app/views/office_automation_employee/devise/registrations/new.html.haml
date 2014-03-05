@@ -18,7 +18,7 @@
                 = f.input :password, label: '* Password' , input_html: { class: "form-control", maxlength: 30, placeholder: "Enter Password", required: true }
 
               .form-group
-                = f.input :password_confirmation, label: '* Password Confirmation', input_html: { class: "form-control", maxlength: 30, placeholder: "Reconfirm Password", required: true }
+                = f.input :password_confirmation, label: '* Password Confirmation', input_html: { class: "form-control", maxlength: 30, placeholder: "Confirm Password", required: true }
               .form-group
                 .well
                   %strong Company Details
@@ -40,4 +40,3 @@
                       = render partial: "office_automation_employee/shared/address", locals: {address: address}
               .form-group= f.submit "Sign up",  class: "btn btn-primary"
               = render "office_automation_employee/devise/shared/links"
-
