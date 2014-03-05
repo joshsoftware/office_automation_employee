@@ -18,7 +18,7 @@ module OfficeAutomationEmployee
     end
 
     context "#create" do
-      it "will send reset password instructions" do
+      it "sends reset password instructions" do
         post :create, user: { email: @user.email }
         expect(@user.reload.reset_password_sent_at).not_to be_nil
         expect(response).to be_redirect

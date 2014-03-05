@@ -7,7 +7,7 @@ require "office_automation_employee/version"
 Gem::Specification.new do |s|
   s.name        = "office_automation_employee"
   s.version     = OfficeAutomationEmployee::VERSION
-  s.authors     = ["yogesh", "pranav", "shweta"]
+  s.authors     = ["yogesh","pranav", "shweta"]
   s.email       = ["joshofficeautomation@gmail.com"]
   s.homepage    = "https://github.com/joshsoftware/office_automation_employee"
   s.summary     = "A Mountable engine for Employee management"
