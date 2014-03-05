@@ -3,16 +3,16 @@ module OfficeAutomationEmployee
     include Mongoid::Document
     # Include default devise modules. Others available are:
     # :confirmable, :lockable, :timeoutable and :omniauthable
-    devise :database_authenticatable, :registerable,
+    devise :invitable, :database_authenticatable, :registerable,
       :recoverable, :rememberable, :trackable, :confirmable, :validatable
 
     ## Database authenticatable
-    field :email,              :type => String, :default => ""
-    field :encrypted_password, :type => String, :default => ""
+    field :email,              :default => ""
+    field :encrypted_password, :default => ""
 
     ## Recoverable
-    field :reset_password_token,   :type => String
-    field :reset_password_sent_at, :type => Time
+    field :reset_password_token
+    field :reset_password_sent_at
 
     ## Rememberable
     field :remember_created_at, :type => Time
@@ -21,14 +21,24 @@ module OfficeAutomationEmployee
     field :sign_in_count,      :type => Integer, :default => 0
     field :current_sign_in_at, :type => Time
     field :last_sign_in_at,    :type => Time
-    field :current_sign_in_ip, :type => String
-    field :last_sign_in_ip,    :type => String
+    field :current_sign_in_ip
+    field :last_sign_in_ip
 
     ## Confirmable
-    field :confirmation_token,   :type => String
+    field :confirmation_token
     field :confirmed_at,         :type => Time
     field :confirmation_sent_at, :type => Time
-    field :unconfirmed_email,    :type => String # Only if using reconfirmable
+    field :unconfirmed_email # Only if using reconfirmable
+
+    ## Invitable
+    field :invitation_token
+    field :invitation_created_at, type: Time
+    field :invitation_sent_at, type: Time
+    field :invitation_accepted_at, type: Time
+    field :invitation_limit, type: Integer
+
+    index( {invitation_token: 1}, { background: true } )
+    index( {invitation_by_id: 1}, { background: true } )
 
     ## Lockable
     # field :failed_attempts, :type => Integer, :default => 0 # Only if lock strategy is :failed_attempts
@@ -36,7 +46,7 @@ module OfficeAutomationEmployee
     # field :locked_at,       :type => Time
 
     # user-fields
-    field :status, default: 'pending'
+    field :status, default: 'Pending'
     field :role, type: Array
 
     # validations

@@ -35,7 +35,7 @@ module OfficeAutomationEmployee
     context "#update" do
       it "updates user password" do
         patch :update, user: { reset_password_token: @user.send_reset_password_instructions, password: "abcdabcd", password_confirmation: "abcdabcd" }
-        expect(@user.reload.reset_password_sent_at).to be_nil
+        expect(@user.reload.reset_password_token).not_to be_nil
         expect(response).to be_redirect
       end
     end
