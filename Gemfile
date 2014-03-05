@@ -20,6 +20,7 @@ gem 'cancan'
 gem 'coffee-rails'
 gem 'therubyracer'
 gem 'bootstrap-datepicker-rails'
+
 group :test do
   gem 'rspec-rails'
   gem 'mongoid-rspec'
