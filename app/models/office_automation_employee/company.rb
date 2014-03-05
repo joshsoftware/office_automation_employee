@@ -9,7 +9,7 @@ module OfficeAutomationEmployee
     # If current address is same as registered address same_as flag will be true otherwise false
     field :same_as_registered_address, type: Boolean, default: false
 
-    validates :name, presence: true
+    validates :name, :registration_date, presence: true
     validates :name, uniqueness: true
 
 
@@ -19,7 +19,7 @@ module OfficeAutomationEmployee
     has_and_belongs_to_many :roles, class_name: 'OfficeAutomationEmployee::Role'
     has_many :users, class_name: 'OfficeAutomationEmployee::User'
 
-    after_save :save_address
+    before_validation :save_address
 
     private
 
