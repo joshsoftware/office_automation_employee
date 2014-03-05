@@ -1,0 +1,26 @@
+.container
+  %center
+    %h3 Setup Company
+    %br
+    = simple_form_for(@company, html: {class: 'form-horizontal' }) do |company|
+      .form-group
+        = company.input :name
+      %h3 Current Address
+      = company.simple_fields_for :current_address do |current_address|
+        = current_address.input :address
+        = current_address.input :city
+        = current_address.input :pincode
+        = current_address.input :state
+        = current_address.input :country
+        = current_address.input :phone, as: :tel
+      %h3 Registered Address
+      = company.simple_fields_for :registered_address do |registered_address|
+        = registered_address.input :address
+        = registered_address.input :city
+        = registered_address.input :pincode
+        = registered_address.input :state
+        = registered_address.input :country
+        = registered_address.input :phone, as: :tel
+      = company.input :registration_date
+      = company.input :company_url, as: :url
+      = company.button :submit

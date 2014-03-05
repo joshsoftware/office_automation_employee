@@ -12,6 +12,7 @@ module OfficeAutomationEmployee
     validates :address, :city, :pincode, :state, :country, :phone, presence: true
     validates :pincode, :phone, numericality:true
 
-    embedded_in :company, class_name: 'OfficeAutomationEmployee::Company'
+    embedded_in :registered_address, class_name: 'OfficeAutomationEmployee::Company'
+    embedded_in :current_address, class_name: 'OfficeAutomationEmployee::Company'
   end
 end
