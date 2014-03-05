@@ -4,6 +4,7 @@ OfficeAutomationEmployee::Engine.routes.draw do
     registrations: "office_automation_employee/registrations", 
     sessions: 'office_automation_employee/sessions', 
     passwords: 'office_automation_employee/passwords', 
-    confirmations: 'office_automation_employee/confirmations'
+    confirmations: 'office_automation_employee/confirmations',
+    invitations: 'office_automation_employee/invitations'
   }
 end
