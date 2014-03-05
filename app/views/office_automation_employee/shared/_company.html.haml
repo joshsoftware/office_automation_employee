@@ -1,7 +1,13 @@
 .form-group
   = company.input :name, label: 'Company name', input_html: {class: "form-control", maxlength: 30, placeholder: "Enter Company Name"}
+.row
+  .col-md-5
+    .form-group
+      %label * Registration Date
+      .input-group
+        = company.input :registration_date, label: false, input_html: {class: 'datepicker form-control', placeholder: "Select Date", readonly: true}
+        %span.input-group-addon
+          %span.glyphicon.glyphicon-calendar
 .form-group
-  = company.input :registration_date, label: 'Registration Date', input_html: {class: "form-control"}
-.form-group
-  = company.input :company_url, label: 'Company URL', as: :url, input_html: {class: "form-control", placeholder: "www.example.com"}
+  = company.input :company_url, label: 'Company Website', as: :url, input_html: {class: "form-control", placeholder: "http://www.example.com"}
 

@@ -1,3 +1,4 @@
+Dummy::Application.config.secret_key_base = 'a754738cc62d45c794d9eecdbbf7f6525b21b5d0fc2adad628d3f97bb1afb003744144e462a7c7020252a256296278663a6a654e230edddd0724bc6fccf2772'
 # Be sure to restart your server when you modify this file.
 
 # Your secret key is used for verifying the integrity of signed cookies.
@@ -9,4 +10,3 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Dummy::Application.config.secret_key_base = '1c79a1cbb178abdf961016cbc8a6f8d7374883be2202bc9d75eb515335533f367c99d52e0b35d63865fbd03744c9be6932734f05cedc361576b64613dda252be'

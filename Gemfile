@@ -17,7 +17,9 @@ gem 'mongoid', github: 'mongoid/mongoid'
 gem 'mongoid_slug'
 gem 'haml-rails'
 gem 'cancan'
+gem 'coffee-rails'
 gem 'therubyracer'
+gem 'bootstrap-datepicker-rails'
 
 group :test do
   gem 'rspec-rails'
@@ -26,9 +28,6 @@ group :test do
   gem 'database_cleaner'
 end
 
-group :assets do
-    gem 'coffee-rails'
-end
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
 # Git. Remember to move these dependencies to your gemspec before releasing
