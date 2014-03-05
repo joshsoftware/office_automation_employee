@@ -17,7 +17,7 @@ module OfficeAutomationEmployee
     end
 
     context "#create" do
-      it "will send confirmation mail to admin" do
+      it "sends confirmation mail to admin" do
         post :create, user: { email: @user.email }
         expect(@user.confirmation_token).not_to be_nil
         expect(response).to be_redirect
@@ -25,7 +25,7 @@ module OfficeAutomationEmployee
     end
 
     context "#show" do
-      it "will confirm admin and change his status to Active" do
+      it "confirms admin and changes his status to Active" do
         mail_body = @user.send_confirmation_instructions.body.to_s
         get :show, confirmation_token: mail_body[/confirmation_token=([^"]+)/, 1]
         expect(@user.reload.confirmation_token).to eql mail_body[/confirmation_token=([^"]+)/, 1]

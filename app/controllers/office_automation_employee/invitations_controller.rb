@@ -7,6 +7,7 @@ module OfficeAutomationEmployee
 
     def new
       self.resource = resource_class.new
+      flash.delete :notice
       render 'office_automation_employee/devise/invitations/new'
     end
 
@@ -15,8 +16,9 @@ module OfficeAutomationEmployee
       @invalid_email = Array.new
 
       invite_params[:email].chomp.split(',').each do |email|
-        user = resource_class.create email: email, role: ['Employee']
+        user = resource_class.create email: email, role: [Role::EMPLOYEE], company: current_inviter.company
         if user.errors.messages[:email].nil?
+          flash[:notice] = "Invitations sent successfully to valid email addresses."
           user.invite! current_inviter
         else
           @invalid_email.push user
@@ -24,7 +26,7 @@ module OfficeAutomationEmployee
       end
 
       if @invalid_email.empty?
-        flash[:success] = "Invitations sent successfully."
+        flash[:success] = "Invitations sent successfully to all email addresses."
         redirect_to office_automation_employee.new_user_invitation_path
       else
         flash[:danger] = "Please fill the fields accordingly."
