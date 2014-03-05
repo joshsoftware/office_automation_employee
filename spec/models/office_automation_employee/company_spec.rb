@@ -20,5 +20,6 @@ module OfficeAutomationEmployee
       it { expect have_many (:users) }
       it { expect have_and_belong_to_many (:roles) }
     end
+
   end
 end
