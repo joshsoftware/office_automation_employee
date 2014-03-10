@@ -57,6 +57,7 @@ module OfficeAutomationEmployee
     embeds_one :personal_profile, class_name: 'OfficeAutomationEmployee::PersonalProfile'
     belongs_to :company, class_name: 'OfficeAutomationEmployee::Company'
 
-    accepts_nested_attributes_for :company
+    accepts_nested_attributes_for :profile
+    accepts_nested_attributes_for :personal_profile
   end
 end
