@@ -12,8 +12,11 @@
           = simple_nested_form_for(@company, url: office_automation_employee.user_invitation_path, html: { method: :post }) do |f|
             .form-group
               .row
-                = f.link_to_add "Add more", :users, class: "btn btn-primary pull-right", "data-target" => "#invitee"
-                .pull-right.btn= f.input :csv_file, as: :file, label: false
+                %p{ align: :right }
+                  = link_to "Upload CSV", "#", class: "btn btn-default csvlink",  data: { toggle: "modal", target: "#helpCSV" }
+                  = f.link_to_add "Add more", :users, class: "btn btn-primary", data: { target: "#invitee" }
+                  = render partial: "office_automation_employee/devise/invitations/modal", locals:{ f: f }
+
             #invitee
               = f.fields_for :users do |user|
                 - if user.object.new_record?

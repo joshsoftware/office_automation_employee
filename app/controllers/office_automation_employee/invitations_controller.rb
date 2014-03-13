@@ -21,8 +21,8 @@ module OfficeAutomationEmployee
       if @csv_file.nil?
         invalid_email = current_user.invite_by_fields @users_attributes
       else
+        raise CSV::MalformedCSVError unless @csv_file.content_type.eql? "text/csv"
         @invalid_rows, total_rows = current_user.invite_by_csv @csv_file
-
         # if email fields are given along with csv file
         invalid_email = current_user.invite_by_fields @users_attributes if @users_attributes.first.last[:email].present?
       end

@@ -11,8 +11,8 @@ module OfficeAutomationEmployee
 
     context 'sending an invitation' do
       before(:each) do
-        sign_in admin
         admin.confirm!
+        sign_in admin
       end
 
       context '#new' do

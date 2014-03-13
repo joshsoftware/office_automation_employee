@@ -26,7 +26,7 @@ Dummy::Application.configure do
     port:                 587,
     domain:               'gmail.com',
     user_name:            'joshofficeautomation@gmail.com',
-    password:             'officeautomation',
+    password:             'offieautomation',
     authentication:       'plain',
     enable_starttls_auto: true
   }

@@ -1,8 +1,10 @@
 module OfficeAutomationEmployee
   class Company
     include Mongoid::Document
+    include Mongoid::Slug
 
     field :name
+    slug :name
     field :logo
     field :registration_date, type: Date
     field :company_url  
