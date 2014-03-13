@@ -29,10 +29,19 @@ RSpec.configure do |config|
   # instead of true.
   #config.use_transactional_fixtures = true
 
-  config.before(:each) do
-    DatabaseCleaner.clean
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.clean_with(:truncation)
   end
 
+  config.before(:each) do
+    Rails.application.load_seed
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
   #config.before(:each) { @routes = UserManager::Engine.routes } 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -45,7 +54,11 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
+  config.include FactoryGirl::Syntax::Methods
+
   I18n.enforce_available_locales = false
+
+  Devise::Async.enabled = false
 
   config.include Mongoid::Matchers
 

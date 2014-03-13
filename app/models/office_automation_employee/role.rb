@@ -4,7 +4,7 @@ module OfficeAutomationEmployee
 
     #Predifined roles which are added in db/seeds.rb
     ADMIN = 'Admin'
-    HR = 'HR' 
+    HR = 'Hr' 
     EMPLOYEE = 'Employee'
     ACCOUNTANT = 'Accountant'
 
