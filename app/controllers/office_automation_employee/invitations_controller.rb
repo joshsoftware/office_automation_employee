@@ -3,34 +3,38 @@ require_dependency "office_automation_employee/application_controller"
 module OfficeAutomationEmployee
   class InvitationsController < Devise::InvitationsController
 
-    before_filter :is_admin?, only: ['new', 'create']
-
     def new
-      self.resource = resource_class.new
-      flash.delete :notice
+      @company = current_user.company
+      authorize! :manage, @company
+      @company.users.build
+
       render 'office_automation_employee/devise/invitations/new'
     end
 
     def create
-      self.resource = resource_class.new
-      @invalid_email = Array.new
+      @company = current_user.company
+      @users_attributes = params[:company][:users_attributes]
+      @csv_file = params[:company][:csv_file]
+      @invalid_rows, invalid_email, total_rows = Array.new, 0, 0
+      authorize! :manage, @company
 
-      invite_params[:email].chomp.split(',').each do |email|
-        user = resource_class.create email: email, role: [Role::EMPLOYEE], company: current_inviter.company
-        if user.errors.messages[:email].nil?
-          flash[:notice] = "Invitations sent successfully to valid email addresses."
-          user.invite! current_inviter
-        else
-          @invalid_email.push user
-        end
+      if @csv_file.nil?
+        invalid_email = current_user.invite_by_fields @users_attributes
+      else
+        @invalid_rows, total_rows = current_user.invite_by_csv @csv_file
+
+        # if email fields are given along with csv file
+        invalid_email = current_user.invite_by_fields @users_attributes if @users_attributes.first.last[:email].present?
       end
 
-      if @invalid_email.empty?
-        flash[:success] = "Invitations sent successfully to all email addresses."
-        redirect_to office_automation_employee.new_user_invitation_path
+      if invalid_email.zero? and @invalid_rows.empty?
+        flash[:notice] = "Invitation sent successfully..."
+        redirect_to office_automation_employee.company_users_path(@company)
       else
-        flash[:danger] = "Please fill the fields accordingly."
-        render 'office_automation_employee/devise/invitations/new'
+        total_sent = (@users_attributes.count - invalid_email) + (total_rows - @invalid_rows.count)
+        total_failed = invalid_email + @invalid_rows.count
+        flash[:notice] = "# Invitation sent : #{total_sent} and Failed : #{total_failed}"
+        render 'office_automation_employee/devise/invitations/new' 
       end
     end
 
@@ -52,10 +56,9 @@ module OfficeAutomationEmployee
       end
     end
 
-    private
-
-    def is_admin?
-      current_user.role.include? :admin
+    rescue_from CSV::MalformedCSVError do |exception|
+      flash[:danger] = "Invalid CSV file."
+      redirect_to office_automation_employee.new_user_invitation_path
     end
   end
 end

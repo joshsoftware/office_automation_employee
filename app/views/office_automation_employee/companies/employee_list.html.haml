@@ -1,0 +1,28 @@
+.row
+  .col-md-2
+  .col-md-8
+    = render 'office_automation_employee/shared/flash'
+    .panel.panel-default
+      .panel.panel-heading
+        %strong Employees
+      .panel.panel-body
+        .col-md-15
+          %table.table.table-hover
+            %thead
+              %tr
+                %th #
+                %th Profile Picture
+                %th Email
+                %th Roles
+                %th= "Status" if can? :manage, current_user
+                %th= "Remove" if can? :destroy, current_user
+            %tbody
+              - @company.users.each_with_index do |user, index|
+                - next if user.status.eql? "Pending" and cannot? :manage, user
+                %tr
+                  %td= index + 1
+                  %td= image_tag "office_automation_employee/index.png", class: "img-circle", size: "80x80"
+                  %td= user.email
+                  %td= user.roles.to_sentence
+                  %td= user.status if can? :manage, user
+                  %td= link_to "Remove", office_automation_employee.remove_user_path(user), method: :delete, class: 'btn btn-danger' if can? :destroy, user and user != current_user

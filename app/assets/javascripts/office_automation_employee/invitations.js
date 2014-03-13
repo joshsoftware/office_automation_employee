@@ -1,2 +1,11 @@
-// Place all the behaviors and hooks related to the matching controller here.
-// All this logic will automatically be available in application.js.
+$(function() {
+    var len = $(".remove_nested_fields:visible").length
+    if(len == 1)
+        $(".remove_nested_fields").hide();
+
+    $(".remove_nested_fields").click(function() {
+        var len = $(".remove_nested_fields:visible").length
+        if(len == 2)
+            $(".remove_nested_fields").hide();
+    });
+});

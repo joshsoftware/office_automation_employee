@@ -28,4 +28,6 @@ Gem::Specification.new do |s|
   s.add_dependency "mongoid_slug"
   s.add_dependency "cancan"
   s.add_dependency "haml-rails"
+  s.add_dependency "coffee-rails"
+  s.add_dependency "bootstrap-datepicker-rails"
 end

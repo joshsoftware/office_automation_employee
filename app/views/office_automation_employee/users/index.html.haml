@@ -1,0 +1,28 @@
+.row
+  .col-md-2
+  .col-md-8
+    = render 'office_automation_employee/shared/flash'
+    .panel.panel-default
+      .panel.panel-heading
+        %strong Employees
+      .panel.panel-body
+        .col-md-15
+          %table.table.table-hover
+            %thead
+              %tr
+                %th #
+                %th Profile Picture
+                %th Email
+                %th Roles
+                %th= "Status" if can? :manage, current_user
+            %tbody.rowlink{ "data-link" => "row" }
+              - @company.users.each_with_index do |user, index|
+                - next if user.status.eql? "Pending" and cannot? :manage, user
+                %tr
+                  %td= index + 1
+                  %td
+                    %a{ href: office_automation_employee.company_user_path(@company, user) }
+                      = image_tag "office_automation_employee/index.png", class: "img-circle", size: "60x60"
+                  %td= user.email
+                  %td= user.roles.to_sentence
+                  %td= user.status if can? :manage, user

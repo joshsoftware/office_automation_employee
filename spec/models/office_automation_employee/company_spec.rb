@@ -10,6 +10,7 @@ module OfficeAutomationEmployee
 
     context 'It validates fields' do
       it { expect validate_presence_of(:name) }
+      it { expect validate_presence_of(:registration_date) }
       it { expect validate_uniqueness_of(:name) }
     end
 
@@ -19,5 +20,6 @@ module OfficeAutomationEmployee
       it { expect have_many (:users) }
       it { expect have_and_belong_to_many (:roles) }
     end
+
   end
 end
