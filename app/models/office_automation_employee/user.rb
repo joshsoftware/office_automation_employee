@@ -6,6 +6,8 @@ module OfficeAutomationEmployee
     devise :invitable, :database_authenticatable, :registerable,
       :recoverable, :rememberable, :trackable, :confirmable, :validatable
 
+    mount_uploader :image, FileUploader
+
     ## Database authenticatable
     field :email,              :default => ""
     field :encrypted_password, :default => ""
@@ -49,6 +51,7 @@ module OfficeAutomationEmployee
     field :status, default: 'Pending'
     field :role, type: Array
 
+    field :image
     # validations
     validates :role, presence: true
 
