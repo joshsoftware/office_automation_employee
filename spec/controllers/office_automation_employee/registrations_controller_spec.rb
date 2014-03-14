@@ -8,7 +8,7 @@ module OfficeAutomationEmployee
     context "#new" do
       it "renders new template" do
         get :new
-        expect(response).to be_success
+        expect(response).to render_template(:new)
       end
     end
 
@@ -20,7 +20,7 @@ module OfficeAutomationEmployee
 
         expect(Company.count).to eq(1)
 
-        expect(User.find_by(email: 'abc@abc.com').role.include?('Admin')).to eq(true)
+        expect(User.find_by(email: 'abc@abc.com').role?('Admin')).to eq(true)
 
         expect(User.count).to eq(1)
 
@@ -67,7 +67,6 @@ module OfficeAutomationEmployee
         expect(Company.count).to eq(1)
         expect(User.count).to eq(1)
       end
-
     end
   end
 end

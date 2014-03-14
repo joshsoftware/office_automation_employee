@@ -7,7 +7,7 @@ require "office_automation_employee/version"
 Gem::Specification.new do |s|
   s.name        = "office_automation_employee"
   s.version     = OfficeAutomationEmployee::VERSION
-  s.authors     = ["yogesh", "pranav", "shweta"]
+  s.authors     = ["yogesh", "shweta"]
   s.email       = ["joshofficeautomation@gmail.com"]
   s.homepage    = "https://github.com/joshsoftware/office_automation_employee"
   s.summary     = "A Mountable engine for Employee management"
@@ -30,4 +30,6 @@ Gem::Specification.new do |s|
   s.add_dependency "haml-rails"
   s.add_dependency "carrierwave"
   s.add_dependency "carrierwave-mongoid"
+  s.add_dependency "coffee-rails"
+  s.add_dependency "bootstrap-datepicker-rails"
 end

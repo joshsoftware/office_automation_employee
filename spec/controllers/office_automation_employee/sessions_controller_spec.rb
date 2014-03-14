@@ -8,7 +8,7 @@ module OfficeAutomationEmployee
     context "#new" do
       it "renders new template" do
         get :new
-        expect(response).to be_success
+        expect(response).to render_template(:new)
       end
     end
   end

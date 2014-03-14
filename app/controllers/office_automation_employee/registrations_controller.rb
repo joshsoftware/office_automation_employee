@@ -17,7 +17,7 @@ module OfficeAutomationEmployee
       #create user using users_attributes
       @user = @company.users.build(company_params['users_attributes'].first.last)
 
-      @user.role = [Role::ADMIN]
+      @user.roles = [Role::ADMIN]
       @company.roles = Role.all
       if @company.save and @user.save
         flash[:success] = "Congratulations!! You have successfully created account. Confirmation mail  has been sent to your mail account."
@@ -37,7 +37,5 @@ module OfficeAutomationEmployee
     def company_params
       params[:company].permit(:name, :registration_date, :company_url, :same_as_registered_address, registered_address: [:address, :pincode, :city, :state, :country, :phone], current_address: [:address, :pincode, :city, :state, :country, :phone] , users_attributes: [:email, :password, :password_confirmation])
     end
-
-
   end
 end

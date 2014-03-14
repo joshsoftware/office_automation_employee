@@ -17,8 +17,9 @@ module OfficeAutomationEmployee
     embeds_one :current_address, class_name: 'OfficeAutomationEmployee::Address'
     
     has_and_belongs_to_many :roles, class_name: 'OfficeAutomationEmployee::Role'
-    has_many :users, class_name: 'OfficeAutomationEmployee::User'
-
+    has_many :users, class_name: 'OfficeAutomationEmployee::User', dependent: :destroy
+    
+    accepts_nested_attributes_for :users
     before_validation :save_address
 
     accepts_nested_attributes_for :users

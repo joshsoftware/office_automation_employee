@@ -1,5 +1,4 @@
-source "https://rubygems.org"
-
+source 'https://rubygems.org'
 # Declare your gem's dependencies in office_automation_employee.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group.
@@ -7,6 +6,8 @@ gemspec
 
 gem 'devise'
 gem 'devise_invitable'
+gem 'devise-async'
+gem 'sidekiq'
 gem 'nested_form'
 gem 'simple_form'
 gem 'country_select'
@@ -14,7 +15,6 @@ gem 'jquery-rails'
 gem 'sass-rails', '>= 3.2'
 gem 'bootstrap-sass'
 gem 'mongoid', github: 'mongoid/mongoid'
-gem 'mongoid_slug'
 gem 'haml-rails'
 gem 'cancan'
 gem 'coffee-rails'
@@ -23,8 +23,13 @@ gem 'bootstrap-datepicker-rails'
 gem 'carrierwave-mongoid', '~> 0.6.3', :require => 'carrierwave/mongoid'
 gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
 gem 'rmagick'
-gem 'better_errors'
-gem "binding_of_caller"
+gem 'sinatra', require: false
+
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end
+
 group :test do
   gem 'rspec-rails'
   gem 'mongoid-rspec'

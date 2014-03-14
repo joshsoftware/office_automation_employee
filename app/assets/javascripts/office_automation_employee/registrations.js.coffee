@@ -17,9 +17,4 @@ $(document).ready ->
         $("#company_current_address_"+value).val ""
         $("#company_current_address_"+value).removeAttr("readonly")
     return
-  
   return
-
-
-
-
