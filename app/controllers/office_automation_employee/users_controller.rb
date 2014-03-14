@@ -7,10 +7,8 @@ module OfficeAutomationEmployee
       @user = current_user
       @profile = @user.build_profile unless @user.profile?
       @personal_profile = @user.build_personal_profile unless @user.personal_profile?
-      @current_address = @user.personal_profile.build_current_address unless @user.personal_profile.current_address?
-      @permanent_address= @user.personal_profile.build_permanent_address unless @user.personal_profile.permanent_address?
-      @current_address = @user.personal_profile.current_address
-      @permanent_address = @user.personal_profile.permanent_address
+      @current_address = @user.personal_profile ? @user.personal_profile.current_address : @user.personal_profile.build_current_address
+      @permanent_address = @user.personal_profile ? @user.personal_profile.permanent_address : @user.personal_profile.build_permanent_address
     end
 
     def update
