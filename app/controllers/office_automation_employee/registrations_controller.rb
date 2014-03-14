@@ -30,24 +30,7 @@ module OfficeAutomationEmployee
       end
     end
 
-    def edit
-      resource = resource_class.find(current_user)
-      @profile = resource.build_profile unless resource.profile?
-      @personal_profile = resource.build_personal_profile unless resource.personal_profile?
-      render '/office_automation_employee/devise/registrations/edit'
-    end
 
-    def update
-      if current_user.update_attributes(update_user_params)
-        flash[:success] = 'Profile updated Succesfully'
-        redirect_to office_automation_employee.edit_user_registration_path
-      else
-
-        render '/office_automation_employee/devise/registrations/edit'
-        flash[:danger] = 'Unable to update profile'
-      end
-
-    end
     private
 
 
@@ -55,15 +38,6 @@ module OfficeAutomationEmployee
       params[:company].permit(:name, :registration_date, :company_url, :same_as_registered_address, registered_address: [:address, :pincode, :city, :state, :country, :phone], current_address: [:address, :pincode, :city, :state, :country, :phone] , users_attributes: [:email, :password, :password_confirmation])
     end
 
-    def update_user_params
-      type = params.require(:user).permit(:update_type)
-      case type[:update_type]
-      when 'profile'
-        params[:user].permit(profile_attributes: [:first_name, :middle_name, :last_name, :gender, :blood_group, :date_of_birth, :skills, :image, :mobile_number])
 
-      when 'personal_profile'  
-        params[:user].permit(personal_profile_attributes: [:pan_number, :personal_email, :passport_number, :qualification, :date_of_joining, :previous_company] ,permanant_address: [:address, :city, :pincode, :state, :country, :phone], current_address: [:address, :city, :pincode, :state, :country, :phone])
-      end
-    end
   end
 end

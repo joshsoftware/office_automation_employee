@@ -1,0 +1,53 @@
+.row
+  .col-md-2
+  .col-md-8
+    = render "office_automation_employee/shared/flash"
+    .panel.panel-default
+      .panel.panel-heading
+        %strong Edit Profile
+
+      .panel.panel.body
+        .container-fluid
+
+          .form-group
+            %ul.nav.nav-tabs
+              %li.active.profile-tab
+                %a{data: {toggle: 'tab'}, href: "#profile", id: 'profile_tab'}
+                  Public Profile
+              %li.personal_profile-tab
+                %a{data: {toggle: "tab"}, href: "#personal_profile", id: 'personal_profile_tab'}
+                  Personal Profile
+              %li.password-tab
+                %a{data: {toggle: "tab"}, href: "#password", id: 'password_tab'}
+                  Change Password
+              %li.document-tab
+                %a{data: {toggle: "tab"}, href: "#document", id: 'document_tab'}
+                  Documents
+
+          .tab-content
+            .tab-pane.active#profile
+              = simple_form_for(@user, url: office_automation_employee.company_user_path(@user.company, @user), method: :put, input_html: { role: :form } ) do |user|
+                .form-group
+                  = user.simple_fields_for :profile, @profile do |profile|
+                    .row
+                      = render partial: "office_automation_employee/users/profile", locals: {profile: profile}
+                      .form-group
+                        .col-md-4
+                          = image_tag user.object.image.thumb.url
+                          = user.input :image, as: :file, label: false, input_html: {class: "fileinput-new"}
+
+
+                    = user.hidden_field :update_type, value: 'profile'
+                .form-group
+                  = user.submit "Update Profile", class: "btn btn-primary"
+              
+            .tab-pane#personal_profile
+              = simple_form_for(@user, url: office_automation_employee.company_user_path(@user.company, @user), method: :put, input_html: { role: :form } ) do |user|
+                .form-group
+                  = user.simple_fields_for :personal_profile, @personal_profile do |personal_profile|
+                    = render partial: "office_automation_employee/users/personal_profile", locals: {personal_profile: personal_profile}
+
+                .form-group
+                  = user.hidden_field :update_type, value: 'personal_profile'
+                  = user.submit "Update Profile", class: "btn btn-primary"
+                
