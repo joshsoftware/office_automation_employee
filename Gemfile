@@ -21,7 +21,6 @@ gem 'coffee-rails'
 gem 'therubyracer'
 gem 'bootstrap-datepicker-rails'
 gem 'carrierwave-mongoid', '~> 0.6.3', :require => 'carrierwave/mongoid'
-gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
 gem 'rmagick'
 gem 'sinatra', require: false
 
