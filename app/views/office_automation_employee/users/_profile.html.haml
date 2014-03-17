@@ -1,0 +1,29 @@
+.form-group
+  .col-md-4
+    .form-group
+      = profile.input :first_name, label: 'First Name', input_html: {class: "form-control", maxlength: 15, placeholder: "Enter First Name"}
+  .col-md-4
+    .form-group
+      = profile.input :middle_name, label: 'Middle Name', input_html: {class: "form-control", maxlength: 15, placeholder: "Enter Middle Name"}
+  .col-md-4
+    .form-group
+      = profile.input :last_name, label: 'Last Name', input_html: {class: "form-control", maxlength: 15, placeholder: "Enter Last Name"}
+.form-group
+  .col-md-4
+    .form-group
+      = profile.input :mobile_number, as: :tel, label: 'Mobile Number', input_html: {class: "form-control"}
+  .col-md-4
+    .form-group
+      = profile.input :gender, label: 'Gender', collection: [:male, :female], input_html: {class: "form-control"}
+  .col-md-4
+    .form-group
+      = profile.input :blood_group, label: 'Blood Group', collection: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'], input_html: {class: "form-control"}
+  
+.form-group
+  .col-md-4
+    %label Date Of Birth
+    = profile.input :date_of_birth, label: false, input_html: {class: "form-control datepicker", value: Time.now.strftime('%d-%m-%Y'), readonly: true}
+  .col-md-4
+    = profile.input :skills, as: :text, label: 'Skills', input_html: {class: "form-control"}
+
+

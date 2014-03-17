@@ -8,6 +8,8 @@ module OfficeAutomationEmployee
     devise :invitable, :database_authenticatable, :registerable,
       :recoverable, :rememberable, :trackable, :confirmable, :validatable, :async
 
+    mount_uploader :image, FileUploader
+
     ## Database authenticatable
     field :email,              default: ""
     field :encrypted_password, default: ""
@@ -51,15 +53,17 @@ module OfficeAutomationEmployee
     field :status, default: 'Pending'
     field :roles, type: Array
 
+    field :image
     # validations
     validates :roles, presence: true
 
     # relationships
-    embeds_one :public_profile, class_name: 'OfficeAutomationEmployee::PublicProfile'
-    embeds_one :private_profile, class_name: 'OfficeAutomationEmployee::PrivateProfile'
+    embeds_one :profile, class_name: 'OfficeAutomationEmployee::Profile'
+    embeds_one :personal_profile, class_name: 'OfficeAutomationEmployee::PersonalProfile'
     belongs_to :company, class_name: 'OfficeAutomationEmployee::Company'
 
-    accepts_nested_attributes_for :company
+    accepts_nested_attributes_for :profile
+    accepts_nested_attributes_for :personal_profile
 
     def role?(role)
       self.roles.include? role.humanize

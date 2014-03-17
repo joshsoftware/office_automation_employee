@@ -16,7 +16,7 @@ module OfficeAutomationEmployee
 
       it "Registers a new company, creates new user with role admin and assigns roles to company" do
 
-        post :create, user: { email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd", company_attributes: { name: "josh software", registration_date: '2011/11/11', current_address: { address: "thube park", city: "pune", state: "maharashtra", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: false}}   
+        post :create, company: { name: "josh software", registration_date: '2011/11/11', current_address: { address: "thube park", city: "pune", state: "maharashtra", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: false, users_attributes: {"0" => {email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd"}}}   
 
         expect(Company.count).to eq(1)
 
@@ -31,8 +31,7 @@ module OfficeAutomationEmployee
 
       it 'Checks if same_as_registered_address field is true then current address is same as registered address' do
 
-        post :create, user: { email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd", company_attributes: { name: "josh software",registration_date: '2011/11/11', current_address: { address: "pune", city: "pune", state: "MH", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: true}}   
-
+        post :create, company: { name: "josh software", registration_date: '2011/11/11', current_address: { address: "thube park", city: "pune", state: "mh", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: true, users_attributes: {"0" => {email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd"}}}   
 
         registered_address = Company.find_by(name: "josh software").registered_address
         current_address = Company.find_by(name: "josh software").current_address
@@ -49,10 +48,11 @@ module OfficeAutomationEmployee
 
       it "Does not create company if company with same name is aldready exist" do
 
-        post :create, user: { email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd", company_attributes: { name: "josh software", registration_date: '2011/11/11', current_address: { address: "pune", city: "pune", state: "MH", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_flag: true}}   
+        post :create, company: { name: "josh software", registration_date: '2011/11/11', current_address: { address: "thube park", city: "pune", state: "mh", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: true, users_attributes: {"0" => {email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd"}}}   
 
-        post :create, user: { email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd", company_attributes: { name: "josh software", registration_date: '2011/11/11', current_address: { address: "pune", city: "pune", state: "MH", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_flag: true}}   
 
+        post :create, company: { name: "josh software", registration_date: '2011/11/11', current_address: { address: "thube park", city: "pune", state: "mh", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: true, users_attributes: {"0" => {email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd"}}}   
+        
         expect(Company.count).to eq(1)
         expect(User.count).to eq(1)
 
@@ -60,9 +60,9 @@ module OfficeAutomationEmployee
 
       it "Does not create user if user with same email-id exist" do
 
-        post :create, user: { email: 'abc@abc.com', password: "abcdabcd", password_confirmation: "abcdabcd", company_attributes: { name: "josh software", registration_date: '2011/11/11', current_address: { address: "pune", city: "pune", state: "MH", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: true}}   
-
-        post :create, user: { email: 'abc@abc.com', password: "abcdabcd", password_confirmation: "abcdabcd", company_attributes: { name: "josh software", registration_date: '2011/11/11', current_address: { address: "pune", city: "pune", state: "MH", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: true}}   
+        post :create, company: { name: "josh software", registration_date: '2011/11/11', current_address: { address: "thube park", city: "pune", state: "mh", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: true, users_attributes: {"0" => {email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd"}}}   
+        
+        post :create, company: { name: "josh software private limited", registration_date: '2011/11/11', current_address: { address: "thube park", city: "pune", state: "mh", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: true, users_attributes: {"0" => {email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd"}}}   
 
         expect(Company.count).to eq(1)
         expect(User.count).to eq(1)

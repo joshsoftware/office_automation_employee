@@ -1,0 +1,64 @@
+.row
+  .col-md-6
+    .form-group
+      %label.col-xs-5.control-label Pan Number
+      .col-xs-7
+        .form-group
+          = personal_profile.input :pan_number, label: false,  input_html: {class: "form-control", maxlength: 15, placeholder: "Enter Pan Number"}
+    .form-group
+      %label.col-xs-5.control-label Email-ID
+      .col-xs-7
+        .form-group
+          = personal_profile.input :personal_email,label: false, input_html: {class: "form-control", placeholder: "example@example.com"}
+    .form-group
+
+      %label.col-xs-5.control-label Passport Number
+      .col-xs-7
+        .form-group
+          = personal_profile.input :passport_number, label: false, input_html: {class: "form-control", placeholder: "Enter Passport Number"}
+    
+    .form-group
+
+      %label.col-xs-5.control-label Qualification
+      .col-xs-7
+        .form-group
+          = personal_profile.input :qualification, label: false, input_html: {class: "form-control", placeholder: "Enter Qualification"}
+    
+  .col-md-6
+    .form-group
+
+      %label.col-xs-5.control-label Joining Date
+      .col-xs-7
+        .form-group
+          = personal_profile.input :date_of_joining, label: false, input_html: {class: "form-control datepicker",value: Time.now.strftime('%d-%m-%Y')}
+    .form-group
+
+      %label.col-xs-5.control-label Work Experience
+      .col-xs-7
+        .form-group
+          = personal_profile.input :work_experience, label: false, collection: 1..50, input_html: {class: "form-control"}
+    .form-group
+
+      %label.col-xs-5.control-label Previous Company
+      .col-xs-7
+        .form-group
+          = personal_profile.input :previous_company, label: false, input_html: {class: "form-control"}
+
+
+.form-group
+
+  = personal_profile.check_box :same_as_permanent_address, id: 'same_user_address', value: personal_profile.object.same_as_permanent_address 
+  %strong Current address is same as permanant address
+.row
+  .col-md-6
+    .form-group
+      .well
+        %strong Permanent Address
+      = personal_profile.simple_fields_for :permanent_address, @permanent_address do |address|
+        = render partial: "office_automation_employee/users/address", locals: {address: address}
+  .col-md-6
+    .form-group
+      .well
+        %strong Current Address
+      = personal_profile.simple_fields_for :current_address, @current_address do |address|
+        = render partial: "office_automation_employee/users/address", locals: {address: address}

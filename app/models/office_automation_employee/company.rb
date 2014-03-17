@@ -24,6 +24,8 @@ module OfficeAutomationEmployee
     accepts_nested_attributes_for :users
     before_validation :save_address
 
+    accepts_nested_attributes_for :users
+
     private
 
     # If current address is same as registered address then update current address

@@ -2,11 +2,20 @@ require 'spec_helper'
 
 module OfficeAutomationEmployee
   describe User do
-    it { expect have_fields(:email, :encrypted_password, :role, :status) }
-    it { expect embed_one :public_profile }
-    it { expect embed_one :private_profile }
-    it { expect belong_to :company }
-    it { expect validate_presence_of(:role) }
-    it { expect validate_presence_of(:email) }
+
+    context 'It checks for presence of fields' do
+      it { should have_fields(:email, :encrypted_password, :roles, :status,:image) }
+    end
+
+    context 'It validates fields' do
+      it { should validate_presence_of(:roles) }
+      it { should validate_presence_of(:email) }
+    end
+
+    context 'It checks for associations' do
+      it { should embed_one :profile }
+      it { should embed_one :personal_profile }
+      it { should belong_to :company }
+    end
   end
 end
