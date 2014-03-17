@@ -22,7 +22,7 @@
                   %td= index + 1
                   %td
                     %a{ href: office_automation_employee.company_user_path(@company, user) }
-                      = image_tag "office_automation_employee/index.png", class: "img-circle", size: "60x60"
+                      = image_tag user.image.thumb.url, class: "img-circle", size: "60x60"
                   %td= user.email
                   %td= user.roles.to_sentence
                   %td= user.status if can? :manage, user

@@ -5,9 +5,8 @@
     .form-group
       %label * Registration Date
       .input-group
-        = company.input :registration_date, label: false, input_html: {class: 'datepicker form-control', placeholder: "Select Date", readonly: true}
-        %span.input-group-addon
-          %span.glyphicon.glyphicon-calendar
+        = company.input :registration_date, label: false, input_html: {class: 'form-control datepicker', placeholder: "Select Date", readonly: true}
+        %span.input-group-addon.glyphicon.glyphicon-calendar.datepicker
 .form-group
   = company.input :company_url, label: 'Company Website', as: :url, input_html: {class: "form-control", placeholder: "http://www.example.com"}
 

@@ -10,33 +10,33 @@
         .container-fluid
           .col-md-2
           .col-md-8
-            = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), input_html: { role: :form } ) do |f|
+            = simple_nested_form_for(@company, url: registration_path(resource_name), input_html: { role: :form } ) do |f|
 
-              .form-group
-                = f.input :email, autofocus: true, label: '* Email', input_html: { class: "form-control", maxlength: 30, placeholder: "example@domain.com", required: true }
-              .form-group
-                = f.input :password, label: '* Password' , input_html: { class: "form-control", maxlength: 30, placeholder: "Enter Password", required: true }
+              = f.simple_fields_for :users do |user|
+                .form-group
+                  = user.input :email, autofocus: true, label: '* Email', input_html: { class: "form-control", maxlength: 30, placeholder: "example@domain.com", required: true }
+                .form-group
+                  = user.input :password, label: '* Password' , input_html: { class: "form-control", maxlength: 30, placeholder: "Enter Password", required: true }
 
-              .form-group
-                = f.input :password_confirmation, label: '* Password Confirmation', input_html: { class: "form-control", maxlength: 30, placeholder: "Confirm Password", required: true }
+                .form-group
+                  = user.input :password_confirmation, label: '* Password Confirmation', input_html: { class: "form-control", maxlength: 30, placeholder: "Confirm Password", required: true }
               .form-group
                 .well
                   %strong Company Details
-                = f.simple_fields_for :company do |company|
-                  = render partial: "office_automation_employee/shared/company", locals: {company: company}
+                = render partial: "office_automation_employee/shared/company", locals: {company: f}
                     
+                .form-group
+                  %strong Registered Address
+                = f.simple_fields_for :registered_address, @registered_address do |address|
                   .form-group
-                    %strong Registered Address
-                  = company.simple_fields_for :registered_address, @registered_address do |address|
-                    .form-group
-                      = render partial: "office_automation_employee/shared/address", locals: {address: address}
-                    .form-group
-                      = company.check_box :same_as_registered_address, id: 'same'
-                      %strong Current address is same as registered address
+                    = render partial: "office_automation_employee/shared/address", locals: {address: address}
                   .form-group
-                    %strong Current Address
-                  = company.simple_fields_for :current_address, @current_address do |address|
-                    .form-group
-                      = render partial: "office_automation_employee/shared/address", locals: {address: address}
+                    = f.check_box :same_as_registered_address, id: 'same'
+                    %strong Current address is same as registered address
+                .form-group
+                  %strong Current Address
+                = f.simple_fields_for :current_address, @current_address do |address|
+                  .form-group
+                    = render partial: "office_automation_employee/shared/address", locals: {address: address}
               .form-group= f.submit "Sign up",  class: "btn btn-primary"
               = render "office_automation_employee/devise/shared/links"
