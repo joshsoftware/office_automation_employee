@@ -17,9 +17,6 @@
               %li.personal_profile-tab
                 %a{data: {toggle: "tab"}, href: "#personal_profile", id: 'personal_profile_tab'}
                   Personal Profile
-              %li.password-tab
-                %a{data: {toggle: "tab"}, href: "#password", id: 'password_tab'}
-                  Change Password
               %li.document-tab
                 %a{data: {toggle: "tab"}, href: "#document", id: 'document_tab'}
                   Documents
@@ -31,6 +28,7 @@
                   = user.simple_fields_for :profile, @profile do |profile|
                     .row
                       = render partial: "office_automation_employee/users/profile", locals: {profile: profile}
+                    .row
                       .form-group
                         .col-md-4
                           = image_tag user.object.image.thumb.url
@@ -50,4 +48,5 @@
                 .form-group
                   = user.hidden_field :update_type, value: 'personal_profile'
                   = user.submit "Update Profile", class: "btn btn-primary"
-                
+            .tab-pane#document
+              = render partial: "office_automation_employee/users/document", locals: {user: @user} 

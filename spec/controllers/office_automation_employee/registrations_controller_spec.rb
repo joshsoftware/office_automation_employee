@@ -29,6 +29,16 @@ module OfficeAutomationEmployee
         expect(response).to be_redirect
       end
 
+      it "Will not Register a new company, if mandatory field is empty" do
+
+        post :create, company: { registration_date: '2011/11/11', current_address: { address: "thube park", city: "pune", state: "maharashtra", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: false, users_attributes: {"0" => {email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd"}}}   
+
+        expect(Company.count).to eq(0)
+
+        expect(User.count).to eq(0)
+
+        expect(response).to render_template(:new)
+      end
       it 'Checks if same_as_registered_address field is true then current address is same as registered address' do
 
         post :create, company: { name: "josh software", registration_date: '2011/11/11', current_address: { address: "thube park", city: "pune", state: "mh", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: true, users_attributes: {"0" => {email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd"}}}   

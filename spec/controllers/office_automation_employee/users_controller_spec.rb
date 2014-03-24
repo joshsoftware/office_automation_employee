@@ -35,6 +35,13 @@ module OfficeAutomationEmployee
         expect(response).to be_redirect
       end
 
+      it 'Will not update profile if mandatory field is empty' do
+
+        put :update, user: {profile_attributes: {last_name: 'abc', mobile_number: 1234567890}}, company_id: user.company, id:user
+
+        expect(response).to render_template(:edit)
+      end
+
       it 'Updates personal profile' do
         put :update, user: { personal_profile_attributes:{same_as_permanent_address: true, permanent_address: {address: 'shivajinagar', city: 'pune', pincode: 12345, state: 'MH', country: 'India', phone: 1234567890}}}, company_id: user.company, id: user
 

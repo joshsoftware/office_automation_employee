@@ -1,0 +1,12 @@
+%h1 Updated Fields are
+
+- if @updated_attributes.has_key?(:joining_date)
+  = "previous joining date  #{@updated_attributes[:joining_date].first}" 
+  %br
+  = "Current joining date #{@updated_attributes[:joining_date].last}"
+- if @updated_attributes.has_key?(:designation)
+  = "previous designation  #{@updated_attributes[:designation].first}"
+  %br
+  = "current designation #{@updated_attributes[:designation].last}"
+- if @updated_attributes.has_key?(:image)
+  = "Image has been updated"

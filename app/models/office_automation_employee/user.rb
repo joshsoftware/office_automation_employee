@@ -61,10 +61,14 @@ module OfficeAutomationEmployee
     embeds_one :profile, class_name: 'OfficeAutomationEmployee::Profile'
     embeds_one :personal_profile, class_name: 'OfficeAutomationEmployee::PersonalProfile'
     belongs_to :company, class_name: 'OfficeAutomationEmployee::Company'
+    embeds_many :attachments, class_name: 'OfficeAutomationEmployee::Attachment', cascade_callbacks: true
 
     accepts_nested_attributes_for :profile
     accepts_nested_attributes_for :personal_profile
+    accepts_nested_attributes_for :attachments
 
+
+    after_update :send_mail
     def role?(role)
       self.roles.include? role.humanize
     end
@@ -92,6 +96,15 @@ module OfficeAutomationEmployee
         user.errors.messages.keys.include?(:email) ? invalid_rows.push(row.to_s.chomp + " [row:#{$.}]") : user.invite!(self)
       end
       [invalid_rows, $. - 1]  # $. is last row number from file
+    end
+
+    def send_mail
+      @updated_attributes = {}
+      @updated_attributes[:image] = self.image_changed?
+      @updated_attributes[:joining_date] = self.personal_profile.date_of_joining_change if self.personal_profile?
+      @updated_attributes[:designation] = self.profile.designation_change if self.profile?
+      @updated_attributes.delete_if{|k,v| v.eql?(nil) or v.eql?(false) }
+      UserMailer.notification_email(self.company, self, @updated_attributes).deliver unless @updated_attributes.length.eql?(0)
     end
   end
 end
