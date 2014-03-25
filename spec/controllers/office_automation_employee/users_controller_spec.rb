@@ -26,8 +26,13 @@ module OfficeAutomationEmployee
     end
 
     context '#update' do
+      before :each do
+      @file = Rack::Test::UploadedFile.new("#{Engine.root}/spec/index.jpeg", "image/jpeg")
+
+      end
+
       it 'Updates profile' do
-        put :update, user: {profile_attributes: {first_name: 'abcd', last_name: 'abc', mobile_number: 1234567890}}, company_id: user.company, id:user
+        put :update, user: {profile_attributes: {first_name: 'abcd', last_name: 'abc', mobile_number: 1234567890, upload: @file}}, company_id: user.company, id:user
 
         expect(user.reload.profile.first_name).to eq('abcd')
         expect(user.profile.last_name).to eq('abc')
@@ -52,6 +57,24 @@ module OfficeAutomationEmployee
         expect(user.personal_profile.permanent_address.phone).to eq(user.personal_profile.current_address.phone)
       
       end
+
+      it 'Uploads documents' do
+        
+        @f = Rack::Test::UploadedFile.new("#{Engine.root}/spec/neukirchen07introducingrack.pdf", "text/pdf")
+        put :update, user: { attachments_attributes: { "0" => { document: @f , _destroy: "false"} } }, company_id: user.company, id: user
+        expect(user.reload.attachments.count).to eq(1)
+
+      end
+
+      it 'Will not upload document if document size is greater than 10 MB' do
+
+        @f = Rack::Test::UploadedFile.new("#{Engine.root}/spec/Head First jQuery.pdf", "text/pdf")
+       
+        put :update, user: { attachments_attributes: { "0" => {document: @f, _destroy: "false"} } }, company_id: user.company, id: user
+
+        expect(user.reload.attachments.count).to eq(0)
+      end
+
     end
   end
 end

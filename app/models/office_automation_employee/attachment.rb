@@ -12,8 +12,8 @@ module OfficeAutomationEmployee
     validate :document_size
 
     def document_size
-      if document.file.size > 5.megabytes
-        errors.add(:document, "you cannot upload a file greater than 5 MB")
+      if document.file.size > 10.megabytes
+        errors.add(:document, "you cannot upload a file greater than 10 MB")
       end
     end
   end
