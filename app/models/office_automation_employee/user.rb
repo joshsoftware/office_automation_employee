@@ -3,6 +3,10 @@ require 'csv'
 module OfficeAutomationEmployee
   class User 
     include Mongoid::Document
+
+    #Send mail when user updates following fields
+    UPDATE = ['image', 'date_of_joining', 'designation']
+
     # Include default devise modules. Others available are:
     # :confirmable, :lockable, :timeoutable and :omniauthable
     devise :invitable, :database_authenticatable, :registerable,
@@ -99,12 +103,11 @@ module OfficeAutomationEmployee
     end
 
     def send_mail
-      @updated_attributes = {}
-      @updated_attributes[:image] = self.image_changed?
-      @updated_attributes[:joining_date] = self.personal_profile.date_of_joining_change if self.personal_profile?
-      @updated_attributes[:designation] = self.profile.designation_change if self.profile?
-      @updated_attributes.delete_if{|k,v| v.eql?(nil) or v.eql?(false) }
+      
+      @updated_attributes = self.changes.merge(self.personal_profile.changes.merge(self.profile.changes))
+      @updated_attributes.reject!{|k,v| !UPDATE.include? k}
       UserMailer.notification_email(self.company, self, @updated_attributes).deliver unless @updated_attributes.length.eql?(0)
+  
     end
   end
 end
