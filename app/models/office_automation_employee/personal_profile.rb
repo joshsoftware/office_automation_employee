@@ -7,7 +7,7 @@ module OfficeAutomationEmployee
     field :passport_number
     field :qualification
     field :date_of_joining, type: Date
-    field :work_experience
+    field :work_experience, type: Integer
     field :previous_company
     field :same_as_permanent_address, type: Boolean, default: false
 
