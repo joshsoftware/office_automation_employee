@@ -103,8 +103,10 @@ module OfficeAutomationEmployee
     end
 
     def send_mail
-      
-      @updated_attributes = self.changes.merge(self.personal_profile.changes.merge(self.profile.changes))
+
+      personal_profile_changes = self.personal_profile ? self.personal_profile.changes : {}
+      profile_changes = self.profile ? self.profile.changes : {}
+      @updated_attributes = self.changes.merge(personal_profile_changes).merge(profile_changes)
       @updated_attributes.reject!{|k,v| !UPDATE.include? k}
       UserMailer.notification_email(self.company, self, @updated_attributes).deliver unless @updated_attributes.length.eql?(0)
   
