@@ -12,3 +12,4 @@ Gemfile.lock
 README.rdoc
 spec/dummy/README.rdoc
 spec/dummy/public/uploads/
+coverage/

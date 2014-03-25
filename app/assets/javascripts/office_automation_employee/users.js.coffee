@@ -1,5 +1,6 @@
 $(document).ready ->
 
+  $("#datepicker1").datepicker endDate: "Today", format: "yyyy-mm-dd"
 
   $("ul.nav-tabs > li > a").on "shown.bs.tab", (e) ->
     id = $(e.target).attr("href").substr(1)

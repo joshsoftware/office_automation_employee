@@ -1,0 +1,30 @@
+= simple_nested_form_for(@user, url: office_automation_employee.company_user_path(@user.company, @user), method: :put, input_html: {role: :form} ) do |user_form|
+
+  #new_document
+    = user_form.fields_for :attachments do |attachment|
+      .form-group
+        - if attachment.object.persisted?
+          = attachment.object.name
+          %span.glyphicon.glyphicon-file
+          = link_to File.basename(attachment.object.document_url), attachment.object.document_url, data: { :colorbox => true, :colorbox_height => '680px', :colorbox_width => '700px', :colorbox_iframe => true }
+
+          = link_to "", company_user_attachment_path(@user.company, @user, attachment.object), data: {confirm: 'Are you sure?'} , method: :delete, class: "glyphicon glyphicon-trash"
+          = link_to "", download_document_company_user_attachment_path(@user.company, @user, attachment.object), class: "glyphicon glyphicon-download"
+
+        - else
+          .row
+            .col-md-5
+              = attachment.input :name, autofocus: true, input_html: {class: "form-control"}
+            .col-md-3
+              = attachment.input :document, class: "btn btn-primary"
+            .col-md-4
+              %br
+              = attachment.link_to_remove "Remove", class: "btn btn-primary"
+
+
+
+  .row
+    %p{ align: :right}
+      = user_form.link_to_add "Add More", :attachments, class: "btn btn-primary", data: { target: "#new_document" }
+  .form-group
+    = user_form.submit "Update Profile", class: "btn btn-primary"

@@ -9,6 +9,7 @@ module OfficeAutomationEmployee
       @personal_profile = @user.build_personal_profile unless @user.personal_profile?
       @current_address = @user.personal_profile ? @user.personal_profile.current_address : @user.personal_profile.build_current_address
       @permanent_address = @user.personal_profile ? @user.personal_profile.permanent_address : @user.personal_profile.build_permanent_address
+      @attachments = @user.attachments.build     
     end
 
     def update
@@ -26,7 +27,6 @@ module OfficeAutomationEmployee
         flash[:danger] = 'Unable to update profile'
         render :edit
       end
-
     end
 
     def index
@@ -55,7 +55,15 @@ module OfficeAutomationEmployee
 
     private
     def user_params
-      params[:user].permit(:image, profile_attributes: [:first_name, :middle_name, :last_name, :gender, :blood_group, :date_of_birth, :skills, :mobile_number], personal_profile_attributes: [:pan_number, :personal_email, :passport_number, :qualification, :date_of_joining, :previous_company ,:same_as_permanent_address, permanent_address: [:address, :city, :pincode, :state, :country, :phone], current_address: [:address, :city, :pincode, :state, :country, :phone]])
+
+      params[:user][:attachments_attributes].keep_if{|k,v| v[:_destroy] == 'false' if v.has_key?(:_destroy) } if params[:user].include?(:attachments_attributes)
+
+      params[:user].permit(:image, profile_attributes: [:first_name, :middle_name, :last_name, :gender, :blood_group, :date_of_birth, :skills, :mobile_number, :designation], personal_profile_attributes: [:pan_number, :personal_email, :passport_number, :qualification, :date_of_joining, :previous_company ,:work_experience, :same_as_permanent_address, permanent_address: [:address, :city, :pincode, :state, :country, :phone], current_address: [:address, :city, :pincode, :state, :country, :phone]], attachments_attributes: [:name, :document, :_destroy])
+
+    end
+
+    def update_user_params
+      user_params[:attachments_attributes].keep_if{|k,v| v.each {|a,b| a == '_default' and b == 'false'}} if user_params.include?(:attachments_attributes)
     end
   end
 end
