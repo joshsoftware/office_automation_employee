@@ -8,35 +8,45 @@
 
       .panel.panel.body
         .container-fluid
-          .col-md-2
-          .col-md-8
-            = simple_nested_form_for(@company, url: registration_path(resource_name), input_html: { role: :form } ) do |f|
-
-              = f.simple_fields_for :users do |user|
-                .form-group
-                  = user.input :email, autofocus: true, label: '* Email', input_html: { class: "form-control", maxlength: 30, placeholder: "example@domain.com", required: true }
-                .form-group
-                  = user.input :password, label: '* Password' , input_html: { class: "form-control", maxlength: 30, placeholder: "Enter Password", required: true }
-
-                .form-group
-                  = user.input :password_confirmation, label: '* Password Confirmation', input_html: { class: "form-control", maxlength: 30, placeholder: "Confirm Password", required: true }
+          = simple_nested_form_for(@company, url: registration_path(resource_name), input_html: { role: :form } ) do |f|
+            = f.simple_fields_for :users do |user|
               .form-group
-                .well
-                  %strong Company Details
-                = render partial: "office_automation_employee/shared/company", locals: {company: f}
-                    
-                .form-group
-                  %strong Registered Address
-                = f.simple_fields_for :registered_address, @registered_address do |address|
+                = user.input :email, autofocus: true, label: '* Email', input_html: { class: "form-control", maxlength: 30, placeholder: "example@domain.com", required: true }
+              .form-group
+                .row
+                  .col-md-6
+                    .form-group
+                      = user.input :password, label: '* Password' , input_html: { class: "form-control", maxlength: 30, placeholder: "Enter Password", required: true }
+                  .col-md-6
+                    .form-group
+                      = user.input :password_confirmation, label: '* Password Confirmation', input_html: { class: "form-control", maxlength: 30, placeholder: "Confirm Password", required: true }
+
+            .form-group
+              .well.well-sm
+                %strong Company Details
+              = render partial: "office_automation_employee/shared/company", locals: {company: f}
+                
+              .form-group
+                = f.check_box :same_as_registered_address, id: 'same'
+                %strong Current address is same as registered address
+
+              .row
+                .col-md-6
                   .form-group
-                    = render partial: "office_automation_employee/shared/address", locals: {address: address}
+                    .well
+                      %strong Registered Address
                   .form-group
-                    = f.check_box :same_as_registered_address, id: 'same'
-                    %strong Current address is same as registered address
-                .form-group
-                  %strong Current Address
-                = f.simple_fields_for :current_address, @current_address do |address|
+                    = f.simple_fields_for :registered_address, @registered_address do |address|
+                      = render partial: "office_automation_employee/shared/address", locals: {address: address}
+
+                .col-md-6
                   .form-group
-                    = render partial: "office_automation_employee/shared/address", locals: {address: address}
-              .form-group= f.submit "Sign up",  class: "btn btn-primary"
-              = render "office_automation_employee/devise/shared/links"
+                    .well
+                      %strong Current Address
+                  .form-group
+                    = f.simple_fields_for :current_address, @current_address do |address|
+                      = render partial: "office_automation_employee/shared/address", locals: {address: address}
+
+            .form-group= f.submit "Sign up",  class: "btn btn-primary"
+
+            = render "office_automation_employee/devise/shared/links"

@@ -23,7 +23,7 @@ module OfficeAutomationEmployee
         @user.build_profile unless @user.profile?
         @permanent_address = @user.personal_profile.permanent_address
         @current_address = @user.personal_profile.current_address
-        flash[:danger] = 'Unable to update profile'
+        flash[:danger] = 'Please fill the fields accordingly.'
         render :edit
       end
 
