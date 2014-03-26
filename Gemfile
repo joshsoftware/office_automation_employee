@@ -24,6 +24,8 @@ gem 'carrierwave-mongoid', '~> 0.6.3', :require => 'carrierwave/mongoid'
 gem 'rmagick'
 gem 'sinatra', require: false
 gem 'colorbox-rails'
+gem 'mongoid_search'
+gem 'kaminari'
 
 group :development do
   gem 'better_errors'

@@ -3,7 +3,7 @@ require 'csv'
 module OfficeAutomationEmployee
   class User 
     include Mongoid::Document
-
+    include Mongoid::Search
     #Send mail when user updates following fields
     UPDATED_FIELDS = ['image', 'date_of_joining', 'designation']
 
@@ -71,7 +71,8 @@ module OfficeAutomationEmployee
     accepts_nested_attributes_for :personal_profile
     accepts_nested_attributes_for :attachments
 
-
+    search_in :email, profile: :first_name, profile: :last_name
+   
     after_update :send_mail
     def role?(role)
       self.roles.include? role.humanize
@@ -109,7 +110,7 @@ module OfficeAutomationEmployee
       @updated_attributes = self.changes.merge(personal_profile_changes).merge(profile_changes)
       @updated_attributes.reject!{|k,v| !UPDATED_FIELDS.include? k}
       UserMailer.notification_email(self.company, self, @updated_attributes).deliver unless @updated_attributes.length.eql?(0)
-  
+
     end
   end
 end

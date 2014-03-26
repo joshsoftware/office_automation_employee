@@ -18,6 +18,26 @@ module OfficeAutomationEmployee
       sign_in user
     end
 
+    context '#index' do
+      it 'Renders index template' do
+        get :index, company_id: user.company
+        expect(response).to render_template(:index)
+      end
+
+      it 'searches in database and then renders index template' do
+        get :index, company_id: user.company, q: 'com'
+        expect(assigns(:users).count).to eq(2)
+        expect(response).to render_template(:index)
+      end
+
+      it 'count will be zero if search fails' do
+
+        get :index, company_id: user.company, q: 'abcd'
+        expect(assigns(:users).count).to eq(0)
+        expect(response).to render_template(:index)
+      end
+    end
+
     context '#edit' do
       it 'Renders edit template' do
         get :edit, company_id: user.company,id: user
