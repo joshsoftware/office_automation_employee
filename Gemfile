@@ -23,6 +23,7 @@ gem 'therubyracer'
 gem 'bootstrap-datepicker-rails'
 gem 'carrierwave-mongoid', '~> 0.6.3', :require => 'carrierwave/mongoid'
 gem 'rmagick'
+gem 'colorbox-rails'
 
 group :development do
   gem 'better_errors'
@@ -35,6 +36,7 @@ group :test do
   gem 'mongoid-rspec'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
+  gem 'simplecov', '~> 0.7.1'
 end
 
 # Declare any dependencies that are still in development here instead of in

@@ -15,6 +15,7 @@ module OfficeAutomationEmployee
     context 'It checks for associations' do
       it { should embed_one :profile }
       it { should embed_one :personal_profile }
+      it { should embed_many :attachments }
       it { should belong_to :company }
     end
   end

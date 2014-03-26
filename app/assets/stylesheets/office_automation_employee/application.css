@@ -10,6 +10,7 @@
  *
  *= require bootstrap
  *= require bootstrap-datepicker
+ *= require colorbox-rails
  *= require_self
  *= require_tree .
  */

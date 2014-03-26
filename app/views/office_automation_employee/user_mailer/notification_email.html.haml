@@ -1,0 +1,7 @@
+%h1 Updated Fields are
+- @updated_attributes.each do |k,v|
+  %strong"#{k}"
+  %br
+  = "Previous: #{v.first}"
+  = "Current: #{v.last}"
+  %br

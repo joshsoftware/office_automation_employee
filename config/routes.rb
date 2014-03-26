@@ -5,6 +5,9 @@ OfficeAutomationEmployee::Engine.routes.draw do
 
   resources :companies, except: ['new', 'create'] do
     resources :users, except: ['new', 'create'] do
+      resources :attachments, only: ['destroy'] do
+        get :download_document, on: :member
+      end
       get 'invite', on: :member
     end
   end

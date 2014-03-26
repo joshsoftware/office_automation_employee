@@ -5,6 +5,9 @@ module OfficeAutomationEmployee
     include Mongoid::Document
     include Mongoid::Slug
 
+    #Send mail when user updates following fields
+    UPDATED_FIELDS = ['image', 'date_of_joining', 'designation']
+
     # Include default devise modules. Others available are:
     # :confirmable, :lockable, :timeoutable and :omniauthable
     devise :invitable, :database_authenticatable, :registerable,
@@ -65,9 +68,14 @@ module OfficeAutomationEmployee
     embeds_one :profile, class_name: 'OfficeAutomationEmployee::Profile'
     embeds_one :personal_profile, class_name: 'OfficeAutomationEmployee::PersonalProfile'
     belongs_to :company, class_name: 'OfficeAutomationEmployee::Company'
+    embeds_many :attachments, class_name: 'OfficeAutomationEmployee::Attachment', cascade_callbacks: true
 
     accepts_nested_attributes_for :profile
     accepts_nested_attributes_for :personal_profile
+    accepts_nested_attributes_for :attachments
+
+
+    after_update :send_mail
 
     def role?(role)
       roles.include? role.humanize
@@ -115,6 +123,16 @@ module OfficeAutomationEmployee
           csv << row.split(',')
         end
       end
+    end
+
+    def send_mail
+
+      personal_profile_changes = self.personal_profile ? self.personal_profile.changes : {}
+      profile_changes = self.profile ? self.profile.changes : {}
+      @updated_attributes = self.changes.merge(personal_profile_changes).merge(profile_changes)
+      @updated_attributes.reject!{|k,v| !UPDATED_FIELDS.include? k}
+      UserMailer.notification_email(self.company, self, @updated_attributes).deliver unless @updated_attributes.length.eql?(0)
+  
     end
   end
 end
