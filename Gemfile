@@ -15,6 +15,7 @@ gem 'jquery-rails'
 gem 'sass-rails', '>= 3.2'
 gem 'bootstrap-sass'
 gem 'mongoid', github: 'mongoid/mongoid'
+gem 'mongoid_slug'
 gem 'haml-rails'
 gem 'cancan'
 gem 'coffee-rails'
@@ -22,12 +23,12 @@ gem 'therubyracer'
 gem 'bootstrap-datepicker-rails'
 gem 'carrierwave-mongoid', '~> 0.6.3', :require => 'carrierwave/mongoid'
 gem 'rmagick'
-gem 'sinatra', require: false
 gem 'colorbox-rails'
 
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'sinatra', require: false
 end
 
 group :test do

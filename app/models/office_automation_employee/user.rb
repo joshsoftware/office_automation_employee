@@ -3,6 +3,7 @@ require 'csv'
 module OfficeAutomationEmployee
   class User 
     include Mongoid::Document
+    include Mongoid::Slug
 
     #Send mail when user updates following fields
     UPDATED_FIELDS = ['image', 'date_of_joining', 'designation']
@@ -16,6 +17,7 @@ module OfficeAutomationEmployee
 
     ## Database authenticatable
     field :email,              default: ""
+    slug :username
     field :encrypted_password, default: ""
 
     ## Recoverable
@@ -56,10 +58,13 @@ module OfficeAutomationEmployee
     # user-fields
     field :status, default: 'Pending'
     field :roles, type: Array
-
+    field :invalid_csv_data, type: Array
+    field :csv_downloaded, type: Boolean, default: true
     field :image
+
     # validations
     validates :roles, presence: true
+
 
     # relationships
     embeds_one :profile, class_name: 'OfficeAutomationEmployee::Profile'
@@ -73,43 +78,66 @@ module OfficeAutomationEmployee
 
 
     after_update :send_mail
+
     def role?(role)
-      self.roles.include? role.humanize
+      roles.include? role.humanize
+    end
+
+    def username
+      email.split('@')[0]
+    end
+
+    def fullname
+      "#{profile.first_name} #{profile.middle_name} #{profile.last_name}" unless profile.nil?
+    end
+
+    def full_address address
+      "#{address.address} \n #{address.city.humanize}, #{address.state.humanize} \n #{address.country}, #{address.pincode}"
     end
 
     def invite_by_fields(fields)
-      invalid_email_present = 0
+      invalid_email_count, total_email_fields = 0, 0
       fields.each_value do |invitee|
         if invitee[:_destroy] == 'false'
-          user = self.company.users.create email: invitee[:email], roles: [Role.find(invitee[:roles]).name]
-          user.errors.messages.keys.include?(:email) ? invalid_email_present += 1 : user.invite!(self)
+          user = company.users.create email: invitee[:email], roles: [company.roles.find(invitee[:roles]).name]
+          user.errors.messages.keys.include?(:email) ? invalid_email_count += 1 : user.invite!(self)
+          total_email_fields += 1
         end
       end
-      invalid_email_present
+      [invalid_email_count, total_email_fields]
     end
 
     def invite_by_csv(file)
-      invalid_rows = Array.new
+      update_attributes csv_downloaded: true, invalid_csv_data: Array.new
       CSV.foreach(file.path, headers: true) do |row|
-        if row.headers != ["email", "roles"] or row["roles"].nil? or Role.where(name: row["roles"].humanize).none?
-          invalid_rows.push row.to_s.chomp + " [row:#{$.}]" if row.present?
+        if row.headers != ["email", "roles"]
+          push(invalid_csv_data: row.to_s.chomp) if row.present?
           next
         end
+        user = company.users.create email: row["email"], roles: [row['roles'].try(:humanize)].compact
 
-        user = self.company.users.create email: row["email"], roles: [row["roles"].humanize]
-        user.errors.messages.keys.include?(:email) ? invalid_rows.push(row.to_s.chomp + " [row:#{$.}]") : user.invite!(self)
+        invalid_user = user.errors.messages.keys.include?(:email) || user.errors.messages.keys.include?(:roles) || company.roles.where(name: row['roles'].try(:humanize)).none?
+        invalid_user ? push(invalid_csv_data: row.to_s.chomp) : user.invite!(self)
       end
-      [invalid_rows, $. - 1]  # $. is last row number from file
+      update_attributes csv_downloaded: false if invalid_csv_data.present?
+      $. - 1  # $. is last row number from csv file
+    end
+
+    def to_csv csv_data
+      CSV.generate do |csv|
+        csv << ["email", "roles"]
+        csv_data.each do |row|
+          csv << row.split(',')
+        end
+      end
     end
 
     def send_mail
-
       personal_profile_changes = self.personal_profile ? self.personal_profile.changes : {}
       profile_changes = self.profile ? self.profile.changes : {}
       @updated_attributes = self.changes.merge(personal_profile_changes).merge(profile_changes)
       @updated_attributes.reject!{|k,v| !UPDATED_FIELDS.include? k}
       UserMailer.notification_email(self.company, self, @updated_attributes).deliver unless @updated_attributes.length.eql?(0)
-  
     end
   end
 end

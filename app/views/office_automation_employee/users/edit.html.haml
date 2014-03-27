@@ -6,7 +6,7 @@
       .panel.panel-heading
         %strong Edit Profile
 
-      .panel.panel.body
+      .panel.panel-body
         .container-fluid
 
           .form-group
@@ -20,7 +20,6 @@
               %li.document-tab
                 %a{data: {toggle: "tab"}, href: "#document", id: 'document_tab'}
                   Documents
-
           .tab-content
             .tab-pane.active#profile
               = simple_form_for(@user, url: office_automation_employee.company_user_path(@user.company, @user), method: :put, input_html: { role: :form } ) do |user|
@@ -31,8 +30,8 @@
                     .row
                       .form-group
                         .col-md-4
-                          = image_tag user.object.image.thumb.url
-                          = user.input :image, as: :file, label: false, input_html: {class: "fileinput-new"}
+                          .img-responsive.img-thumbnail= image_tag user.object.image.thumb
+                          = user.input :image, as: :file, label: false
 
 
                     = user.hidden_field :update_type, value: 'profile'

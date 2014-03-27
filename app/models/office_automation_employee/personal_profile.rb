@@ -17,9 +17,9 @@ module OfficeAutomationEmployee
     embeds_one :current_address, class_name: 'OfficeAutomationEmployee::Address'
 
     # validations
-    validates_uniqueness_of :pan_number
+    validates :pan_number, uniqueness: true, length: { maximum: 13, minimum: 10 }, allow_blank: true
     validates_uniqueness_of :personal_email
-    validates_uniqueness_of :passport_number
+    validates :passport_number, uniqueness: true, length: { maximum: 10, minimum: 8 }, allow_blank: true
 
     before_validation :save_address
 

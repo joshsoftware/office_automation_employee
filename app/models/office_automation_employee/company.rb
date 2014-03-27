@@ -1,8 +1,13 @@
 module OfficeAutomationEmployee
   class Company
     include Mongoid::Document
+    include Mongoid::Slug
+
+    mount_uploader :logo, FileUploader
 
     field :name
+    slug :name
+
     field :logo
     field :registration_date, type: Date
     field :company_url  

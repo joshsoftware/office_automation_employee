@@ -15,24 +15,25 @@ module OfficeAutomationEmployee
       @company = current_user.company
       @users_attributes = params[:company][:users_attributes]
       @csv_file = params[:company][:csv_file]
-      @invalid_rows, invalid_email, total_rows = Array.new, 0, 0
+      invalid_email_fields, total_email_fields, total_csv_rows = 0, 0, 0
       authorize! :manage, @company
 
       if @csv_file.nil?
-        invalid_email = current_user.invite_by_fields @users_attributes
+        invalid_email_fields, total_email_fields = current_user.invite_by_fields @users_attributes
       else
         raise CSV::MalformedCSVError unless @csv_file.content_type.eql? "text/csv"
-        @invalid_rows, total_rows = current_user.invite_by_csv @csv_file
+        total_csv_rows = current_user.invite_by_csv @csv_file
+
         # if email fields are given along with csv file
-        invalid_email = current_user.invite_by_fields @users_attributes if @users_attributes.first.last[:email].present?
+        invalid_email_fields, total_email_fields = current_user.invite_by_fields @users_attributes if @users_attributes.first.last[:email].present?
       end
 
-      if invalid_email.zero? and @invalid_rows.empty?
+      if invalid_email_fields.zero? and (@csv_file.nil? or current_user.invalid_csv_data.empty?)
         flash[:notice] = "Invitation sent successfully..."
         redirect_to office_automation_employee.company_users_path(@company)
       else
-        total_sent = (@users_attributes.count - invalid_email) + (total_rows - @invalid_rows.count)
-        total_failed = invalid_email + @invalid_rows.count
+        total_sent = (total_email_fields - invalid_email_fields) + ((total_csv_rows - current_user.invalid_csv_data.count) if @csv_file.present?).to_i
+        total_failed = invalid_email_fields + (current_user.invalid_csv_data.count if @csv_file.present?).to_i
         flash[:notice] = "# Invitation sent : #{total_sent} and Failed : #{total_failed}"
         render 'office_automation_employee/devise/invitations/new' 
       end
@@ -54,6 +55,16 @@ module OfficeAutomationEmployee
       else
         render 'office_automation_employee/devise/invitations/edit'
       end
+    end
+
+    def download_csv
+      current_user.update_attribute :csv_downloaded, true
+      send_data current_user.to_csv(current_user.invalid_csv_data), filename: "invitee_list.csv", disposition: "attachment"
+    end
+
+    def download_sample_csv
+      sample_csv = %w[ admin@gmail.com,admin employee@yahoo.com,employee hr@hotmail.com,hr ]
+      send_data current_user.to_csv(sample_csv), filename: "sample.csv", disposition: "attachment"
     end
 
     rescue_from CSV::MalformedCSVError do |exception|

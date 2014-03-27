@@ -24,13 +24,13 @@ module OfficeAutomationEmployee
         @user.build_profile unless @user.profile?
         @permanent_address = @user.personal_profile.permanent_address
         @current_address = @user.personal_profile.current_address
-        flash[:danger] = 'Unable to update profile'
+        flash[:danger] = 'Please fill the fields accordingly.'
         render :edit
       end
     end
 
     def index
-      @company = Company.find params[:company_id]
+      @company = current_user.company
     end
 
     def show
@@ -39,16 +39,23 @@ module OfficeAutomationEmployee
 
 
     def destroy
-      User.find(params[:id]).destroy
-      redirect_to office_automation_employee.company_users_path(params[:company_id])
+      @user = User.find params[:id]
+      if @user.destroy
+        redirect_to office_automation_employee.company_users_path(params[:company_id])
+      else
+        flash[:danger] = 'Some error occured while removing user'
+        render :show
+      end
     end
 
-    def invite
-      if User.find(params[:id]).invite!(current_user)
+    def resend_invitation
+      @user = User.find(params[:id])
+      if @user.invite!(current_user)
         flash[:notice] = "Invitation sent successfully..."
         redirect_to office_automation_employee.company_user_path params[:company_id], params[:id]
       else
         flash[:danger] = "Invitation not sent..."
+        render :show
       end
     end
 
