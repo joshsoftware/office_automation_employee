@@ -35,6 +35,7 @@ module OfficeAutomationEmployee
         get :index, company_id: user.company, q: 'abcd'
         expect(assigns(:users).count).to eq(0)
         expect(response).to render_template(:index)
+      end
     end
 
     context '#show' do
@@ -53,7 +54,7 @@ module OfficeAutomationEmployee
 
     context '#update' do
       before :each do
-      @file = Rack::Test::UploadedFile.new("#{Engine.root}/spec/index.jpeg", "image/jpeg")
+        @file = Rack::Test::UploadedFile.new("#{Engine.root}/spec/index.jpeg", "image/jpeg")
 
       end
 
@@ -81,11 +82,11 @@ module OfficeAutomationEmployee
         expect(user.personal_profile.permanent_address.pincode).to eq(user.personal_profile.current_address.pincode)
         expect(user.personal_profile.permanent_address.state).to eq(user.personal_profile.current_address.state)
         expect(user.personal_profile.permanent_address.phone).to eq(user.personal_profile.current_address.phone)
-      
+
       end
 
       it 'Uploads documents' do
-        
+
         @f = Rack::Test::UploadedFile.new("#{Engine.root}/spec/neukirchen07introducingrack.pdf", "text/pdf")
         put :update, user: { attachments_attributes: { "0" => { document: @f , _destroy: "false"} } }, company_id: user.company, id: user
         expect(user.reload.attachments.count).to eq(1)
@@ -95,14 +96,14 @@ module OfficeAutomationEmployee
       it 'Will not upload document if document size is greater than 10 MB' do
 
         @f = Rack::Test::UploadedFile.new("#{Engine.root}/spec/Head First jQuery.pdf", "text/pdf")
-       
+
         put :update, user: { attachments_attributes: { "0" => {document: @f, _destroy: "false"} } }, company_id: user.company, id: user
 
         expect(user.reload.attachments.count).to eq(0)
       end
 
     end
-    
+
     context '#destroy' do
       it 'removes user from company' do
         delete :destroy, company_id: user.company, id: user
