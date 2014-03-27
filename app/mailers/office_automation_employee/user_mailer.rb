@@ -6,11 +6,8 @@ module OfficeAutomationEmployee
       @updated_attributes = updated_attributes 
       @user = user
       @company = company
-      @admins = @company.users.where(:roles.in => [Role::ADMIN])
-      @admins.each do |admin|
-
-        mail(to: admin.email, subject: "#{@user.profile.first_name} #{@user.profile.last_name} has updated his/her profile")
-      end
+      recipients = @company.users.where(:roles.in => [Role::ADMIN]).map(&:email)  
+      mail(to: recipients, subject: "#{@user.profile.first_name} #{@user.profile.last_name} has updated profile")
     end
   end
 end

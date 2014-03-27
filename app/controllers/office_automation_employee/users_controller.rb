@@ -30,7 +30,12 @@ module OfficeAutomationEmployee
     end
 
     def index
+
       @company = current_user.company
+      @users = @company.users.full_text_search(params[:q])
+      @failure_message = 'No Result Found' if @users.count == 0
+      @users = @users.page(params[:page]) 
+
     end
 
     def show

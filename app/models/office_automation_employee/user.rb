@@ -3,6 +3,7 @@ require 'csv'
 module OfficeAutomationEmployee
   class User 
     include Mongoid::Document
+    include Mongoid::Search
     include Mongoid::Slug
 
     #Send mail when user updates following fields
@@ -76,7 +77,8 @@ module OfficeAutomationEmployee
     accepts_nested_attributes_for :personal_profile
     accepts_nested_attributes_for :attachments
 
-
+    search_in :email, profile: :first_name, profile: :last_name
+   
     after_update :send_mail
 
     def role?(role)
