@@ -16,27 +16,31 @@
               .input-group.input-group-sm
                 = text_field_tag :q, params[:q], class: "form-control", maxlength: 20, placeholder: "Enter First Name/ Last Name/ Email id"
                 %span.input-group-btn
-                  = button_tag(type: 'submit', class: "btn") do
+                  = button_tag(type: 'submit', class: "btn btn-default active") do
                     %span.glyphicon.glyphicon-search
-      .panel.panel-body
+      .panel-body
         .col-md-15
-          %table.table.table-hover
-            %thead
-              %tr
-                %th #
-                %th Profile Picture
-                %th Email
-                %th Roles
-                %th= "Status" if can? :manage, current_user
-            %tbody.rowlink{ "data-link" => "row" }
-              - @users.each_with_index do |user, index|
-                - next if user.status.eql? "Pending" and cannot? :manage, user
+          - if @failure_message
+            %center
+              %strong= @failure_message
+          - else
+            %table.table.table-hover
+              %thead
                 %tr
-                  %td= index + 1
-                  %td
-                    %a{ href: office_automation_employee.company_user_path(@company, user) }
-                      = image_tag user.image.thumb.url, class: "img-circle", size: "60x60"
-                  %td= user.email
-                  %td= user.roles.to_sentence
-                  %td= user.status if can? :manage, user
-          = paginate @users if @users.count > 0 
+                  %th #
+                  %th Profile Picture
+                  %th Email
+                  %th Roles
+                  %th= "Status" if can? :manage, current_user
+              %tbody.rowlink{ "data-link" => "row" }
+                - @users.each_with_index do |user, index|
+                  - next if user.status.eql? "Pending" and cannot? :manage, user
+                  %tr
+                    %td= index + 1
+                    %td
+                      %a{ href: office_automation_employee.company_user_path(@company, user) }
+                        = image_tag user.image.thumb.url, class: "img-circle", size: "60x60"
+                    %td= user.email
+                    %td= user.roles.to_sentence
+                    %td= user.status if can? :manage, user
+            = paginate @users  

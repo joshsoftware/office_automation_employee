@@ -32,15 +32,9 @@ module OfficeAutomationEmployee
     def index
 
       @company = Company.find params[:company_id]
-
-      if params[:q]
-        @users = @company.users.full_text_search(params[:q])
-        flash[:danger] = 'No result found' if @users.count == 0
-      else
-        @users = @company.users 
-      end
-
-      @users = @users.page(params[:page]).per(1) if @users.count > 0
+      @users = @company.users.full_text_search(params[:q])
+      @failure_message = 'No Result Found' if @users.count == 0
+      @users = @users.page(params[:page]) 
 
     end
 

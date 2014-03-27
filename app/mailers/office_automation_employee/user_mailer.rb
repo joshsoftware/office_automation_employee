@@ -7,10 +7,11 @@ module OfficeAutomationEmployee
       @user = user
       @company = company
       @admins = @company.users.where(:roles.in => [Role::ADMIN])
+      recipients = []
       @admins.each do |admin|
-
-        mail(to: admin.email, subject: "#{@user.profile.first_name} #{@user.profile.last_name} has updated his/her profile")
+        recipients << admin.email
       end
+        mail(to: recipients, subject: "#{@user.profile.first_name} #{@user.profile.last_name} has updated profile")
     end
   end
 end
