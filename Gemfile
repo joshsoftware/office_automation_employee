@@ -28,6 +28,7 @@ gem 'colorbox-rails'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'pry-rails'
   gem 'sinatra', require: false
 end
 

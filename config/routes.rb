@@ -8,7 +8,7 @@ OfficeAutomationEmployee::Engine.routes.draw do
       resources :attachments, only: ['destroy'] do
         get :download_document, on: :member
       end
-      get 'invite', on: :member
+      get 'resend_invitation', on: :member
     end
   end
 

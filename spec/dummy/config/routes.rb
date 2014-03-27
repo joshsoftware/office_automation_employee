@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
   mount OfficeAutomationEmployee::Engine => '/office_automation_employee'
-  root to: 'office_automation_employee/companies#show'
+  root to: 'office_automation_employee/users#index'
 end

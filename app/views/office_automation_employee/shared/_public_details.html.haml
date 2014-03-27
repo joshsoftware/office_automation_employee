@@ -1,0 +1,36 @@
+.row
+  .col-md-6
+    - if user.profile.try(:skills).present?
+      .form-group{ title: "Skills" }
+        %span.glyphicon.glyphicon-paperclip
+        %strong= user.profile.skills.humanize
+    .form-group.img-responsive.img-thumbnail= image_tag user.image.normal.url, size: "120x120"
+              
+  .col-md-6
+    .form-group{ title: "Roles" }
+      %span.glyphicon.glyphicon-user
+      = user.roles.to_sentence
+
+    .form-group{ title: "Email" }
+      %span.glyphicon.glyphicon-envelope
+      = user.email
+
+    - if user.profile.try(:blood_group).present?
+      .form-group{ title: "Blood Group" }
+        %span.glyphicon.glyphicon-tint                    
+        = user.profile.blood_group
+                
+    - if user.profile.try(:mobile_number)
+      .form-group{ title: "Mobile Number" }
+        %span.glyphicon.glyphicon-phone
+        = user.profile.mobile_number
+                
+    - if user.profile.try(:date_of_birth)
+      .form-group{ title: "Date of Birth" }
+        = image_tag "office_automation_employee/birthday.png"
+        = user.profile.date_of_birth.to_formatted_s(:short)
+                
+    - if user.profile.try(:designation).present?
+      .form-group{ title: "Designation" }
+        %span.glyphicon.glyphicon-tasks
+        = user.profile.designation.humanize
