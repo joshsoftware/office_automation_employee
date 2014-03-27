@@ -1,19 +1,18 @@
-.form-group
-  = company.input :name, label: 'Company name', input_html: {class: "form-control", maxlength: 30, placeholder: "Enter Company Name"}
 .row
-  .col-md-7
+  .col-md-6
+    .form-group
+      = company.input :name, label: 'Company name', input_html: {class: "form-control", maxlength: 30, placeholder: "Enter Company Name"}
+  .col-md-6
     .form-group
       %label * Registration Date
       #datepicker.input-group.date
         = company.input :registration_date, label: false, input_html: {class: 'form-control', placeholder: "Select Date", readonly: true}
         %span.input-group-addon.glyphicon.glyphicon-calendar
-.form-group
-  = company.input :company_url, label: 'Company Website', as: :url, input_html: {class: "form-control", placeholder: "http://www.example.com"}
-
-  .col-md-5
+.row
+  .col-md-6
     .form-group
-      %br
       .img-responsive.img-thumbnail= image_tag company.object.logo.square
-      %span.btn.btn-default.btn-file
-        %span.fileinput-new Upload logo
-        = company.input_field :logo, as: :file
+      = company.input :logo, as: :file, label: false
+  .col-md-6
+    .form-group
+      = company.input :company_url, label: 'Company Website', as: :url, input_html: {class: "form-control", placeholder: "http://www.example.com"}

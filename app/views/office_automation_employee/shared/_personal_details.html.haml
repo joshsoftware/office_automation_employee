@@ -1,0 +1,52 @@
+.well.well-sm
+  %strong Personal Details
+         
+.form-group
+  - if user.personal_profile.current_address
+    .row
+      .col-md-6
+        %strong Permanent Address :
+        %address
+          = simple_format user.full_address user.personal_profile.permanent_address
+      .col-md-6
+        %strong Current Address :
+        %address
+          = simple_format user.full_address user.personal_profile.current_address
+            
+    .row
+      .col-md-6
+        .form-group
+          %strong Date Of Joining :
+          = user.personal_profile.date_of_joining ? user.personal_profile.date_of_joining.to_formatted_s(:long) : "Not given"
+
+      .col-md-6
+        .form-group
+          %strong Qualification :
+          = user.personal_profile.qualification.present? ? user.personal_profile.qualification.humanize : "Not given"
+            
+    .row
+      .col-md-6 
+        .form-group
+          %strong Previous Company :
+          = user.personal_profile.previous_company.present? ? user.personal_profile.previous_company.humanize : "Not given"
+      
+      .col-md-6 
+        .form-group
+          %strong Work Experience :
+          = user.personal_profile.work_experience ? "#{user.personal_profile.work_experience} years" : "Not given"
+
+    .row
+      .col-md-6
+        .form-group
+          %strong Pan Number :
+          = user.personal_profile.pan_number.present? ? user.personal_profile.pan_number : "Not given"
+      .col-md-6 
+        .form-group
+          %strong Passport Number :
+          = user.personal_profile.passport_number.present? ? user.personal_profile.passport_number : "Not given"
+    
+    .row
+      .col-md-6
+        .form-group
+          %strong Personal Email :
+          = user.personal_profile.personal_email.present? ? user.personal_profile.personal_email : "Not given"

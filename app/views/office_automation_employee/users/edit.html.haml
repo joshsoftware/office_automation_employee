@@ -30,8 +30,8 @@
                     .row
                       .form-group
                         .col-md-4
-                          .img-responsive.img-thumbnail= image_tag user.object.image.thumb.url
-                          = user.input :image, as: :file, label: false, input_html: {class: "fileinput-new"}
+                          .img-responsive.img-thumbnail= image_tag user.object.image.thumb
+                          = user.input :image, as: :file, label: false
 
 
                     = user.hidden_field :update_type, value: 'profile'

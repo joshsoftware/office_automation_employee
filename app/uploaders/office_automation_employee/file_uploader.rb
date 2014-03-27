@@ -4,10 +4,10 @@ module OfficeAutomationEmployee
 
     include CarrierWave::RMagick
 
-    version :square, if: :is_logo?
     version :rectangle, if: :is_logo?
-    version :thumb, if: :is_image?
+    version :square, if: :is_logo?
     version :normal, if: :is_image?
+    version :thumb, if: :is_image?
     version :small, if: :is_image?
 
     # Choose what kind of storage to use for this uploader:
@@ -37,20 +37,20 @@ module OfficeAutomationEmployee
       process resize_to_fit: [60, 60]
     end
 
+    version :square do
+      process resize_to_fit: [60, 60]
+    end
+
     version :normal do
       process resize_to_fit: [120,120]
     end
 
     version :small do
-      process resize_to_fit: [25,25]
-    end
-
-    version :square do
-      process resize_to_fit: [150,150]
+      process resize_to_fit: [35,35]
     end
 
     version :rectangle do
-      process resize_to_fit: [120,50]
+      process resize_to_fit: [60,200]
     end
 
     # Add a white list of extensions which are allowed to be uploaded.

@@ -4,38 +4,20 @@
     = render 'office_automation_employee/shared/flash'
     .panel.panel-default
       .panel.panel-heading
-        %strong= @user.fullname || @user.username
+        %strong= @user.fullname || @user.email
       .panel.panel-body
         .container-fluid
           .form-group
-            .row
-              .col-md-6
-                .form-group.img-responsive.img-thumbnail= image_tag @user.image.normal.url, size: "120x120"
+            = render partial: "office_automation_employee/shared/public_details", locals: { user: @user }
+                    
+          - if can? :manage, @user
+            - if @user.personal_profile.present?
+              = render partial: 'office_automation_employee/shared/personal_details', locals: { user: @user }
+            
+            - if current_user != @user
+              .form-group
+                .row.well.well-sm
+                  %p{ align: :right }
+                    = link_to "Resend Invitation", office_automation_employee.resend_invitation_company_user_path(@user.company, @user), class: "btn btn-primary" if @user.status.eql?("Pending")
 
-              .col-md-6
-                - if @user.profile.try(:skills).present?
-                  .form-group{ title: "Skills" }
-                    %span.glyphicon.glyphicon-paperclip
-                    = @user.profile.skills.humanize
-                .form-group{ title: "Email" }
-                  %span.glyphicon.glyphicon-envelope
-                  = @user.email
-                .form-group{ title: "Roles" }
-                  %span.glyphicon.glyphicon-user
-                  = @user.roles.to_sentence
-                - if @user.profile.try(:blood_group).present?
-                  .form-group{ title: "Blood Group" }
-                    %span.glyphicon.glyphicon-tint                    
-                    = @user.profile.blood_group
-                - if @user.profile.try(:mobile_number)
-                  .form-group{ title: "Mobile Number" }
-                    %span.glyphicon.glyphicon-phone
-                    = @user.profile.mobile_number
-
-          - if can? :manage, @user and current_user != @user
-            .form-group
-              .row.well.well-sm
-                %p{ align: :right }
-                  = @user.status.eql?("Active") ? (link_to "Edit Profile", office_automation_employee.edit_company_user_path(@user.company, @user), class: "btn btn-info") : (link_to "Send Invitation", office_automation_employee.invite_company_user_path(@user.company, @user), class: "btn btn-primary")
-
-                  = link_to "Remove", office_automation_employee.company_user_path(@user.company, @user),  method: :delete, class: "btn btn-danger" if current_user != @user
+                    = link_to "Remove", office_automation_employee.company_user_path(@user.company, @user),  method: :delete, class: "btn btn-danger" if current_user != @user
