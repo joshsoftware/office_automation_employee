@@ -35,6 +35,12 @@ module OfficeAutomationEmployee
         get :index, company_id: user.company, q: 'abcd'
         expect(assigns(:users).count).to eq(0)
         expect(response).to render_template(:index)
+    end
+
+    context '#show' do
+      it 'renders show template' do
+        get :show, company_id: user.company, id: user
+        expect(response).to render_template(:show)
       end
     end
 
@@ -95,6 +101,22 @@ module OfficeAutomationEmployee
         expect(user.reload.attachments.count).to eq(0)
       end
 
+    end
+    
+    context '#destroy' do
+      it 'removes user from company' do
+        delete :destroy, company_id: user.company, id: user
+        expect(User.count).to eq(1)
+        expect(response).to redirect_to company_users_path
+      end
+    end
+
+    context '#resend_invitation' do
+      it 'resends invitation to user' do
+        get :resend_invitation, company_id: user.company, id: user
+        expect(user.reload.invitation_token).not_to be_nil
+        expect(response).to redirect_to company_user_path
+      end
     end
   end
 end

@@ -6,16 +6,16 @@
     .panel.panel-default
       .panel-heading
         %strong= t "devise.invitations.new.header"
+        .pull-right= link_to content_tag(:span, "", class: "glyphicon glyphicon-download") + " Download Sample CSV file", office_automation_employee.download_sample_csv_path
 
       .panel-body
         .container-fluid
           = simple_nested_form_for(@company, url: office_automation_employee.user_invitation_path, html: { method: :post }) do |f|
             .form-group
               .row
-                %p{ align: :right }
-                  = link_to "Upload CSV", "#", class: "btn btn-default csvlink",  data: { toggle: "modal", target: "#helpCSV" }
+                .pull-right
+                  = render partial: "office_automation_employee/shared/button", locals: { field: "csv_file", object: f }
                   = f.link_to_add "Add more", :users, class: "btn btn-primary", data: { target: "#invitee" }
-                  = render partial: "office_automation_employee/devise/invitations/modal", locals:{ f: f }
 
             #invitee
               = f.fields_for :users do |user|
@@ -25,15 +25,8 @@
                       .col-md-5
                         = user.input :email, autofocus: true, input_html: { class: "form-control", placeholder: "Enter Email address", maxlength: 50}, label: false
                       .col-md-3
-                        = user.input :roles, collection: OfficeAutomationEmployee::Role.all, input_html:{ class: "form-control" }, label: false, selected: true
+                        = user.input :roles, collection: f.object.roles, input_html:{ class: "form-control" }, label: false, selected: true
                       .col-md-4
                         = user.link_to_remove "Remove", class: "btn btn-primary"
 
             .form-group= f.submit "Send Invitations", class: "btn btn-primary"
-
-    - if @invalid_rows.present?
-      .has-error
-        %label.control-label= "There are some invalid emails present in #{@csv_file.original_filename}"
-        %br
-        - @invalid_rows.each do |row|
-          %span.control-label= row

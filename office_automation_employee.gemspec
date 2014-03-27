@@ -18,6 +18,9 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 4.0.3"
   s.add_dependency "devise"
   s.add_dependency "devise_invitable"
+  s.add_dependency "devise-async"
+  s.add_dependency "sidekiq"
+  s.add_dependency "sinatra"
   s.add_dependency "jquery-rails"
   s.add_dependency "sass-rails", ">= 3.2"
   s.add_dependency "bootstrap-sass"
@@ -30,6 +33,7 @@ Gem::Specification.new do |s|
   s.add_dependency "haml-rails"
   s.add_dependency "carrierwave"
   s.add_dependency "carrierwave-mongoid"
+  s.add_dependency "rmagick"
   s.add_dependency "coffee-rails"
   s.add_dependency "bootstrap-datepicker-rails"
 end

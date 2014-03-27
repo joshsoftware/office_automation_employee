@@ -58,10 +58,10 @@
       .well
         %strong Permanent Address
       = personal_profile.simple_fields_for :permanent_address, @permanent_address do |address|
-        = render partial: "office_automation_employee/users/address", locals: {address: address}
+        = render partial: "office_automation_employee/shared/address", locals: {address: address}
   .col-md-6
     .form-group
       .well
         %strong Current Address
       = personal_profile.simple_fields_for :current_address, @current_address do |address|
-        = render partial: "office_automation_employee/users/address", locals: {address: address}
+        = render partial: "office_automation_employee/shared/address", locals: {address: address}

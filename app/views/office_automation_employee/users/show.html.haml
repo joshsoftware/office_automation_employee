@@ -4,27 +4,20 @@
     = render 'office_automation_employee/shared/flash'
     .panel.panel-default
       .panel.panel-heading
-        %strong= @user.email
+        %strong= @user.fullname || @user.email
       .panel.panel-body
         .container-fluid
           .form-group
-            .row
-              .col-md-6
-                .form-group= image_tag @user.image.normal.url, size: "120x120"
-              .col-md-6
-                .form-group
-                  %span.glyphicon.glyphicon-envelope
-                  = @user.email
-                .form-group
-                  %span.glyphicon.glyphicon-user
-                  = @user.roles.to_sentence
+            = render partial: "office_automation_employee/shared/public_details", locals: { user: @user }
+                    
+          - if can? :manage, @user
+            - if @user.personal_profile.present?
+              = render partial: 'office_automation_employee/shared/personal_details', locals: { user: @user }
+            
+            - if current_user != @user
+              .form-group
+                .row.well.well-sm
+                  %p{ align: :right }
+                    = link_to "Resend Invitation", office_automation_employee.resend_invitation_company_user_path(@user.company, @user), class: "btn btn-primary" if @user.status.eql?("Pending")
 
-          - if can? :manage, @user and current_user != @user
-            .form-group
-              .row.well.well-sm
-                %p{ align: :right }
-                  = link_to "Edit Profile", office_automation_employee.edit_company_user_path(@user.company, @user), class: "btn btn-info" if @user.status.eql? "Active"
-
-                  = link_to "Send Invitation", office_automation_employee.invite_company_user_path(@user.company, @user), class: "btn btn-primary" if @user.status.eql? "Pending"
-
-                  = link_to "Remove", office_automation_employee.company_user_path(@user.company, @user),  method: :delete, class: "btn btn-danger" if current_user != @user
+                    = link_to "Remove", office_automation_employee.company_user_path(@user.company, @user),  method: :delete, class: "btn btn-danger" if current_user != @user
