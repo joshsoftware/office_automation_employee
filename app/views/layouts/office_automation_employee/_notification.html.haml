@@ -1,7 +1,7 @@
-- if signed_in? and can? :manage, OfficeAutomationEmployee::User
+- if signed_in? and can? :edit, OfficeAutomationEmployee::Company and cannot? :manage, OfficeAutomationEmployee::Company
   %ul.nav.navbar-nav.navbar-right
     - if current_user.csv_downloaded?
-      %li= link_to image_tag("office_automation_employee/default_bell.png"), "#", id: :bell, data: { placement: :bottom, container: :body, content: "You currently have no notifications", title: " " }
+      %li= link_to image_tag("office_automation_employee/default_bell.png"), "#", id: :bell, data: { placement: :bottom, container: :body, title: "You currently have no notifications" }
 
     - else
       %li
@@ -10,4 +10,4 @@
           %li= link_to content_tag(:span, "", class: "glyphicon glyphicon-download-alt") + " Download invalid CSV file", office_automation_employee.download_csv_path
 
 %script
-  $('#bell').popover();
+  $('#bell').tooltip();

@@ -3,10 +3,10 @@
   .col-md-8
     = render "office_automation_employee/shared/flash"
     .panel.panel-default
-      .panel.panel-heading
+      .panel-heading
         %strong Edit Profile
 
-      .panel.panel-body
+      .panel-body
         .container-fluid
 
           .form-group
@@ -20,7 +20,12 @@
               %li.document-tab
                 %a{data: {toggle: "tab"}, href: "#document", id: 'document_tab'}
                   Documents
+              %li.document-tab
+                %a{data: {toggle: "tab"}, href: "#change_password", id: 'change_password_tab'}
+                  Change Password
+
           .tab-content
+            
             .tab-pane.active#profile
               = simple_form_for(@user, url: office_automation_employee.company_user_path(@user.company, @user), method: :put, input_html: { role: :form } ) do |user|
                 .form-group
@@ -47,5 +52,9 @@
                 .form-group
                   = user.hidden_field :update_type, value: 'personal_profile'
                   = user.submit "Update Profile", class: "btn btn-primary"
+            
             .tab-pane#document
-              = render partial: "office_automation_employee/users/document", locals: {user: @user} 
+              = render partial: "office_automation_employee/users/document", locals: {user: @user}
+            
+            .tab-pane#change_password
+              = render partial: "office_automation_employee/devise/registrations/edit", locals: {resource: @user}

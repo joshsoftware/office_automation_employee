@@ -2,10 +2,10 @@ require_dependency "office_automation_employee/application_controller"
 
 module OfficeAutomationEmployee
   class InvitationsController < Devise::InvitationsController
+    before_filter :allow_access, only: ['new', 'create']
 
     def new
       @company = current_user.company
-      authorize! :manage, @company
       @company.users.build
 
       render 'office_automation_employee/devise/invitations/new'
@@ -16,7 +16,6 @@ module OfficeAutomationEmployee
       @users_attributes = params[:company][:users_attributes]
       @csv_file = params[:company][:csv_file]
       invalid_email_fields, total_email_fields, total_csv_rows = 0, 0, 0
-      authorize! :manage, @company
 
       if @csv_file.nil?
         invalid_email_fields, total_email_fields = current_user.invite_by_fields @users_attributes
@@ -65,6 +64,12 @@ module OfficeAutomationEmployee
     def download_sample_csv
       sample_csv = %w[ admin@gmail.com,admin employee@yahoo.com,employee hr@hotmail.com,hr ]
       send_data current_user.to_csv(sample_csv), filename: "sample.csv", disposition: "attachment"
+    end
+
+    private
+
+    def allow_access
+      authorize! :edit, Company
     end
 
     rescue_from CSV::MalformedCSVError do |exception|

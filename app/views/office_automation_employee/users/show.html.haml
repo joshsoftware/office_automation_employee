@@ -3,15 +3,15 @@
   .col-md-8
     = render 'office_automation_employee/shared/flash'
     .panel.panel-default
-      .panel.panel-heading
+      .panel-heading
         %strong= @user.fullname || @user.email
-      .panel.panel-body
+      .panel-body
         .container-fluid
           .form-group
             = render partial: "office_automation_employee/shared/public_details", locals: { user: @user }
                     
-          - if can? :manage, @user
-            - if @user.personal_profile.present?
+          - if can? :edit, @user.company
+            - if @user != current_user and @user.personal_profile.present?
               = render partial: 'office_automation_employee/shared/personal_details', locals: { user: @user }
             
             - if current_user != @user
