@@ -11,7 +11,7 @@
 
   %tbody.rowlink{ "data-link" => "row" }
     - users.each_with_index do |user, index|
-      - next if user.status.eql? "Pending" and cannot? :edit, user.company
+      - next if (user.status.eql?"Pending" or user.status.eql?"Deactive") and cannot? :edit, user.company
       %tr
         %td= index + 1
         %td

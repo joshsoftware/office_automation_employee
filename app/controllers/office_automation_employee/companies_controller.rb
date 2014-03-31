@@ -3,10 +3,9 @@ require_dependency "office_automation_employee/application_controller"
 module OfficeAutomationEmployee
   class CompaniesController < ApplicationController
     
-    before_filter :allow_access
-
     def index
       @company = Company.all
+      authorize! :manage, @company
     end
 
     def show
@@ -15,13 +14,15 @@ module OfficeAutomationEmployee
     end
 
     def edit
-      @company = Company.where(slugs: params[:id]).first || current_user.company
+      @company = Company.find params[:id]
+      authorize! :edit, @company 
       @registered_address = @company.registered_address
       @current_address = @company.current_address
     end
 
     def update
-      @company = current_user.company
+      @company = Company.find params[:id]
+      authorize! :edit, @company
       @registered_address = @company.registered_address
       @current_address = @company.current_address
 
@@ -35,7 +36,8 @@ module OfficeAutomationEmployee
     end
 
     def destroy
-      @company = current_user.company
+      @company = Company.find params[:id]
+      authorize! :manage, @company
       if @company.destroy
         redirect_to office_automation_employee.companies_path
       else
@@ -45,14 +47,6 @@ module OfficeAutomationEmployee
     end
 
     private
-
-    def allow_access
-      if current_user.role? 'superadmin'
-        authorize! :manage, Company
-      elsif current_user.role? Role::ADMIN
-        authorize! :edit, Company
-      end
-    end
 
     def company_params
       params[:company].permit(:name, :registration_date, :company_url, :logo, :same_as_registered_address, registered_address: [:address, :pincode, :city, :state, :country, :phone], current_address: [:address, :pincode, :city, :state, :country, :phone])

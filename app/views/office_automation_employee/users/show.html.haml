@@ -18,6 +18,8 @@
               .form-group
                 .row.well.well-sm
                   %p{ align: :right }
-                    = link_to "Resend Invitation", office_automation_employee.resend_invitation_company_user_path(@user.company, @user), class: "btn btn-primary" if @user.status.eql?("Pending")
+                    = link_to "Resend Invitation", office_automation_employee.resend_invitation_company_user_path(@user.company, @user), class: "btn btn-primary" unless @user.confirmed?
+                    
+                    = link_to (@user.status.eql?("Active") ? "Deactivate" : "Activate" ), office_automation_employee.activation_status_company_user_path(@user.company, @user), class: "btn btn-primary" if @user.confirmed?
 
                     = link_to "Remove", office_automation_employee.company_user_path(@user.company, @user),  method: :delete, class: "btn btn-danger" if current_user != @user

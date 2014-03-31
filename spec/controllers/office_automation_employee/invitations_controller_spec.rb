@@ -46,15 +46,14 @@ module OfficeAutomationEmployee
           expect(response).to render_template(:new)
         end
 
-        it "sends invitation to emails read from csv file and entered in text field" do
-          user_params = { "0" => { email: "admin@yahoo.com", roles: Role.first.id.to_s, _destroy: 'false' } }
+        it "sends invitation to emails read from csv file" do
           csv_file = Rack::Test::UploadedFile.new("#{Engine.root}/spec/list.csv", "text/csv")
-          post :create, company: { users_attributes: user_params, csv_file: csv_file }
+          post :create, company: { csv_file: csv_file }
           invitee = User.find_by email: "hr@gmail.com"
 
-          expect(User.count).to eq(5)
+          expect(User.count).to eq(4)
           expect(admin.reload.invalid_csv_data.empty?).to eq(true)
-          expect(invitee.role? 'hr').to eq(true)
+          expect(invitee.role? 'Hr').to eq(true)
           expect(response).to be_redirect
         end
 

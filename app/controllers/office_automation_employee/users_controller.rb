@@ -27,7 +27,7 @@ module OfficeAutomationEmployee
     end
 
     def index
-      @company = Company.where(slugs: params[:company_id]).first || current_user.company
+      @company = Company.find params[:company_id]
       @users = @company.users.full_text_search(params[:q])
       @failure_message = 'No Result Found' if @users.count == 0
       @users = @users.page(params[:page]) 
@@ -48,6 +48,15 @@ module OfficeAutomationEmployee
         redirect_to office_automation_employee.company_user_path(@user.company, @user)
       else
         flash[:danger] = "Invitation not sent..."
+        render :show
+      end
+    end
+
+    def activation_status
+      if (@user.status.eql?("Active") ? @user.update_attribute(:status, "Deactive") : @user.update_attribute(:status, "Active"))
+        redirect_to office_automation_employee.company_user_path(@user.company, @user)
+      else
+        flash[:danger] = "Can't perform this action."
         render :show
       end
     end

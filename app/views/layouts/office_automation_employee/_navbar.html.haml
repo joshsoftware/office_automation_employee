@@ -10,8 +10,11 @@
         - if can? :manage, OfficeAutomationEmployee::Company
           = link_to content_tag(:span, "", class: "glyphicon glyphicon-home") + content_tag(:strong, " Office Automation"), main_app.root_path, class: "navbar-brand"
         
-        - else  
-          = link_to content_tag(:span, "", class: "glyphicon glyphicon-home") + content_tag(:strong, " #{current_user.company.name.humanize}"), main_app.root_path, class: "navbar-brand"
+        - else 
+          - if current_user.company.logo.present?
+            = link_to image_tag(current_user.company.logo.rectangle), main_app.root_path, class: "navbar-brand"
+          - else
+            = link_to content_tag(:span, "", class: "glyphicon glyphicon-home") + content_tag(:strong, " #{current_user.company.name.humanize}"), main_app.root_path, class: "navbar-brand"
       
     .collapse.navbar-collapse.navbar-right#navcollapse
       %ul.nav.navbar-nav
