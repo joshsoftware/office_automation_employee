@@ -22,12 +22,13 @@ module OfficeAutomationEmployee
     validates :passport_number, uniqueness: true, length: { maximum: 10, minimum: 8 }, allow_blank: true
 
     before_update :save_address
+    after_validation :delete_address
 
     private
     
-    def save_address
+    def delete_address
       if same_as_permanent_address
-        self.current_address = self.permanent_address.dup if self.permanent_address?
+        self.current_address = nil if self.current_address?
       end
     end
   

@@ -18,15 +18,16 @@ $(document).ready ->
 
   if $("#same_user_address").prop("checked") is true
     for value in list
-      $("#user_personal_profile_attributes_current_address_"+value).attr("readonly", "readonly")
+      $("#user_personal_profile_attributes_current_address_"+value).attr("disabled", "disabled")
+      $("#user_personal_profile_attributes_current_address_"+value).val $("#user_personal_profile_attributes_permanent_address_"+value).val()
 
    $("#same_user_address").on "change", ->
     if $("#same_user_address").prop("checked") is true
       for value in list
         $("#user_personal_profile_attributes_current_address_"+value).val $("#user_personal_profile_attributes_permanent_address_"+value).val()
-        $("#user_personal_profile_attributes_current_address_"+value).attr("readonly", "readonly")
+        $("#user_personal_profile_attributes_current_address_"+value).attr("disabled", "disabled")
     else
       for value in list
         $("#user_personal_profile_attributes_current_address_"+value).val ""
-        $("#user_personal_profile_attributes_current_address_"+value).removeAttr("readonly")
+        $("#user_personal_profile_attributes_current_address_"+value).removeAttr("disabled")
 

@@ -77,12 +77,19 @@ module OfficeAutomationEmployee
       it 'Updates personal profile' do
         put :update, user: { personal_profile_attributes:{same_as_permanent_address: true, permanent_address: {address: 'shivajinagar', city: 'pune', pincode: 12345, state: 'MH', country: 'India', phone: 1234567890}}}, company_id: user.company, id: user
 
-        expect(user.reload.personal_profile.permanent_address.address).to eq(user.personal_profile.current_address.address)
-        expect(user.personal_profile.permanent_address.city).to eq(user.personal_profile.current_address.city)
-        expect(user.personal_profile.permanent_address.pincode).to eq(user.personal_profile.current_address.pincode)
-        expect(user.personal_profile.permanent_address.state).to eq(user.personal_profile.current_address.state)
-        expect(user.personal_profile.permanent_address.phone).to eq(user.personal_profile.current_address.phone)
+        expect(user.reload.personal_profile.permanent_address.address).to eq('shivajinagar')
+        expect(user.personal_profile.permanent_address.city).to eq('pune')
+        expect(user.personal_profile.permanent_address.pincode).to eq(12345)
+        expect(user.personal_profile.permanent_address.state).to eq('MH')
+        expect(user.personal_profile.permanent_address.phone).to eq(1234567890)
+        expect(user.personal_profile.permanent_address.country).to eq('India')
 
+      end
+
+      it 'Will not save current address if same_as_permanent_address is true' do
+        put :update, user: { personal_profile_attributes:{same_as_permanent_address: true, permanent_address: {address: 'shivajinagar', city: 'pune', pincode: 12345, state: 'MH', country: 'India', phone: 1234567890}}}, company_id: user.company, id: user
+
+        expect(user.reload.personal_profile.current_address).to eq(nil)
       end
 
       it 'Uploads documents' do

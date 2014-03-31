@@ -39,21 +39,14 @@ module OfficeAutomationEmployee
 
         expect(response).to render_template(:new)
       end
-      it 'Checks if same_as_registered_address field is true then current address is same as registered address' do
+      it 'Checks if same_as_registered_address field is true then current address will not get saved' do
 
-        post :create, company: { name: "josh software", registration_date: '2011/11/11', current_address: { address: "thube park", city: "pune", state: "mh", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: true, users_attributes: {"0" => {email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd"}}}   
+        post :create, company: { name: "josh software", registration_date: '2011/11/11', registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: true, users_attributes: {"0" => {email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd"}}}   
 
         registered_address = Company.find_by(name: "josh software").registered_address
         current_address = Company.find_by(name: "josh software").current_address
 
-        expect(registered_address.address).to eq(current_address.address)
-        expect(registered_address.city).to eq(current_address.city)
-
-        expect(registered_address.state).to eq(current_address.state)
-        expect(registered_address.country).to eq(current_address.country)
-
-        expect(registered_address.phone).to eq(current_address.phone)
-        expect(registered_address.pincode).to eq(current_address.pincode)
+        expect(current_address).to eq(nil)
       end
 
       it "Does not create company if company with same name is aldready exist" do
