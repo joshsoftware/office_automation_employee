@@ -25,7 +25,7 @@ module OfficeAutomationEmployee
     has_many :users, class_name: 'OfficeAutomationEmployee::User', dependent: :destroy
     
     accepts_nested_attributes_for :users
-    after_validation :delete_address
+    before_update :delete_address
 
     accepts_nested_attributes_for :users
 

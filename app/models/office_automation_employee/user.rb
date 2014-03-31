@@ -77,7 +77,7 @@ module OfficeAutomationEmployee
     accepts_nested_attributes_for :personal_profile
     accepts_nested_attributes_for :attachments
 
-    search_in :email, profile: :first_name, profile: :last_name
+    search_in :email, profile: [:first_name, :last_name]
    
     after_update :send_mail
 
