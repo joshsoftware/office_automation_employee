@@ -13,8 +13,9 @@ module OfficeAutomationEmployee
       sign_in admin
       user.invite!(admin)
       sign_out admin
-      user.company=admin.company
+      user.update_attribute :company, admin.company
       user.accept_invitation!
+      user.update_attribute :status, "Active"
       sign_in user
     end
 
@@ -35,13 +36,6 @@ module OfficeAutomationEmployee
         get :index, company_id: user.company, q: 'abcd'
         expect(assigns(:users).count).to eq(0)
         expect(response).to render_template(:index)
-      end
-    end
-
-    context '#show' do
-      it 'renders show template' do
-        get :show, company_id: user.company, id: user
-        expect(response).to render_template(:show)
       end
     end
 
@@ -110,18 +104,32 @@ module OfficeAutomationEmployee
       end
 
     end
-   context '#destroy' do
+    context '#destroy' do
       it 'removes user from company' do
+        sign_out user
+        sign_in admin
         delete :destroy, company_id: user.company, id: user
-        expect(User.count).to eq(1)
+        expect(User.count).to eq(2)
         expect(response).to redirect_to company_users_path
       end
     end
 
     context '#resend_invitation' do
       it 'resends invitation to user' do
+        sign_out user
+        sign_in admin
         get :resend_invitation, company_id: user.company, id: user
         expect(user.reload.invitation_token).not_to be_nil
+        expect(response).to redirect_to company_user_path
+      end
+    end
+
+    context '#activation_status' do
+      it 'change activation status of user' do
+        sign_out user
+        sign_in admin
+        get :activation_status, company_id: user.company, id: user
+        expect(user.reload.status).to eql "Deactive"
         expect(response).to redirect_to company_user_path
       end
     end

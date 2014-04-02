@@ -47,7 +47,7 @@ module OfficeAutomationEmployee
         flash[:notice] = "Invitation sent successfully..."
         redirect_to office_automation_employee.company_user_path(@user.company, @user)
       else
-        flash[:danger] = "Invitation not sent..."
+        flash[:danger] = 'Some error occured while sending invitation'
         render :show
       end
     end
@@ -56,7 +56,7 @@ module OfficeAutomationEmployee
       if (@user.status.eql?("Active") ? @user.update_attribute(:status, "Deactive") : @user.update_attribute(:status, "Active"))
         redirect_to office_automation_employee.company_user_path(@user.company, @user)
       else
-        flash[:danger] = "Can't perform this action."
+        flash[:danger] = 'Some error occured while changing status'
         render :show
       end
     end

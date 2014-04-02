@@ -12,7 +12,7 @@ module OfficeAutomationEmployee
           user.company == current_user.company
         end
 
-      elsif current_user.role? 'superadmin'
+      elsif current_user.role? Role::SUPER_ADMIN
         can :manage, :all
 
       else
@@ -20,7 +20,7 @@ module OfficeAutomationEmployee
           user == current_user
         end
       
-        can :read, User do |user|
+        can [:index, :show], User do |user|
           user.company == current_user.company
         end
       end

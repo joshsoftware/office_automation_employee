@@ -1,6 +1,6 @@
 module OfficeAutomationEmployee
   # creating superadmin
-  superadmin = User.new(email: "superadmin@domain.com", password: "abcdabcd", roles: ["Superadmin"], status: "Active")
+  superadmin = User.new(email: "superadmin@domain.com", password: "abcdabcd", roles: [Role::SUPER_ADMIN], status: "Active")
   superadmin.skip_confirmation!
   superadmin.save
 

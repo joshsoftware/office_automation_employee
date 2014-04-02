@@ -1,9 +1,3 @@
-# desc "Explaining what the task does"
-# task :office_automation_employee do
-#   # Task goes here
-# end
-#
-#
 namespace :db do
   task load_seed: [:environment] do
 
@@ -81,6 +75,5 @@ namespace :db do
 
       user.save
     end
-
   end
 end

@@ -2,7 +2,7 @@ require_dependency "office_automation_employee/application_controller"
 
 module OfficeAutomationEmployee
   class InvitationsController < Devise::InvitationsController
-    before_filter :allow_access, only: ['new', 'create']
+    before_filter :allow_access, only: ['new', 'create', 'download_csv', 'download_sample_csv']
 
     def new
       @company = current_user.company
@@ -55,8 +55,10 @@ module OfficeAutomationEmployee
     end
 
     def download_csv
-      current_user.update_attribute :csv_downloaded, true
-      send_data current_user.to_csv(current_user.invalid_csv_data), filename: "invitee_list.csv", disposition: "attachment"
+      if current_user.csv_downloaded.eql? false
+        current_user.update_attribute :csv_downloaded, true
+        send_data current_user.to_csv(current_user.invalid_csv_data), filename: "invitee_list.csv", disposition: "attachment"
+      end
     end
 
     def download_sample_csv

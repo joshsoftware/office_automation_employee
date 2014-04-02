@@ -14,7 +14,10 @@
             .form-group
               .row
                 .pull-right
-                  = render partial: "office_automation_employee/shared/button", locals: { field: "csv_file", object: f }
+                  %span.btn.btn-info.btn-file
+                    %span.fileinput-new= content_tag(:span, "", class: "glyphicon glyphicon-open") + " Upload CSV file"
+                    = f.input_field :csv_file, as: :file
+
             #invitee
               = f.fields_for :users do |user|
                 - if user.object.new_record? and not user.object.deleted?

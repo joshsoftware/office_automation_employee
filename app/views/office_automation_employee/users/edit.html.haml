@@ -25,7 +25,6 @@
                   Change Password
 
           .tab-content
-            
             .tab-pane.active#profile
               = simple_form_for(@user, url: office_automation_employee.company_user_path(@user.company, @user), method: :put, input_html: { role: :form } ) do |user|
                 .form-group

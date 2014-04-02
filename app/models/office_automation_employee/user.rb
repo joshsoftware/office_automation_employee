@@ -102,7 +102,7 @@ module OfficeAutomationEmployee
     end
 
     def is_active?
-      status.eql?("Active") ? true : false
+      status.eql?("Active") or status.eql?("Pending") ? true : false
     end
 
     def inactive_message

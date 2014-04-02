@@ -2,6 +2,7 @@ module OfficeAutomationEmployee
   class Role
     include Mongoid::Document
 
+    SUPER_ADMIN = 'Superadmin'
     #Predifined roles which are added in db/seeds.rb
     ADMIN = 'Admin'
     HR = 'Hr' 
