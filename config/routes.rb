@@ -9,6 +9,7 @@ OfficeAutomationEmployee::Engine.routes.draw do
         get :download_document, on: :member
       end
       get 'resend_invitation', on: :member
+      get 'activation_status', on: :member
     end
   end
 

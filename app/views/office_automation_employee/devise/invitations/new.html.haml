@@ -14,12 +14,13 @@
             .form-group
               .row
                 .pull-right
-                  = render partial: "office_automation_employee/shared/button", locals: { field: "csv_file", object: f }
-                  = f.link_to_add "Add more", :users, class: "btn btn-primary", data: { target: "#invitee" }
+                  %span.btn.btn-info.btn-file
+                    %span.fileinput-new= content_tag(:span, "", class: "glyphicon glyphicon-open") + " Upload CSV file"
+                    = f.input_field :csv_file, as: :file
 
             #invitee
               = f.fields_for :users do |user|
-                - if user.object.new_record?
+                - if user.object.new_record? and not user.object.deleted?
                   .form-group
                     .row
                       .col-md-5
@@ -29,4 +30,10 @@
                       .col-md-4
                         = user.link_to_remove "Remove", class: "btn btn-primary"
 
-            .form-group= f.submit "Send Invitations", class: "btn btn-primary"
+            .form-group
+              .row
+                .pull-right
+                  = f.link_to_add "Add more", :users, class: "btn btn-primary", data: { target: "#invitee" }
+
+            .form-group
+              = f.submit "Send Invitations", class: "btn btn-primary", data: { toggle: "tooltip", title: "Click here to Send invitation", container: "body" }

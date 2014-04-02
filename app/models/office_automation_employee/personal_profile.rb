@@ -21,6 +21,7 @@ module OfficeAutomationEmployee
     validates_uniqueness_of :personal_email
     validates :passport_number, uniqueness: true, length: { maximum: 10, minimum: 8 }, allow_blank: true
 
+    before_update :save_address
     after_validation :delete_address
 
     private

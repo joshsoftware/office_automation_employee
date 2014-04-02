@@ -2,7 +2,7 @@
   %strong Personal Details
          
 .form-group
-  - if user.personal_profile.current_address
+  - if user.personal_profile.permanent_address
     .row
       .col-md-6
         %strong Permanent Address :
@@ -11,7 +11,7 @@
       .col-md-6
         %strong Current Address :
         %address
-          = simple_format user.full_address user.personal_profile.current_address
+          = user.personal_profile.same_as_permanent_address ? simple_format(user.full_address user.personal_profile.permanent_address) : simple_format(user.full_address user.personal_profile.current_address)
             
     .row
       .col-md-6

@@ -77,8 +77,8 @@ module OfficeAutomationEmployee
     accepts_nested_attributes_for :personal_profile
     accepts_nested_attributes_for :attachments
 
-    search_in :email, profile: [:first_name, :last_name]
-   
+    search_in :email, profile: [ :first_name, :last_name ]
+
     after_update :send_mail
 
     def role?(role)
@@ -97,6 +97,18 @@ module OfficeAutomationEmployee
       "#{address.address} \n #{address.city.humanize}, #{address.state.humanize} \n #{address.country}, #{address.pincode}"
     end
 
+    def active_for_authentication?
+      super and is_active?
+    end
+
+    def is_active?
+      status.eql?("Active") or status.eql?("Pending") ? true : false
+    end
+
+    def inactive_message
+      "Sorry, your account has been deactivated"
+    end
+
     def invite_by_fields(fields)
       invalid_email_count, total_email_fields = 0, 0
       fields.each_value do |invitee|
@@ -111,23 +123,38 @@ module OfficeAutomationEmployee
 
     def invite_by_csv(file)
       update_attributes csv_downloaded: true, invalid_csv_data: Array.new
-      CSV.foreach(file.path, headers: true) do |row|
-        if row.headers != ["email", "roles"]
-          push(invalid_csv_data: row.to_s.chomp) if row.present?
-          next
-        end
+      csv_file = CSV.read(file.path, headers: true, skip_blanks: true)
+      raise CSV::MalformedCSVError unless csv_file.headers.eql? ["email", "roles", "errors"]
+
+      csv_file.each do |row|
         user = company.users.create email: row["email"], roles: [row['roles'].try(:humanize)].compact
 
-        invalid_user = user.errors.messages.keys.include?(:email) || user.errors.messages.keys.include?(:roles) || company.roles.where(name: row['roles'].try(:humanize)).none?
-        invalid_user ? push(invalid_csv_data: row.to_s.chomp) : user.invite!(self)
+        if user.errors.messages.keys.include? :email
+          row['errors'] = "email #{user.errors.messages[:email].join}"
+        end
+
+        if company.roles.where(name: row['roles'].try(:humanize)).none?
+          if row['errors'].present? and row['errors']["email "]
+            row['errors'] += ";role is invalid"
+          else
+            row['errors'] = "role is invalid"
+          end
+        end
+
+        if row['errors'].present?
+          push(invalid_csv_data: row.to_s.chomp)
+          user.delete
+        else
+          user.invite!(self)
+        end
       end
       update_attributes csv_downloaded: false if invalid_csv_data.present?
-      $. - 1  # $. is last row number from csv file
+      csv_file.length
     end
 
     def to_csv csv_data
       CSV.generate do |csv|
-        csv << ["email", "roles"]
+        csv << ["email", "roles", "errors"]
         csv_data.each do |row|
           csv << row.split(',')
         end

@@ -4,14 +4,13 @@
     = render '/office_automation_employee/shared/flash'
 
     .panel.panel-default
-      .panel.panel-heading
+      .panel-heading
         %strong Sign In
-      .panel.panel-body
+      .panel-body
         .container-fluid
           .col-md-2
           .col-md-8
             = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-              = devise_error_messages!
               .form-group
                 = f.input :email, autofocus: true, input_html: { class: "form form-control", placeholder: "example@domain.com", maxlength: 50, required: true }
 
