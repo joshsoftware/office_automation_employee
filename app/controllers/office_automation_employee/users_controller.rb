@@ -17,20 +17,43 @@ module OfficeAutomationEmployee
       @user = current_user
 
       if @user.update_attributes user_params
+        @permanent_address = @user.personal_profile.permanent_address
+        @current_address = @user.personal_profile.current_address
         flash[:success] = 'Profile updated Succesfully'
-        redirect_to office_automation_employee.edit_company_user_path(current_user.company, current_user)
+        if params[:user].include?(:attachments_attributes)
+
+          @attachments_to_display = [] 
+          uploaded_length = params[:user][:attachments_attributes].length 
+          if uploaded_length
+            attachments = @user.attachments.desc(:created_at)
+
+            uploaded_length.times do |i|
+              @attachments_to_display << attachments[i]
+              @attachments_to_display = @attachments_to_display.reverse
+            end
+            @attachments = @user.attachments.build 
+          end
+
+
+        end
+        respond_to do |format|
+          format.html {redirect_to  office_automation_employee.edit_company_user_path(current_user.company, current_user) }
+          format.js
+        end
       else
         @user.build_personal_profile unless @user.personal_profile?
         @user.build_profile unless @user.profile?
         @permanent_address = @user.personal_profile.permanent_address
         @current_address = @user.personal_profile.current_address
         flash[:danger] = 'Please fill the fields accordingly.'
-        render :edit
+        respond_to do |format|
+          format.html {render action: "edit"}
+          format.js 
+        end
       end
     end
 
     def index
-
       @company = current_user.company
       @users = @company.users.full_text_search(params[:q])
       @failure_message = 'No Result Found' if @users.count == 0
@@ -74,8 +97,5 @@ module OfficeAutomationEmployee
 
     end
 
-    def update_user_params
-      user_params[:attachments_attributes].keep_if{|k,v| v.each {|a,b| a == '_default' and b == 'false'}} if user_params.include?(:attachments_attributes)
-    end
   end
 end

@@ -26,6 +26,7 @@ gem 'rmagick'
 gem 'colorbox-rails'
 gem 'mongoid_search'
 gem 'kaminari'
+gem 'remotipart', '~> 1.2'
 
 group :development do
   gem 'better_errors'

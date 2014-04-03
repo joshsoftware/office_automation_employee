@@ -12,7 +12,6 @@ module OfficeAutomationEmployee
       else
         flash[:danger] = 'Unable to update profile'
         render office_automation_employee.edit_company_user_path(current_user.company, current_user)
-
       end
     end
 

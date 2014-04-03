@@ -1,0 +1,17 @@
+var render_flash = "#{escape_javascript(render(partial: "office_automation_employee/shared/flash", locals: {flash: flash}))}";
+$(".custom-alert").html(render_flash);
+- if params[:user].include?(:profile_attributes)
+
+  - if remotipart_submitted?
+    $("#profile").html("#{escape_javascript(render(partial: "office_automation_employee/users/profile", locals: {user: @user})).gsub('&quot;', "'")}");
+  - else
+    $("#profile").html("#{escape_javascript(render(partial: "office_automation_employee/users/profile", locals: {user: @user}))}");
+
+- if params[:user].include?(:personal_profile_attributes)
+  $("#personal_profile").html("#{escape_javascript(render(partial: "office_automation_employee/users/personal_profile", locals: {user: @user, current_address: @current_address, permanent_address: @permanent_address}))}");
+
+- if params[:user].include?(:attachments_attributes)
+  
+  - if remotipart_submitted?
+    $("#document_list").append("#{escape_javascript(render(partial: "office_automation_employee/users/document_list", collection: @attachments_to_display, as: :attachment))}");
+    $("#add_new_document").html("#{escape_javascript(render(partial: "office_automation_employee/users/document", locals: {user: @user, attachments: @attachments})).gsub('&quot;', "'")}");

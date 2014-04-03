@@ -11,6 +11,7 @@
 // about supported directives.
 //= require jquery
 //= require jquery_ujs
+//= require jquery.remotipart
 //= require bootstrap
 //= require jquery_nested_form
 //= require bootstrap-datepicker/core
