@@ -79,17 +79,17 @@ module OfficeAutomationEmployee
       it "updates user password" do
         admin.confirm!
         sign_in admin
-        put :update, user: { password: 'abcdabcd', password_confirmation: 'abcdabcd', current_password: "12345678" }, id: admin
+        xhr :put, :update, user: { password: 'abcdabcd', password_confirmation: 'abcdabcd', current_password: "12345678" }, id: admin
         expect(flash[:success]).to eql "Password Updated Successfully."
-        expect(response).to be_redirect
+        expect(response).to render_template(:update)
       end
 
       it "fails if current password is invalid" do
         admin.confirm!
         sign_in admin
-        put :update, user: { password: 'abcdabcd', password_confirmation: 'abcdabcd', current_password: "abcdabcd" }, id: admin
+        xhr :put, :update, user: { password: 'abcdabcd', password_confirmation: 'abcdabcd', current_password: "abcdabcd" }, id: admin
         expect(flash[:danger]).to eql "Please fill the fields accordingly."
-        expect(response).to render_template(:edit)
+        expect(response).to render_template(:update)
       end
 
     end

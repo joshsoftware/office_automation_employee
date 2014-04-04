@@ -58,7 +58,7 @@ module OfficeAutomationEmployee
         expect(user.reload.profile.first_name).to eq('abcd')
         expect(user.profile.last_name).to eq('abc')
         expect(user.profile.mobile_number).to eq(1234567890)
-        expect(response).to be_success
+        expect(response).to render_template(:update)
       end
 
       it 'Will not update profile if mandatory field is empty' do

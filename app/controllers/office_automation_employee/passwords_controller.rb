@@ -30,6 +30,7 @@ module OfficeAutomationEmployee
         flash_message = resource.active_for_authentication? ? :updated : :updated_not_active
         set_flash_message(:notice, flash_message) if is_flashing_format?
         sign_in(resource_name, resource)
+        redirect_to main_app.root_path
       else
         render 'office_automation_employee/devise/passwords/edit'
       end

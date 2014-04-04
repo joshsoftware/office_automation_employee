@@ -44,7 +44,6 @@ module OfficeAutomationEmployee
         clean_up_passwords @user
         respond_to do |format|
           format.js {render 'office_automation_employee/devise/registrations/update' }
-
         end
       end
     end

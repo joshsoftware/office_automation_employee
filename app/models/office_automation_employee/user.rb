@@ -102,11 +102,13 @@ module OfficeAutomationEmployee
     end
 
     def is_active?
-      status.eql?("Active") or status.eql?("Pending") ? true : false
+      return(true) if role?(Role::SUPER_ADMIN)
+      company.status.eql?("Active") and (status.eql?("Active") or status.eql?("Pending")) ? true : false
     end
 
     def inactive_message
-      status.eql?("Deactive") ? "Sorry, your account has been deactivated" : super
+      return if role?(Role::SUPER_ADMIN)
+      (company.status.eql?("Deactive") or status.eql?("Deactive")) ? "Sorry, your account has been deactivated" : super
     end
 
     def invite_by_fields(fields)

@@ -6,7 +6,7 @@ module OfficeAutomationEmployee
 
     let(:super_admin) { User.find('superadmin') }
     let(:admin) { create(:admin) }
-    
+
     context "#index" do
       it "renders index template" do
         sign_in super_admin
@@ -16,12 +16,12 @@ module OfficeAutomationEmployee
     end
 
     context "#edit" do
-     it "renders edit template"  do
-       admin.confirm!
-       sign_in admin
-       get :edit, id: admin.company
-       expect(response).to render_template(:edit)
-     end
+      it "renders edit template"  do
+        admin.confirm!
+        sign_in admin
+        get :edit, id: admin.company
+        expect(response).to render_template(:edit)
+      end
     end
 
     context "#update" do
@@ -29,6 +29,7 @@ module OfficeAutomationEmployee
         admin.confirm!
         sign_in admin
         put :update, id: admin.company, company: { name: "josh pvt ltd" }
+
         expect(admin.company.reload.name).to eql("josh pvt ltd")
         expect(flash[:success]).to eql("Profile updated successfully.")
       end
@@ -37,6 +38,7 @@ module OfficeAutomationEmployee
         admin.confirm!
         sign_in admin
         put :update, id: admin.company, company: { name: nil }
+
         expect(flash[:danger]).to eql("Please fill the fields accordingly.")
         expect(response).to render_template(:edit)
       end
@@ -47,7 +49,7 @@ module OfficeAutomationEmployee
         admin.confirm!
         sign_in admin
         get :show, id: admin.company
-       expect(response).to render_template(:show)
+        expect(response).to render_template(:show)
       end
     end
 
@@ -55,14 +57,26 @@ module OfficeAutomationEmployee
       it "destroys company if user is super admin" do
         sign_in super_admin
         delete :destroy, id: admin.company
+
         expect(Company.count).to eql 0
+        expect(response).to redirect_to companies_path
       end
 
-      it "fails if user is admin of that company" do
+      it "fails if user is not super admin" do
         admin.confirm!
         sign_in admin
         delete :destroy, id: admin.company
         expect(flash[:danger]).to eql("You are not allowed to perform this action.")
+      end
+    end
+
+    context "#activation" do
+      it "changes activation status of company" do
+        sign_in super_admin
+        get :activation, id: admin.company
+
+        expect(admin.reload.company.status).to eql "Deactive"
+        expect(response).to redirect_to companies_path
       end
     end
   end

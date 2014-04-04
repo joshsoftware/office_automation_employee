@@ -102,6 +102,7 @@ module OfficeAutomationEmployee
 
       context '#update' do
         it "accepts invitation and changes invitee status to active"  do
+          user.company_id = admin.company.id
           mail_body = user.invite!(admin).body.to_s
           patch :update, user: { invitation_token: mail_body[/invitation_token=([^"]+)/, 1], password: "abcdabcd", password_confirmation: "abcdabcd" }
           expect(user.reload.status).to eql "Active"
