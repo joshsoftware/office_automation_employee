@@ -36,5 +36,5 @@ Gem::Specification.new do |s|
   s.add_dependency "carrierwave-mongoid"
   s.add_dependency "rmagick"
   s.add_dependency "coffee-rails"
-  s.add_dependency "remotipart", '~> 1.2'
+  s.add_dependency "remotipart"
 end
