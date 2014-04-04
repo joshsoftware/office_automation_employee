@@ -5,7 +5,7 @@
   .col-md-6
     .form-group
       %label * Registration Date
-      #datepicker.input-group.date
+      .customdatepicker.input-group.date
         = company.input :registration_date, label: false, input_html: {class: 'form-control', placeholder: "Select Date", readonly: true}
         %span.input-group-addon.glyphicon.glyphicon-calendar
 .row

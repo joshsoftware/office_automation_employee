@@ -1,5 +1,5 @@
 = simple_nested_form_for(@user, url: office_automation_employee.company_user_path(@user.company, @user), remote: true, method: :put, input_html: {role: :form, multipart: true} ) do |user_form|
-  #new_document
+  #new_document{data: {no_turbolink: true}}
     = user_form.fields_for :attachments do |attachment|
       .form-group
         - unless attachment.object.persisted?

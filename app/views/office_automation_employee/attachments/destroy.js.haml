@@ -1,0 +1,5 @@
+var render_flash = "#{escape_javascript(render(partial: "office_automation_employee/shared/flash", locals: {flash: flash}))}";
+$(".custom-alert").html(render_flash);
+$("##{@attachment._id}").remove()
+
+
