@@ -106,7 +106,7 @@ module OfficeAutomationEmployee
     end
 
     def inactive_message
-      "Sorry, your account has been deactivated"
+      status.eql?("Deactive") ? "Sorry, your account has been deactivated" : super
     end
 
     def invite_by_fields(fields)
@@ -125,8 +125,9 @@ module OfficeAutomationEmployee
       update_attributes csv_downloaded: true, invalid_csv_data: Array.new
       csv_file = CSV.read(file.path, headers: true, skip_blanks: true)
       raise CSV::MalformedCSVError unless csv_file.headers.eql? ["email", "roles", "errors"]
-
+    
       csv_file.each do |row|
+        row['errors'] = nil
         user = company.users.create email: row["email"], roles: [row['roles'].try(:humanize)].compact
 
         if user.errors.messages.keys.include? :email

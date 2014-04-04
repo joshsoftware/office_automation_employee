@@ -5,6 +5,8 @@ module OfficeAutomationEmployee
     devise_mapping
     include_engine_routes
 
+    let(:admin) { create(:admin) }
+
     context "#new" do
       it "renders new template" do
         get :new
@@ -71,6 +73,25 @@ module OfficeAutomationEmployee
         expect(Company.count).to eq(1)
         expect(User.count).to eq(2)
       end
+    end
+
+    context "#update" do
+      it "updates user password" do
+        admin.confirm!
+        sign_in admin
+        put :update, user: { password: 'abcdabcd', password_confirmation: 'abcdabcd', current_password: "12345678" }, id: admin
+        expect(flash[:success]).to eql "Password Updated Successfully."
+        expect(response).to be_redirect
+      end
+
+      it "fails if current password is invalid" do
+        admin.confirm!
+        sign_in admin
+        put :update, user: { password: 'abcdabcd', password_confirmation: 'abcdabcd', current_password: "abcdabcd" }, id: admin
+        expect(flash[:danger]).to eql "Please fill the fields accordingly."
+        expect(response).to render_template(:edit)
+      end
+
     end
   end
 end

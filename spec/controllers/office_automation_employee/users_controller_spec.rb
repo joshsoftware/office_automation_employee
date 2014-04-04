@@ -104,6 +104,7 @@ module OfficeAutomationEmployee
       end
 
     end
+
     context '#destroy' do
       it 'removes user from company' do
         sign_out user

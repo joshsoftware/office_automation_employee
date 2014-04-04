@@ -10,7 +10,7 @@ ready = ->
   $("input:file").change ->
     $(".fileinput-new").html $(this).val()
     $("#invitee").hide()
-    $(".add_nested_fields").hide()
+    $("a[data-association='users']").hide()
     $("input.btn").tooltip("show")
     return
   return

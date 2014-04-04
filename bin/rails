@@ -6,5 +6,4 @@ ENGINE_PATH = File.expand_path('../../lib/office_automation_employee/engine', __
 
 require 'action_controller/railtie'
 require 'action_mailer/railtie'
-require 'mongoid'
 require 'rails/engine/commands'

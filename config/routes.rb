@@ -1,7 +1,4 @@
-require 'sidekiq/web'
-
 OfficeAutomationEmployee::Engine.routes.draw do
-  mount Sidekiq::Web => "/sidekiq"
 
   resources :companies, except: ['new', 'create'] do
     resources :users, except: ['new', 'create'] do

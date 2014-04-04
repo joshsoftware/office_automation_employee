@@ -31,6 +31,7 @@ module OfficeAutomationEmployee
     end
 
     def update
+      authorize! :edit, @user
       if update_resource(@user, user_password_params)
         flash[:success] = "Password Updated Successfully."
         sign_in @user, bypass: true

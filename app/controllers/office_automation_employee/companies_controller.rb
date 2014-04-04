@@ -23,13 +23,13 @@ module OfficeAutomationEmployee
     def update
       @company = Company.find params[:id]
       authorize! :edit, @company
-      @registered_address = @company.registered_address
-      @current_address = @company.current_address
 
       if @company.update_attributes company_params
         flash[:success] = "Profile updated successfully."
         redirect_to office_automation_employee.edit_company_path(@company)
       else
+        @registered_address = @company.registered_address
+        @current_address = @company.current_address || @company.build_current_address
         flash[:danger] = "Please fill the fields accordingly."
         render :edit
       end
