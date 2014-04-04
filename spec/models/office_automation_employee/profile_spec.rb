@@ -13,6 +13,8 @@ module OfficeAutomationEmployee
       it { should validate_presence_of(:last_name) }
       it { should validate_presence_of(:mobile_number) }
       it { should validate_uniqueness_of(:mobile_number) } 
+      it { should validate_numericality_of(:mobile_number) }
+      it { should validate_length_of(:mobile_number).within(10..13) }
     end
 
     context 'It checks for associations' do
