@@ -6,6 +6,7 @@ module OfficeAutomationEmployee
     devise_mapping
     include_engine_routes
 
+    let(:admin) { create(:admin) }
     let(:user) { create(:user) }
 
     context "#new" do
@@ -34,6 +35,7 @@ module OfficeAutomationEmployee
 
     context "#update" do
       it "updates user password" do
+        user.company_id, status = admin.company.id, "Active"
         patch :update, user: { reset_password_token: user.send_reset_password_instructions, password: "abcdabcd", password_confirmation: "abcdabcd" }
 
         expect(user.reload.reset_password_token).not_to be_nil

@@ -1,4 +1,4 @@
-module OfficeAutomationEmployee  
+module OfficeAutomationEmployee
   FactoryGirl.define do
     factory :user, class: User do
       email "user@gmail.com"

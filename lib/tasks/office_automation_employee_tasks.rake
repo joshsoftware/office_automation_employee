@@ -18,10 +18,10 @@ namespace :db do
 
     email_sancheti = ['user@sancheti.com', 'user1@sancheti.com', 'user2@sancheti.com', 'user3@sancheti.com', 'user4@sancheti.com', 'user5@sancheti.com', 'user6@sancheti.com', 'user7@sancheti.com', 'user8@sancheti.com', 'user9@sancheti.com', 'user10@sancheti.com', 'user11@sancheti.com', 'user12@sancheti.com']
 
-    company = OfficeAutomationEmployee::Company.find_or_create_by(name: 'Josh software private limited', registration_date: '2007/01/01', registered_address: {address: '6 Thube Park, Shivajinagar', city: 'Pune', pincode: '411005', state: 'Maharashtra', country: 'India', phone: '02025539995'}, same_as_registered_address: true)
+    company = OfficeAutomationEmployee::Company.find_or_create_by(name: 'Josh software private limited', registration_date: '2007/01/01', registered_address: {address: '6 Thube Park, Shivajinagar', city: 'Pune', pincode: '411005', state: 'Maharashtra', country: 'India', phone: '02025539995'}, same_as_registered_address: true, status: "Active")
 
 
-    company1 = OfficeAutomationEmployee::Company.find_or_create_by(name: 'sancheti', registration_date: '2008/01/01', registered_address: {address: '6 Thube Park, Shivajinagar', city: 'Pune', pincode: '411005', state: 'Maharashtra', country: 'India', phone: '02025539900'}, same_as_registered_address: false, current_address: address, same_as_registered_address: false)
+    company1 = OfficeAutomationEmployee::Company.find_or_create_by(name: 'sancheti', registration_date: '2008/01/01', registered_address: {address: '6 Thube Park, Shivajinagar', city: 'Pune', pincode: '411005', state: 'Maharashtra', country: 'India', phone: '02025539900'}, same_as_registered_address: false, current_address: address, same_as_registered_address: false, status: "Active")
 
     company.roles = OfficeAutomationEmployee::Role.all
     company1.roles = OfficeAutomationEmployee::Role.all

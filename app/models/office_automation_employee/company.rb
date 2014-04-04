@@ -13,6 +13,7 @@ module OfficeAutomationEmployee
     field :company_url  
     # If current address is same as registered address same_as flag will be true otherwise false
     field :same_as_registered_address, type: Boolean, default: false
+    field :status
 
     validates :name, :registration_date, presence: true
     validates :name, uniqueness: true

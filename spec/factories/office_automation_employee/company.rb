@@ -7,6 +7,7 @@ module OfficeAutomationEmployee
       registered_address { FactoryGirl.build(:registered_address) }
       current_address { FactoryGirl.build(:current_address) }
       roles Role.all
+      status "Active"
     end
   end
 end

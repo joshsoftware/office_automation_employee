@@ -2,7 +2,7 @@ require_dependency "office_automation_employee/application_controller"
 
 module OfficeAutomationEmployee
   class CompaniesController < ApplicationController
-    
+
     def index
       @company = Company.all
       authorize! :manage, @company
@@ -23,13 +23,13 @@ module OfficeAutomationEmployee
     def update
       @company = Company.find params[:id]
       authorize! :edit, @company
-      @registered_address = @company.registered_address
-      @current_address = @company.current_address
 
       if @company.update_attributes company_params
         flash[:success] = "Profile updated successfully."
         redirect_to office_automation_employee.edit_company_path(@company)
       else
+        @registered_address = @company.registered_address
+        @current_address = @company.current_address || @company.build_current_address
         flash[:danger] = "Please fill the fields accordingly."
         render :edit
       end
@@ -42,6 +42,17 @@ module OfficeAutomationEmployee
         redirect_to office_automation_employee.companies_path
       else
         flash[:notice] = "Some error occured while performing this action"
+        render :index
+      end
+    end
+
+    def activation
+      @company = Company.find params[:id]
+      authorize! :manage, @company
+      if (@company.status.eql?("Active") ? @company.update_attribute(:status, "Deactive") : @company.update_attribute(:status, "Active"))
+        redirect_to office_automation_employee.companies_path
+      else
+        flash[:danger] = 'Some error occured while performing this action'
         render :index
       end
     end
