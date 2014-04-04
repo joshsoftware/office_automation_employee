@@ -32,8 +32,6 @@ module OfficeAutomationEmployee
             end
             @attachments = @user.attachments.build 
           end
-
-
         end
         respond_to do |format|
           format.js

@@ -18,7 +18,8 @@ module OfficeAutomationEmployee
 
     # validations
     validates :pan_number, uniqueness: true, length: { maximum: 13, minimum: 10 }, allow_blank: true
-    validates_uniqueness_of :personal_email
+    validates :personal_email, uniqueness: true
+    validates :work_experience, numericality: true, length: {maximum: 2}
     validates :passport_number, uniqueness: true, length: { maximum: 10, minimum: 8 }, allow_blank: true
 
     before_update :save_address

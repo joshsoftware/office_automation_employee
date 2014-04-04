@@ -16,7 +16,7 @@
         .form-group
           .col-md-4
             .form-group
-              = profile.input :mobile_number, as: :integer, label: 'Mobile Number', input_html: {class: "form-control"}
+              = profile.input :mobile_number, as: :integer, label: 'Mobile Number', input_html: {class: "form-control", maxlength: 13}
           .col-md-4
             .form-group
               = profile.input :gender, label: 'Gender', collection: [:Male, :Female], selected: 'Male', input_html: {class: "form-control"}

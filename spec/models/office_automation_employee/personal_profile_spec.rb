@@ -12,6 +12,7 @@ module OfficeAutomationEmployee
       it { should validate_uniqueness_of(:pan_number) }
       it { should validate_uniqueness_of(:personal_email) }
       it { should validate_uniqueness_of(:passport_number) }
+      it { should validate_numericality_of(:work_experience) }
     end
 
     describe 'It checks for associations' do
