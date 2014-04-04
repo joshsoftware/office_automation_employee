@@ -1,15 +1,14 @@
-var render_flash = "#{escape_javascript(render(partial: "office_automation_employee/shared/flash", locals: {flash: flash}))}";
-$(".custom-alert").html(render_flash);
+$(".custom-alert").html("#{escape_javascript(render(partial: "office_automation_employee/shared/flash", locals: {flash: flash}))}")
 - if params[:user].include?(:profile_attributes)
   - if remotipart_submitted?
-    $("#profile").html("#{escape_javascript(render(partial: "office_automation_employee/users/profile", locals: {user: @user})).gsub('&quot;', "\"")}")
+    $("#profile").html("#{escape_javascript(render(partial: "office_automation_employee/users/profile", locals: {user: @user})).gsub('&quot;', "'")}")
     
   - else
     $("#profile").html("#{escape_javascript(render(partial: "office_automation_employee/users/profile", locals: {user: @user}))}");
 
 - if params[:user].include?(:personal_profile_attributes)
 
-  $("#personal_profile").html("#{escape_javascript(render(partial: "office_automation_employee/users/personal_profile", locals: {user: @user, current_address: @current_address, permanent_address: @permanent_address}))}");
+  $("#personal_profile").html("#{escape_javascript(render(partial: "office_automation_employee/users/personal_profile", locals: {user: @user, current_address: @current_address, permanent_address: @permanent_address}))}")
 
 - if params[:user].include?(:attachments_attributes)
   - if remotipart_submitted?
