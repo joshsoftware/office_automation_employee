@@ -20,7 +20,7 @@ module OfficeAutomationEmployee
       @user.roles = [Role::ADMIN]
       @company.roles = Role.all
       if @company.save and @user.save
-        flash[:success] = "Congratulations!! You have successfully created account. Confirmation mail  has been sent to your mail account."
+        flash[:success] = "Congratulations!! You have successfully created an account. Confirmation mail  has been sent to your mail account."
         redirect_to office_automation_employee.new_user_registration_path
       else
         @registered_address = @company.registered_address
@@ -30,12 +30,27 @@ module OfficeAutomationEmployee
       end
     end
 
+    def update
+      if update_resource(@user, user_password_params)
+        flash[:success] = "Password Updated Successfully."
+        sign_in @user, bypass: true
+        redirect_to office_automation_employee.edit_company_user_path(@user.company, @user)
+      else
+        flash[:danger] = "Please fill the fields accordingly."
+        clean_up_passwords @user
+        render 'office_automation_employee/users/edit'
+      end
+    end
 
     private
 
 
     def company_params
-      params[:company].permit(:name, :registration_date, :company_url, :same_as_registered_address, registered_address: [:address, :pincode, :city, :state, :country, :phone], current_address: [:address, :pincode, :city, :state, :country, :phone] , users_attributes: [:email, :password, :password_confirmation])
+      params[:company].permit(:name, :registration_date, :company_url, :logo, :same_as_registered_address, registered_address: [:address, :pincode, :city, :state, :country, :phone], current_address: [:address, :pincode, :city, :state, :country, :phone] , users_attributes: [:email, :password, :password_confirmation])
+    end
+
+    def user_password_params
+      params[:user].permit(:password, :password_confirmation, :current_password)
     end
   end
 end

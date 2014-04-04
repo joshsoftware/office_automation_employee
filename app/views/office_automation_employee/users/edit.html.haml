@@ -4,10 +4,10 @@
     .custom-alert
     = render "office_automation_employee/shared/flash"
     .panel.panel-default
-      .panel.panel-heading
+      .panel-heading
         %strong Edit Profile
 
-      .panel.panel-body
+      .panel-body
         .container-fluid
 
           .form-group
@@ -21,15 +21,22 @@
               %li.document-tab
                 %a{data: {toggle: "tab"}, href: "#document", id: 'document_tab'}
                   Documents
-          
+              %li.document-tab
+                %a{data: {toggle: "tab"}, href: "#change_password", id: 'change_password_tab'}
+                  Change Password
+
           .tab-content
             .tab-pane.active#profile
               = render partial: "office_automation_employee/users/profile", locals: {user: @user}
+            
             .tab-pane#personal_profile
               = render partial: "office_automation_employee/users/personal_profile",locals: {user: @user}
+            
             .tab-pane#document
-              
               #document_list
                 = render partial: "office_automation_employee/users/document_list", collection: @user.attachments, as: :attachment
               #add_new_document
                 = render partial: "office_automation_employee/users/document", locals: {user: @user} 
+            
+            .tab-pane#change_password
+              = render partial: "office_automation_employee/devise/registrations/edit", locals: {resource: @user}

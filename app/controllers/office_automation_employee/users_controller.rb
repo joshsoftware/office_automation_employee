@@ -2,9 +2,9 @@ require_dependency "office_automation_employee/application_controller"
 
 module OfficeAutomationEmployee
   class UsersController < ApplicationController
+    load_and_authorize_resource
 
     def edit
-      @user = current_user
       @profile = @user.build_profile unless @user.profile?
       @personal_profile = @user.build_personal_profile unless @user.personal_profile?
       @current_address = @user.personal_profile ? @user.personal_profile.current_address : @user.personal_profile.build_current_address
@@ -13,12 +13,11 @@ module OfficeAutomationEmployee
     end
 
     def update
-
-      @user = current_user
-
       if @user.update_attributes user_params
-        @permanent_address = @user.personal_profile.permanent_address
-        @current_address = @user.personal_profile.current_address
+        if params[:user].include?(:personal_profile_attributes)
+          @permanent_address = @user.personal_profile.permanent_address
+          @current_address = @user.personal_profile.current_address
+        end
         flash[:success] = 'Profile updated Succesfully'
         if params[:user].include?(:attachments_attributes)
 
@@ -37,7 +36,6 @@ module OfficeAutomationEmployee
 
         end
         respond_to do |format|
-          format.html {redirect_to  office_automation_employee.edit_company_user_path(current_user.company, current_user) }
           format.js
         end
       else
@@ -47,29 +45,21 @@ module OfficeAutomationEmployee
         @current_address = @user.personal_profile.current_address
         flash[:danger] = 'Please fill the fields accordingly.'
         respond_to do |format|
-          format.html {render action: "edit"}
           format.js 
         end
       end
     end
 
     def index
-      @company = current_user.company
+      @company = Company.find params[:company_id]
       @users = @company.users.full_text_search(params[:q])
       @failure_message = 'No Result Found' if @users.count == 0
       @users = @users.page(params[:page]) 
-
     end
-
-    def show
-      @user = User.find params[:id]
-    end
-
 
     def destroy
-      @user = User.find params[:id]
       if @user.destroy
-        redirect_to office_automation_employee.company_users_path(params[:company_id])
+        redirect_to office_automation_employee.company_users_path(@user.company)
       else
         flash[:danger] = 'Some error occured while removing user'
         render :show
@@ -77,12 +67,20 @@ module OfficeAutomationEmployee
     end
 
     def resend_invitation
-      @user = User.find(params[:id])
       if @user.invite!(current_user)
         flash[:notice] = "Invitation sent successfully..."
-        redirect_to office_automation_employee.company_user_path params[:company_id], params[:id]
+        redirect_to office_automation_employee.company_user_path(@user.company, @user)
       else
-        flash[:danger] = "Invitation not sent..."
+        flash[:danger] = 'Some error occured while sending invitation'
+        render :show
+      end
+    end
+
+    def activation_status
+      if (@user.status.eql?("Active") ? @user.update_attribute(:status, "Deactive") : @user.update_attribute(:status, "Active"))
+        redirect_to office_automation_employee.company_user_path(@user.company, @user)
+      else
+        flash[:danger] = 'Some error occured while changing status'
         render :show
       end
     end
@@ -90,7 +88,6 @@ module OfficeAutomationEmployee
 
     private
     def user_params
-
       params[:user][:attachments_attributes].keep_if{|k,v| v[:_destroy] == 'false' if v.has_key?(:_destroy) } if params[:user].include?(:attachments_attributes)
 
       params[:user].permit(:image, profile_attributes: [:first_name, :middle_name, :last_name, :gender, :blood_group, :date_of_birth, :skills, :mobile_number, :designation], personal_profile_attributes: [:pan_number, :personal_email, :passport_number, :qualification, :date_of_joining, :previous_company ,:work_experience, :same_as_permanent_address, permanent_address: [:address, :city, :pincode, :state, :country, :phone], current_address: [:address, :city, :pincode, :state, :country, :phone]], attachments_attributes: [:name, :document, :_destroy])

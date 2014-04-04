@@ -1,4 +1,4 @@
-$(document).ready ->
+ready = ->
 
   $("#datepicker1").datepicker endDate: "Today", format: "yyyy-mm-dd"
 
@@ -31,3 +31,5 @@ $(document).ready ->
         $("#user_personal_profile_attributes_current_address_"+value).val ""
         $("#user_personal_profile_attributes_current_address_"+value).removeAttr("disabled")
 
+$(document).ready = ready
+$(document).on 'page:load', ready

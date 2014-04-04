@@ -30,7 +30,7 @@ module OfficeAutomationEmployee
           post :create, company: { users_attributes: user_params }
           invitee = User.find_by email: "user1@domain.com"
 
-          expect(User.count).to eq(3)
+          expect(User.count).to eq(4)
           expect(invitee.invitation_token).not_to be_nil
           expect(invitee.company).to eq(admin.company)
           expect(invitee.role? 'admin').to eq(true)
@@ -42,17 +42,17 @@ module OfficeAutomationEmployee
           user_params = { "0" => { email: "user1@domain", roles: Role.first.id.to_s, _destroy: 'false' } }
           post :create, company: { users_attributes: user_params }
 
-          expect(User.count).to eq(1)
+          expect(User.count).to eq(2)
           expect(response).to render_template(:new)
         end
 
-        it "sends invitation to emails read from csv file and entered in text field" do
-          user_params = { "0" => { email: "admin@yahoo.com", roles: Role.first.id.to_s, _destroy: 'false' } }
+        it "sends invitation to emails read from csv file" do
           csv_file = Rack::Test::UploadedFile.new("#{Engine.root}/spec/list.csv", "text/csv")
-          post :create, company: { users_attributes: user_params, csv_file: csv_file }
+          post :create, company: { csv_file: csv_file }
           invitee = User.find_by email: "hr@gmail.com"
 
           expect(User.count).to eq(5)
+          expect(admin.reload.invalid_csv_data.empty?).to eq(true)
           expect(invitee.role? 'hr').to eq(true)
           expect(response).to be_redirect
         end
@@ -63,6 +63,23 @@ module OfficeAutomationEmployee
           post :create, company: { users_attributes: user_params, csv_file: csv_file }
 
           expect(response).to render_template(:new)
+        end
+      end
+
+      context "#download_csv" do
+        it "downloads invalid csv file" do
+          csv_file = Rack::Test::UploadedFile.new("#{Engine.root}/spec/invalid_list.csv", "text/csv")
+          post :create, company: { csv_file: csv_file }
+          get :download_csv
+          expect(admin.csv_downloaded).to eql true
+          expect(response["Content-Disposition"]).to match /attachment/
+        end
+      end
+
+      context "#download_sample_csv" do
+        it "downloads sample csv file" do
+          get :download_sample_csv
+          expect(response["Content-Disposition"]).to match /attachment/
         end
       end
     end

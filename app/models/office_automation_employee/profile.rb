@@ -19,7 +19,7 @@ module OfficeAutomationEmployee
 
     # validations
     validates :first_name, :last_name, :mobile_number , presence: true
-    validates_uniqueness_of :mobile_number
+    validates :mobile_number, {numericality:true, uniqueness: true, length: {minimum: 10, maximum: 13}}
 
   end
 end

@@ -18,11 +18,12 @@ module OfficeAutomationEmployee
 
         post :create, company: { name: "josh software", registration_date: '2011/11/11', current_address: { address: "thube park", city: "pune", state: "maharashtra", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: false, users_attributes: {"0" => {email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd"}}}   
 
+
         expect(Company.count).to eq(1)
 
         expect(User.find_by(email: 'abc@abc.com').role?('Admin')).to eq(true)
 
-        expect(User.count).to eq(1)
+        expect(User.count).to eq(2)
 
         expect(Company.last.roles.count).to eq(Role.count)
 
@@ -35,7 +36,7 @@ module OfficeAutomationEmployee
 
         expect(Company.count).to eq(0)
 
-        expect(User.count).to eq(0)
+        expect(User.count).to eq(1)
 
         expect(response).to render_template(:new)
       end
@@ -57,7 +58,7 @@ module OfficeAutomationEmployee
         post :create, company: { name: "josh software", registration_date: '2011/11/11', current_address: { address: "thube park", city: "pune", state: "mh", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: true, users_attributes: {"0" => {email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd"}}}   
         
         expect(Company.count).to eq(1)
-        expect(User.count).to eq(1)
+        expect(User.count).to eq(2)
 
       end
 
@@ -68,7 +69,7 @@ module OfficeAutomationEmployee
         post :create, company: { name: "josh software private limited", registration_date: '2011/11/11', current_address: { address: "thube park", city: "pune", state: "mh", country: "india", pincode: "411005", phone: 0202342323 },registered_address: {address: 'Pune', city: 'Pune', state: 'MH', country: 'India', pincode: '12345', phone: '0202342323'},same_as_registered_address: true, users_attributes: {"0" => {email: "abc@abc.com", password: "abcdabcd", password_confirmation: "abcdabcd"}}}   
 
         expect(Company.count).to eq(1)
-        expect(User.count).to eq(1)
+        expect(User.count).to eq(2)
       end
     end
   end

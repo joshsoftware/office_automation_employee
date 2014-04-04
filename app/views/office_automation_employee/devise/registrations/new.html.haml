@@ -3,10 +3,10 @@
   .col-md-8
     = render "office_automation_employee/shared/flash"
     .panel.panel-default
-      .panel.panel-heading
+      .panel-heading
         %strong Sign Up
 
-      .panel.panel.body
+      .panel.body
         .container-fluid
           = simple_nested_form_for(@company, url: registration_path(resource_name), input_html: { role: :form } ) do |f|
             = f.simple_fields_for :users do |user|
