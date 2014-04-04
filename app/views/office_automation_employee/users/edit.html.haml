@@ -1,6 +1,7 @@
 .row
   .col-md-2
   .col-md-8
+    .custom-alert
     = render "office_automation_employee/shared/flash"
     .panel.panel-default
       .panel-heading
@@ -26,34 +27,16 @@
 
           .tab-content
             .tab-pane.active#profile
-              = simple_form_for(@user, url: office_automation_employee.company_user_path(@user.company, @user), method: :put, input_html: { role: :form } ) do |user|
-                .form-group
-                  = user.simple_fields_for :profile, @profile do |profile|
-                    .row
-                      = render partial: "office_automation_employee/users/profile", locals: {profile: profile}
-                    .row
-                      .form-group
-                        .col-md-4
-                          .img-responsive.img-thumbnail= image_tag user.object.image.thumb
-                          = user.input :image, as: :file, label: false
-
-
-                    = user.hidden_field :update_type, value: 'profile'
-                .form-group
-                  = user.submit "Update Profile", class: "btn btn-primary"
-              
+              = render partial: "office_automation_employee/users/profile", locals: {user: @user}
+            
             .tab-pane#personal_profile
-              = simple_form_for(@user, url: office_automation_employee.company_user_path(@user.company, @user), method: :put, input_html: { role: :form } ) do |user|
-                .form-group
-                  = user.simple_fields_for :personal_profile, @personal_profile do |personal_profile|
-                    = render partial: "office_automation_employee/users/personal_profile", locals: {personal_profile: personal_profile}
-
-                .form-group
-                  = user.hidden_field :update_type, value: 'personal_profile'
-                  = user.submit "Update Profile", class: "btn btn-primary"
+              = render partial: "office_automation_employee/users/personal_profile",locals: {user: @user}
             
             .tab-pane#document
-              = render partial: "office_automation_employee/users/document", locals: {user: @user}
+              #document_list
+                = render partial: "office_automation_employee/users/document_list", collection: @user.attachments, as: :attachment
+              #add_new_document
+                = render partial: "office_automation_employee/users/document", locals: {user: @user} 
             
             .tab-pane#change_password
               = render partial: "office_automation_employee/devise/registrations/edit", locals: {resource: @user}

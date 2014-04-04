@@ -26,6 +26,7 @@ gem 'bootstrap-sass'
 gem 'coffee-rails'
 gem 'bootstrap-datepicker-rails'
 gem 'colorbox-rails'
+gem 'remotipart', '~> 1.2'
 gem 'turbolinks'
 
 

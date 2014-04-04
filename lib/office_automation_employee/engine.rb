@@ -15,6 +15,7 @@ require 'bootstrap-sass'
 require 'bootstrap-datepicker-rails'
 require 'colorbox-rails'
 require 'country_select'
+require 'remotipart'
 
 module OfficeAutomationEmployee
   class Engine < ::Rails::Engine

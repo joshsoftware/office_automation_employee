@@ -1,18 +1,6 @@
-ready = ->
+window.ready = ->
 
-  $("#datepicker1").datepicker endDate: "Today", format: "yyyy-mm-dd"
-
-  $("ul.nav-tabs > li > a").on "shown.bs.tab", (e) ->
-    id = $(e.target).attr("href").substr(1)
-    localStorage.setItem('lastTab', id)
-
-  lastTab = localStorage.getItem('lastTab')
-
-  if lastTab
-    $('ul.nav-tabs').children().removeClass('active')
-    $('#' + lastTab + '_tab').parents('li:first').addClass('active')
-    $('div.tab-content').children().removeClass('active')
-    $('#' + lastTab).addClass('active')
+  $(".customdatepicker").datepicker endDate: "Today", format: "yyyy-mm-dd"
   
   list = ["address", "pincode", "city", "state", "country", "phone"]
 
