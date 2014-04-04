@@ -2,6 +2,7 @@ require_dependency "office_automation_employee/application_controller"
 
 module OfficeAutomationEmployee
   class RegistrationsController < DeviseInvitable::RegistrationsController
+    
     def new
       @company = Company.new
       @user = @company.users.build
@@ -35,11 +36,16 @@ module OfficeAutomationEmployee
       if update_resource(@user, user_password_params)
         flash[:success] = "Password Updated Successfully."
         sign_in @user, bypass: true
-        redirect_to office_automation_employee.edit_company_user_path(@user.company, @user)
+        respond_to do |format|
+          format.js {render 'office_automation_employee/devise/registrations/update' }
+        end
       else
         flash[:danger] = "Please fill the fields accordingly."
         clean_up_passwords @user
-        render 'office_automation_employee/users/edit'
+        respond_to do |format|
+          format.js {render 'office_automation_employee/devise/registrations/update' }
+
+        end
       end
     end
 

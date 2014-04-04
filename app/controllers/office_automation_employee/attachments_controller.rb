@@ -8,11 +8,14 @@ module OfficeAutomationEmployee
       @attachment.remove_document
       if @attachment.destroy
         flash[:success] = 'Document Deleted Succesfully'
-        redirect_to office_automation_employee.edit_company_user_path(current_user.company, current_user)
+        respond_to do |format|
+          format.js
+        end
       else
         flash[:danger] = 'Unable to update profile'
-        render office_automation_employee.edit_company_user_path(current_user.company, current_user)
-
+        respond_to do |format|
+          format.js
+        end
       end
     end
 

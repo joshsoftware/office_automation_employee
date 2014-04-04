@@ -1,7 +1,8 @@
 module OfficeAutomationEmployee
   class Attachment
     include Mongoid::Document
-
+    include Mongoid::Timestamps::Created 
+   
     mount_uploader :document, DocumentUploader
 
     field :name

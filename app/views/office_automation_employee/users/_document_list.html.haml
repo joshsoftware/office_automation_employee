@@ -1,0 +1,6 @@
+- if attachment.persisted?
+  .form-group{id: "#{attachment._id}"}
+    %span.glyphicon.glyphicon-file
+      = link_to File.basename("#{attachment.document_url}"), attachment.document_url, data: { :colorbox => true, :colorbox_height => '680px', :colorbox_width => '700px', :colorbox_iframe => true }
+      = link_to "", company_user_attachment_path(@user.company, @user, attachment._id), remote: true, data: {confirm: 'Are you sure?', no_turbolink: true, disable_with: "Deleting.."} , method: :delete,class: "glyphicon glyphicon-trash"
+      = link_to "", download_document_company_user_attachment_path(@user.company, @user, attachment._id), class: "glyphicon glyphicon-download"
