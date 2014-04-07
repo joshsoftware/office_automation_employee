@@ -168,6 +168,7 @@ module OfficeAutomationEmployee
       personal_profile_changes = self.personal_profile ? self.personal_profile.changes : {}
       profile_changes = self.profile ? self.profile.changes : {}
       @updated_attributes = self.changes.merge(personal_profile_changes).merge(profile_changes)
+      #Send mail only if user updates profile picture, designation, joining date which is defined in UPDATED_FIELDS array
       @updated_attributes.reject!{|k,v| !UPDATED_FIELDS.include? k}
       UserMailer.notification_email(self.company, self, @updated_attributes).deliver unless @updated_attributes.length.eql?(0)
     end

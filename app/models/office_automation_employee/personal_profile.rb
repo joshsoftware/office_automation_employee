@@ -7,7 +7,7 @@ module OfficeAutomationEmployee
     field :passport_number
     field :qualification
     field :date_of_joining, type: Date
-    field :work_experience, type: Integer
+    field :work_experience, type: Integer, default: 0
     field :previous_company
     field :same_as_permanent_address, type: Boolean, default: false
 
@@ -22,7 +22,6 @@ module OfficeAutomationEmployee
     validates :work_experience, numericality: true, length: {maximum: 2}
     validates :passport_number, uniqueness: true, length: { maximum: 10, minimum: 8 }, allow_blank: true
 
-    before_update :save_address
     after_validation :delete_address
 
     private

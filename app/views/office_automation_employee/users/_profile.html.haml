@@ -30,7 +30,7 @@
             .form-group
               %label Date Of Birth
               .customdatepicker.input-group.date
-                = profile.input :date_of_birth, label: false, input_html: {class: "form-control", readonly: true}
+                = profile.input :date_of_birth, label: false, input_html: {class: "form-control", readonly: true,  value: profile.object.date_of_birth.try(:strftime, '%d-%m-%Y')}
                 %span.input-group-addon.glyphicon.glyphicon-calendar
           .col-md-4
             .form-group

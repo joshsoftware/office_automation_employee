@@ -34,7 +34,7 @@
             .col-xs-7
               .form-group
                 .customdatepicker.input-group.date
-                  = personal_profile.input :date_of_joining, label: false, input_html: {class: "form-control", readonly: true}
+                  = personal_profile.input :date_of_joining, label: false, input_html: {class: "form-control", readonly: true,  value: personal_profile.object.date_of_joining.try(:strftime, '%d-%m-%Y')}
                   %span.input-group-addon.glyphicon.glyphicon-calendar
           .form-group
 
