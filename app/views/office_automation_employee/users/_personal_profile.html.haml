@@ -34,14 +34,14 @@
             .col-xs-7
               .form-group
                 .customdatepicker.input-group.date
-                  = personal_profile.input :date_of_joining, label: false, input_html: {class: "form-control", readonly: true}
+                  = personal_profile.input :date_of_joining, label: false, input_html: {class: "form-control", readonly: true,  value: personal_profile.object.date_of_joining.try(:strftime, '%d-%m-%Y')}
                   %span.input-group-addon.glyphicon.glyphicon-calendar
           .form-group
 
             %label.col-xs-5.control-label Work Experience
             .col-xs-3
               .form-group
-                = personal_profile.input :work_experience, label: false, collection: 0..30, input_html: {class: "form-control"}
+                = personal_profile.input :work_experience, label: false , input_html: {class: "form-control",maxlength: 2}
             %label.col-xs-3.control-label Years
           .form-group
 

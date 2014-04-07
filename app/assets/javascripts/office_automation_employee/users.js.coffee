@@ -1,6 +1,6 @@
 window.ready = ->
 
-  $(".customdatepicker").datepicker endDate: "Today", format: "yyyy-mm-dd"
+  $(".customdatepicker").datepicker endDate: "Today", format: "dd-mm-yyyy"
   
   list = ["address", "pincode", "city", "state", "country", "phone"]
 

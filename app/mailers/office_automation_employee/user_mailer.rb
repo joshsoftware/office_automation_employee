@@ -9,5 +9,10 @@ module OfficeAutomationEmployee
       recipients = @company.users.where(:roles.in => [Role::ADMIN]).map(&:email)  
       mail(to: recipients, subject: "#{@user.profile.first_name} #{@user.profile.last_name} has updated profile")
     end
+
+    def password_update_email(user)
+      @user = user
+      mail(to: user.email, subject: "#{@user.company.name} Password change")
+    end
   end
 end
