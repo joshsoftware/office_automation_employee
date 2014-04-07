@@ -15,4 +15,4 @@ Run the following generator to create initial configuration for OfficeAutomation
 
     rails generate office_automation_employee:install
 
-It will mount the engine, load initial seed data(mongoid.yml should be present before running this generator) and also, it will create ability.rb(app/models/ability.rb).
+It will mount the engine in your application, load initial seed data (mongoid.yml should be present before running this generator) and also, it will create ability.rb (app/models/ability.rb).
