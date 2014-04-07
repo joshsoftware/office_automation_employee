@@ -5,7 +5,7 @@ module OfficeAutomationEmployee
 
     devise_mapping
     include_engine_routes
-  
+    
     let(:admin) { create(:admin) }
     let(:user) { create(:user) }
 

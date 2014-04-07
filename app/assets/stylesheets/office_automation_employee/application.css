@@ -11,6 +11,7 @@
  *= require bootstrap
  *= require bootstrap-datepicker
  *= require colorbox-rails
+ *= require office_automation_invoice/application
  *= require_self
  *= require_tree .
  */

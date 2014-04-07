@@ -18,7 +18,6 @@ module OfficeAutomationEmployee
 
     ## Database authenticatable
     field :email,              default: ""
-    slug :username
     field :encrypted_password, default: ""
 
     ## Recoverable
@@ -56,30 +55,30 @@ module OfficeAutomationEmployee
     # field :unlock_token,    :type => String # Only if unlock strategy is :email or :both
     # field :locked_at,       :type => Time
 
-    # user-fields
+    ## Fields
+    slug :username
     field :status, default: 'Pending'
     field :roles, type: Array
     field :invalid_csv_data, type: Array
     field :csv_downloaded, type: Boolean, default: true
     field :image
 
-    # validations
+    ## Validations
     validates :roles, presence: true
 
 
-    # relationships
+    ## Relationships
     embeds_one :profile, class_name: 'OfficeAutomationEmployee::Profile'
     embeds_one :personal_profile, class_name: 'OfficeAutomationEmployee::PersonalProfile'
     belongs_to :company, class_name: 'OfficeAutomationEmployee::Company'
     embeds_many :attachments, class_name: 'OfficeAutomationEmployee::Attachment', cascade_callbacks: true
 
-    accepts_nested_attributes_for :profile
-    accepts_nested_attributes_for :personal_profile
-    accepts_nested_attributes_for :attachments
+    accepts_nested_attributes_for :profile, :personal_profile, :attachments
 
-    search_in :email, profile: [ :first_name, :last_name ]
-
+    ## Callbacks
     after_update :send_mail
+    
+    search_in :email, profile: [ :first_name, :last_name ]
 
     def role?(role)
       roles.include? role.humanize
@@ -168,6 +167,7 @@ module OfficeAutomationEmployee
       personal_profile_changes = self.personal_profile ? self.personal_profile.changes : {}
       profile_changes = self.profile ? self.profile.changes : {}
       @updated_attributes = self.changes.merge(personal_profile_changes).merge(profile_changes)
+      #Send mail only if user updates profile picture, designation, joining date which is defined in UPDATED_FIELDS array
       @updated_attributes.reject!{|k,v| !UPDATED_FIELDS.include? k}
       UserMailer.notification_email(self.company, self, @updated_attributes).deliver unless @updated_attributes.length.eql?(0)
     end

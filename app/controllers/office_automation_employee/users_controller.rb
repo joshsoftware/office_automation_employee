@@ -54,7 +54,7 @@ module OfficeAutomationEmployee
       @company = Company.find params[:company_id]
       @users = @company.users.full_text_search(params[:q])
       @failure_message = 'No Result Found' if @users.count == 0
-      @users = @users.page(params[:page]) 
+      @users = @users.page(params[:page])
     end
 
     def destroy
