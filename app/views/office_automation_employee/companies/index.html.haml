@@ -8,4 +8,4 @@
             %strong Companies
       .panel-body
         .col-md-15
-          = render partial: "office_automation_employee/companies/companies_list", locals: { companies: @company }
+          = @company.count.zero? ? content_tag(:center, content_tag(:strong, "No entries to show")) :  render(partial: "office_automation_employee/companies/companies_list", locals: { companies: @company })

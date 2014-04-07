@@ -34,11 +34,7 @@ module OfficeAutomationEmployee
 
     # Create different versions of your uploaded files:
     version :thumb do
-      process resize_to_fit: [60, 60]
-    end
-
-    version :square do
-      process resize_to_fit: [60, 60]
+      process resize_to_fill: [60, 60]
     end
 
     version :normal do
@@ -46,11 +42,15 @@ module OfficeAutomationEmployee
     end
 
     version :small do
-      process resize_to_fit: [35,35]
+      process resize_to_fill: [20,20]
+    end
+
+    version :square do
+      process resize_to_fit: [60, 60]
     end
 
     version :rectangle do
-      process resize_to_fit: [100,35]
+      process resize_to_fill: [100,35]
     end
 
     # Add a white list of extensions which are allowed to be uploaded.

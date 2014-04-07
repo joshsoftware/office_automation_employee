@@ -27,7 +27,9 @@ module OfficeAutomationEmployee
 
       total_sent = (total_email_fields - invalid_email_fields) + ((total_csv_rows - current_user.invalid_csv_data.count) if @csv_file.present?).to_i
       total_failed = invalid_email_fields + (current_user.invalid_csv_data.count if @csv_file.present?).to_i
-      flash[:notice] = "# Invitation sent : #{total_sent} and Failed : #{total_failed}"
+
+      flash[:notice] = "# Invitation sent : #{total_sent} and Failed : #{total_failed}
+        #{( ActionController::Base.helpers.link_to("Click here to Download invalid CSV file", office_automation_employee.download_csv_path) if(@csv_file.present? and total_sent.zero?))}".html_safe
 
       if invalid_email_fields.zero? and (@csv_file.nil? or current_user.invalid_csv_data.empty?)
         redirect_to office_automation_employee.company_users_path(@company)
