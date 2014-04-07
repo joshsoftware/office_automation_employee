@@ -2,7 +2,7 @@
 
 OfficeAutomationEmployee is a Rails engine for Employee management.
 
-Add this to your Gemfile and run bundle command
+To install it, add this to your Gemfile and run bundle command
 
 ```ruby
 gem 'office_automation_employee'
@@ -15,4 +15,4 @@ Run the following generator to create initial configuration for OfficeAutomation
 
     rails generate office_automation_employee:install
 
-It will mount the engine in your application, load initial seed data (mongoid.yml should be present before running this generator) and also, it will create ability.rb (app/models/ability.rb).
+It will mount an engine in your application, load initial seed data (mongoid.yml should be present before running this generator) and also, it will create ability.rb (app/models/ability.rb).
