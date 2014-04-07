@@ -57,15 +57,17 @@
         %strong Current address is same as permanant address
       .row
         .col-md-6
-          .well.well-sm
-            %strong= "Permanent Address"
-          = personal_profile.simple_fields_for :permanent_address, @permanent_address do |address|
-            = render partial: "office_automation_employee/shared/address", locals: {address: address}
+          .form-group
+            .well.well-sm
+              %strong= "Permanent Address"
+            = personal_profile.simple_fields_for :permanent_address, @permanent_address do |address|
+              = render partial: "office_automation_employee/shared/address", locals: {address: address}
         .col-md-6
-          .well.well-sm
-            %strong Current Address
-          = personal_profile.simple_fields_for :current_address, @current_address do |address|
-            = render partial: "office_automation_employee/shared/address", locals: {address: address}
+          .form-group
+            .well.well-sm
+              %strong Current Address
+            = personal_profile.simple_fields_for :current_address, @current_address do |address|
+              = render partial: "office_automation_employee/shared/address", locals: {address: address}
   .form-group
     = user.hidden_field :update_type, value: 'personal_profile'
     = user.submit "Update Profile", class: "btn btn-primary", data: {disable_with: 'Updating..'}
