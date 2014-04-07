@@ -35,6 +35,8 @@ module OfficeAutomationEmployee
       authorize! :edit, @user
       if update_resource(@user, user_password_params)
         flash[:success] = "Password Updated Successfully."
+        #Send mail to user when he/she update's password
+        UserMailer.password_update_email(@user).deliver
         sign_in @user, bypass: true
         respond_to do |format|
           format.js {render 'office_automation_employee/devise/registrations/update' }
