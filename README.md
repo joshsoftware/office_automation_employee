@@ -1,4 +1,4 @@
-== OfficeAutomationEmployee
+# OfficeAutomationEmployee
 
 OfficeAutomationEmployee is a Rails engine for Employee management.
 
@@ -7,7 +7,7 @@ Add this to your Gemfile and run bundle commmand
 gem 'office_automation_employee'
 
 
-== Installation
+# Installation
 
 Run the following generator to create initial configuration for OfficeAutomationEmployee.
 
