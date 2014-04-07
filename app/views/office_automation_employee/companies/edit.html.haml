@@ -16,14 +16,15 @@
               %strong Current address is same as registered address
             .row
               .col-md-6
-                .well.well-sm
-                  %strong Registered Address
-                = f.simple_fields_for :registered_address, @registered_address do |address|
-                  = render partial: "office_automation_employee/shared/address", object: address
-              .col-md-6
-                .well.well-sm
-                  %strong Current Address
                 .form-group
+                  .well.well-sm
+                    %strong Registered Address
+                  = f.simple_fields_for :registered_address, @registered_address do |address|
+                    = render partial: "office_automation_employee/shared/address", object: address
+              .col-md-6
+                .form-group
+                  .well.well-sm
+                    %strong Current Address
                   = f.simple_fields_for :current_address, @current_address do |address|
                     = render partial: "office_automation_employee/shared/address", object: address
 
