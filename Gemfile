@@ -28,7 +28,7 @@ gem 'bootstrap-datepicker-rails'
 gem 'colorbox-rails'
 gem 'remotipart', '~> 1.2'
 gem 'turbolinks'
-
+gem 'office_automation_invoice', path: '../office_automation_invoice'
 
 group :development do
   gem 'better_errors'
@@ -41,7 +41,7 @@ group :test do
   gem 'mongoid-rspec'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
-  gem 'simplecov', '~> 0.7.1'
+  gem 'simplecov', '~> 0.7.1', require: false
 end
 
 # Declare any dependencies that are still in development here instead of in

@@ -1,5 +1,5 @@
-.col-md-12
-  %table.table.table-hover
+.table-responsive
+  %table.table.table-hover.table-condensed
     %thead
       %tr
         %th #
@@ -17,7 +17,7 @@
           %td= index + 1
           %td= link_to image_tag(user.image.thumb.url, class: "img-circle"), office_automation_employee.company_user_path(user.company, user)
           %td= user.fullname
-          %td= user.email
+          %td.col-xs-1= user.email
           %td= user.roles.to_sentence
           %td= user.status if can? :edit, user.company
           %td.rowlink-skip= link_to(content_tag(:span, "", class: "glyphicon glyphicon-edit"), office_automation_employee.edit_company_user_path(user.company, user), class: "btn btn-default") if can?(:edit,user.company) and (cannot? :manage, user.company) and current_user != user

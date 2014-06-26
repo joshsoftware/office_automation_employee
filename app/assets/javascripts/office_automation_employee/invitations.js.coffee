@@ -1,8 +1,7 @@
 ready = ->
-  len = undefined
   len = $(".remove_nested_fields:visible").length
   $(".remove_nested_fields").hide()  if len is 1
-  $(".remove_nested_fields").click ->
+  $(".remove_nested_fields").on 'click', ->
     len = $(".remove_nested_fields:visible").length
     $(".remove_nested_fields").hide()  if len is 2
     return

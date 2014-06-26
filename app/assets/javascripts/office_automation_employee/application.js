@@ -18,4 +18,5 @@
 //= require jquery_nested_form
 //= require bootstrap-datepicker/core
 //= require colorbox-rails
+//= require office_automation_invoice/application
 //= require_tree .

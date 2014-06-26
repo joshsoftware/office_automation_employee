@@ -1,5 +1,6 @@
 OfficeAutomationEmployee::Engine.routes.draw do
 
+  mount OfficeAutomationInvoice::Engine => '/invoice'
   resources :companies, except: ['new', 'create'] do
     get 'activation', on: :member
     resources :users, except: ['new', 'create'] do
